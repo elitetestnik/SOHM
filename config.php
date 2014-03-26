@@ -1,22 +1,22 @@
 <?PHP
 // config.php  18.02.2008
 
-$cfg['database']='stenolav_manage';
-$cfg['username']='stenolav_manage';
-$cfg['password']='xSYADxEQ';
-$cfg['hostname']='localhost';
+$cfg['database']='backtrackno';
+$cfg['username']='backtrackno';
+$cfg['password']='PRUFIRI58';
+$cfg['hostname']='sql27.webhuset.no';
 $cfg['debug']=true;
 
 //include ('modules/xajax/xajaxResponse.inc.php');
 $mosConfig_offline = '0';
-$mosConfig_host = 'localhost';
-$mosConfig_user = 'stenolav_manage';
-$mosConfig_password = 'xSYADxEQ';
-$mosConfig_db = 'stenolav_manage';
+$mosConfig_host = 'sql27.webhuset.no';
+$mosConfig_user = 'backtrackno';
+$mosConfig_password = 'PRUFIRI58';
+$mosConfig_db = 'backtrackno';
 $mosConfig_dbprefix = 'nor_';
 $mosConfig_lang = 'russian';
-$mosConfig_absolute_path = 'c:\WebServers\home\sohm\www';
-$mosConfig_live_site = 'http://sohm';
+$mosConfig_absolute_path = '/home/B/backtrackno/www/sohm';
+$mosConfig_live_site = 'http://back-track.no/sohm';
 $mosConfig_sitename = 'Classified Database';
 $mosConfig_shownoauth = '0';
 $mosConfig_useractivation = '1';
@@ -49,7 +49,7 @@ $mosConfig_link_titles = '0';
 $mosConfig_error_reporting = '-1';
 $mosConfig_list_limit = '15';
 $mosConfig_caching = '0';
-$mosConfig_cachepath = 'c:\WebServers\home\sohm\www\cache';
+$mosConfig_cachepath = '/home/B/backtrackno/www/sohm/cache';
 $mosConfig_cachetime = '900';
 $mosConfig_mailer = 'mail';
 $mosConfig_mailfrom = '';
