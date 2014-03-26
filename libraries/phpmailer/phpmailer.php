@@ -175,7 +175,7 @@ class PHPMailer {
    * Hosts will be tried in order.
    * @var string
    */
-  var $Host        = 'smtp-event125.webhuset.no';
+  var $Host        = 'localhost';
 
   /**
    * Sets the default SMTP server port.
@@ -200,19 +200,19 @@ class PHPMailer {
    * Sets SMTP authentication. Utilizes the Username and Password variables.
    * @var bool
    */
-  var $SMTPAuth     = true;
+  var $SMTPAuth     = false;
 
   /**
    * Sets SMTP username.
    * @var string
    */
-  var $Username     = 'post@stenolav-manage';
+  var $Username     = '';
 
   /**
    * Sets SMTP password.
    * @var string
    */
-  var $Password     = 'pi4wi3Po';
+  var $Password     = '';
 
   /**
    * Sets the SMTP server timeout in seconds. This function will not

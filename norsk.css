@@ -1,0 +1,31 @@
+/* main css */
+body { font-family: Verdana,Tahoma;font-size:8pt;}
+#menu li {font-family: Helvetica; font-size:8pt; font-weight:bold;list-style-type: none; color:#444444; margin:3px; white-space:nowrap;}
+
+#menu li li {font-family: Helvetica; font-size:8pt; font-weight:normal;list-style-type: disc; color:#222222; margin:3px; white-space:nowrap;}
+#user_status {background-color: #eeeeee;border:1px #777777 solid; float:right; width:'99%';margin:5 5 5 5; height:auto; padding: 5 5 5 5;}
+#menu {background-color: #dddddd; width:'19%'; border:1px #777777 solid; float:left; margin:5 5 5 5; height:'80%';}
+#report {background-color: #eeeeee;border:1px #777777 solid; float:right; width:'79%';margin:5 5 5 5; height:'80%';}
+#module_status {background-color: #eeeeee;border:1px #777777 solid; float:right; width:'99%';margin:5 5 5 5; height:'8%';}
+input {font-family: Helvetica; font-size:8pt;}
+td {font-family: Verdana,Tahoma; font-size:8pt;}
+th {font-family: Verdana,Tahoma; font-size:8pt;font-weight:bold;background-color:#DAE6C1;}
+option {font-family: Helvetica; font-size:8pt;}
+select {font-family: Helvetica; font-size:8pt;}
+.h1 {font-family: Helvetica; font-size:8pt;color:#6699CC;background-color: #F4F4F4;}
+.h2 {font-family: Helvetica; font-size:12pt;color:#6699CC;background-color: #DFDFDF;}
+.h3 {font-family: Helvetica; border: 1px gray solid;background-color:#F4F4F4;}
+.tt {border: 1px gray solid;border-collapse:collapse; padding-left:2px; margin-top:10px;}
+ .tt td{ border: 1px gray solid;border-collapse:collapse; padding:2 10 2 10;font-family:Tahoma;}
+ .tt th{ border: 1px gray solid;border-collapse:collapse; padding:8 10 8 10;font-family:Tahoma;}
+ .bt {background-color: transparent;border:0px; cursor:pointer;cursor:hand;}
+ h3 {font-size:2em; color:#3366FF; margin:3px;}
+.add_button, .save_button {float:right;}
+table.day {border-collapse:collapse; border:1px #ccc solid; text-align:center;}
+table.day th {font-weight:bold; background-color:#ddd; padding:4px;}
+table.day td {padding:4px;}
+table.day td.inactive {color:#666;background-color:#eee;}
+table.day td.active {color:#333;}
+#day {margin:10px;padding:10px;}
+#day-info {margin:10px;padding:10px; border:1px #eee solid;}
+#perf_info {margin:10px;padding:10px; border:1px #eee solid;float:left;}

@@ -1,0 +1,37 @@
+<TABLE align='center' valign='middle' width='100%' height='100%' cellpadding=0 cellspacing=0 border=0>
+<TR>
+	<TD>
+<TABLE style='border:15px white solid;background-color: #eeeeee;' align='center' valign='middle' cellpadding=0 cellspacing=0>
+<TR>
+	<TD>
+<TABLE class='h3' style='border:1px gray solid;background-color: #eeeeee;'>
+<TR><td colspan=2 align='right'><button onclick='javascript:hideInfo();'><IMG SRC='images/del.gif' WIDTH='16' HEIGHT='16' BORDER='0' ALT=''></button></td></TR>
+<TR><TH colspan=2 class='h2'><h3>QUICK SEND SMS</h3></TH>
+</TR><TR><TD valign='top'  class='h1'>
+<form id='send_message' name='send_message' method="post"  action="javascript:send_sms(xajax.getFormValues('send_message'));">
+<INPUT TYPE="hidden" name='id' id='id' value='{ID}'>
+<INPUT TYPE="hidden" name='formtype' id='formtype' value='quick'>
+<INPUT TYPE="hidden" name='to_name' id='to_name' value='{NAME}'>
+<INPUT TYPE="hidden" name='to_type' id='to_type' value='2'>
+<INPUT TYPE="hidden" name='whos_id' id='whos_id' value='{ID}'>
+<TABLE class='h3'><TR><TD valign='top'  class='h1'><TABLE width='99%'>
+<TR>
+<TD>Promoter</TD>
+
+<TD><textarea name='to' rows='2' id='to' cols='45' required='1' >{PHONE}</textarea>
+</TD></TR>
+<TR><TD colspan=2>Message</TD></TR>
+<TR><TD colspan=2>
+
+<textarea NAME="message_txt" id='message_txt' cols="55" rows=4 onkeypress="checkSymbol(event)" onkeyup="checkSymbol(event)" onpaste="checkStr()" onclick="checkStr()" maxlength="160">Hi {NAME}!</textarea>
+<br/>
+<div id='symbol' style='font-size:11px; color:#555;'>Symbols left:&nbsp;<span id="symbols">160</span></div>
+
+</TD></TR>
+</TABLE></TD></TR><tr><td align='center' colspan=2>
+<input type='submit' value='Send' class='button'></td></tr></TABLE></FORM>
+</TD></TR></TABLE></TD>
+</TR>
+</TABLE></TD>
+</TR>
+</TABLE>
