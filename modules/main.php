@@ -6658,28 +6658,18 @@ function getUserId($email){
 Function configurePHPMailer($mail) {
 //require 'PHPMailerAutoload.php';
 //require_once($mosConfig_absolute_path."/includes/phpmailer/class.phpmailer.php");
-$mail = new PHPMailer(); // create a new object
    $mail->IsSMTP(); // enable SMTP
    $mail->SMTPDebug = 1; // debugging: 1 = errors and messages, 2 = messages only
   $mail->SMTPAuth = true; // authentication enabled
-   $mail->From = 'stenolav@back-track.no';
-   $mail->Host = 'smtp-event125.webhuset.no'; //mailout.one.com  send.one.com
+  $mail->Host = 'smtp-event125.webhuset.no';  
    $mail->Port = 587;
    $mail->IsHTML(true);
-   $mail->Username = 'stenolav';//post@back-track.no stenolav post@stenolav-management.no
+   $mail->Username = 'stenolav'; 
    $mail->Password = 'pi4wi3Po';
-   $mail->Subject = 'Test';
-   $mail->Body = 'hello';
-  // $mail->AddAddress("elitetestnik@gmail.com");
+   //$mail->AddAddress("elitetestnik@gmail.com");
    $mail->Timeout = 300;
    $mail->Mailer   = 'smtp';
-   $mail->Send();
-// $mail->IsSMTP();                           // telling the class to use SMTP
-// $mail->SMTPAuth   = true;                  // enable SMTP authentication
-// $mail->Host       = "smtp-event125.webhuset.no"; // sets the SMTP server mailout.one.com
-// $mail->Username   = "stenolav"; // SMTP account username post@back-track.no
-// $mail->Password   = "pi4wi3Po";        // SMTP account password 654321
- return $mail;
+   return $mail;
 }
 
 function send_message($formdata){
@@ -6705,7 +6695,20 @@ $attlinks=str_replace($mosConfig_absolute_path,$mosConfig_live_site,$attlinks);
 $to  = $formdata['to'];
 $adresses=explode(',',$to);
 
+
+  //timeout
+$messageCounter = 0;
+$messagesAtTime = 300;
+$secondsToWait = 5;  
+
 foreach($adresses as $to){
+    
+$messageCounter++;
+   if($messageCounter % $messagesAtTime == 0){
+       sleep($secondsToWait);
+   }     
+    
+    
 if (!isset($formdata['whos_id']))$formdata['whos_id']=0;
 if (strlen($formdata['to_name'])>1){
     $tonn=$formdata['to_name'];
@@ -6774,7 +6777,7 @@ $msg->Helo='www.stenolav-management.no';
 
 $msg->isHTML(true);
 $msg = configurePHPMailer($msg);
-//$msg->Send();
+$msg->Send();
 $err.=$msg->ErrorInfo;
 $msg->ClearAddresses();
 $msg->ClearAttachments();
@@ -6887,8 +6890,28 @@ $objResponse = new xajaxResponse('UTF-8');
 $objResponse->addAssign( 'report_div', 'innerHTML', sm_list($id,$search,$page));
 return $objResponse->getXML();
 }
-//========================================================================================
+//===============================delete old messages=======================
+function removeOldMessages($expirationDays){
+
+   
+   $date = date_create(date('Y-m-d H:i:s'));
+   $date->modify('-'.$expirationDays.' day');
+   $date = $date->format('Y-m-d H:i:s');
+   
+   global $database;
+   $database->setQuery( "set names utf8" );
+   $database->query();
+
+   $removalQuery = "DELETE FROM #__messages WHERE mesage_date < '".$date."'";
+   $database->setQuery($removalQuery);
+   $database->query();
+}
+
+
+
+//========================================================================
 function message_list($id=0, $search="",$page=0){
+RemoveOldMessages(540);
 
 setcookie('prev',stripslashes($_COOKIE['now']) );
 if ($id=='undefined')$id=0;
