@@ -47,7 +47,7 @@ define('DIR_SEP', '/');
 mb_internal_encoding('utf-8');
 date_default_timezone_set('Europe/Oslo');
 
-$cfg['url']	= 'modules/cache';
+$cfg['url']	= 'sohm/modules/upload';
 $cfg['root']	= $_SERVER['DOCUMENT_ROOT'] . DIR_SEP . $cfg['url'];			// http://www.yousite.com/upload/		absolute path
 $cfg['quickdir'] = '';		//$cfg['quickdir'] = 'quick-folder';		// for CKEditor
 

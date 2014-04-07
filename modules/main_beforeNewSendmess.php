@@ -3575,8 +3575,8 @@ function save_message_template($formdata) {
         $n = explode('/', $url2);
         if ($n[0] == 'http:') {
             $filename = $n[sizeof($n) - 1];
-            file_put_contents(dirname(__FILE__) . "/../upload/image/" . $filename, file_get_contents($url));
-            $element->src = "/../upload/image/" . $filename;
+            file_put_contents(dirname(__FILE__) . "/cache/image/" . $filename, file_get_contents($url));
+            $element->src = "modules/cache/image/" . $filename;
         }
     }
     if ($formdata['id'] > 0) {
@@ -7543,54 +7543,49 @@ function getUserId($email) {
     return 0;
 }
 
-function configurePHPMailer($mail) {
-   $mail->IsSMTP(); // enable SMTP
-   $mail->SMTPDebug = 1; // debugging: 1 = errors and messages, 2 = messages only
-   $mail->SMTPAuth = true; // authentication enabled
-   $mail->Host = 'smtp-event125.webhuset.no';  
-   $mail->Port = 587;
-   $mail->IsHTML(true);
-   $mail->Username = 'stenolav'; 
-   $mail->Password = 'pi4wi3Po';
-   $mail->Timeout = 300;
-   $mail->Mailer   = 'smtp';
-   $mail->Helo = 'www.stenolav-management.no';
-   $mail->isHTML(true);
-   
-   return $mail;
+Function configurePHPMailer($mail) {
+//require 'PHPMailerAutoload.php';
+//require_once($mosConfig_absolute_path."/includes/phpmailer/class.phpmailer.php");
+    $mail->IsSMTP(); // enable SMTP
+    $mail->SMTPDebug = 1; // debugging: 1 = errors and messages, 2 = messages only
+    $mail->SMTPAuth = true; // authentication enabled
+    $mail->Host = 'smtp-event125.webhuset.no';
+    $mail->Port = 587;
+    $mail->IsHTML(true);
+    $mail->Username = 'stenolav';
+    $mail->Password = 'pi4wi3Po';
+    //$mail->AddAddress("elitetestnik@gmail.com");
+    $mail->Timeout = 300;
+    $mail->Mailer = 'smtp';
+    return $mail;
 }
 
 function send_message($formdata) {
     global $database, $mosConfig_absolute_path, $mosConfig_live_site, $_COMPANY_NAME, $_EMAIL, $_FOOTER1;
     $database->setQuery("set names utf8");
     $database->query();
-    $error = $result = "";
+    $err = $result = "";
     require_once($mosConfig_absolute_path . "/includes/phpmailer/class.phpmailer.php");
-    
     $msg = new PHPMailer();
-    $msg = configurePHPMailer($msg);
-    $msg->Subject = '=?UTF-8?B?' . base64_encode($formdata['subject']) . '?=';
-    $msg->From = $_EMAIL;
-    $msg->FromName = $_COMPANY_NAME;
-    $msg->Sender = $_EMAIL;
-    
-    foreach ($formdata as $key => $formField) {
+    foreach ($formdata as $key => $fdata) {
         switch ($key) {
-            case 'message': $formdata[$key] = $formField;
+            case 'message': $formdata[$key] = $fdata;
                 break;
-            case 'filenames': $formdata[$key] = $formField;
+            case 'filenames': $formdata[$key] = $fdata;
                 break;
-            case 'to': $formdata[$key] = $formField;
+            case 'to': $formdata[$key] = $fdata;
                 break;
-            default:$formdata[$key] = addslashes(strip_tags($formField));
+            default:$formdata[$key] = addslashes(strip_tags($fdata));
                 break;
         }
         $result.="'" . $key . "'=>'" . $formdata[$key] . "'<br/>";
     }
 
-    $attachments = str_replace($mosConfig_absolute_path, $mosConfig_live_site, $formdata['filenames']);
+    $attlinks = $formdata['filenames'];
+    $attlinks = str_replace($mosConfig_absolute_path, $mosConfig_live_site, $attlinks);
 
-    $respondents = explode(',', $formdata['to']);
+    $to = $formdata['to'];
+    $adresses = explode(',', $to);
 
 
     //timeout
@@ -7598,10 +7593,8 @@ function send_message($formdata) {
     $messagesAtTime = 250;
     $secondsToWait = 5;
 
-    foreach ($respondents as $to) {
+    foreach ($adresses as $to) {
 
-        $to = trim($to);
-        
         $messageCounter++;
         if ($messageCounter % $messagesAtTime == 0) {
             sleep($secondsToWait);
@@ -7616,27 +7609,27 @@ function send_message($formdata) {
             $tonn = substr($to, 0, strpos($to, "<"));
         }
 
-        $username = getUsername($to);
-        $userId = getUserId($to);
-
+        $username = getUsername(trim($to));
+        $userId = getUserId(trim($to));
+//$messageBody =addslashes(str_replace("%USERNAME%", $username, $formdata['message']));
         $messageBody = str_replace("%USERNAME%", $username, $formdata['message']);
 
-        $message = '<html>'
-                 . '<head><title>'.$formdata['subject'].'</title><meta http-equiv="Content-Type" content="text/html; charset=utf8" /></head>'
-                 . '<body>'.$messageBody.'<br/>'.$_FOOTER1.'</body>'
-                 . '</html>';
+        $message = '<html><head><title>' . $formdata['subject'] . '</title><meta http-equiv="Content-Type" content="text/html; charset=utf8" /></head><body>' . $messageBody . '<br/>' . $_FOOTER1 . '</body></html>';
 
-        $query = "INSERT INTO `#__messages` 
-                  (`from`,`to_id`,`to_name`,`to_type`,`to_addr`,`subject`,`mesage_body`,`status`,`attaches`,`mesage_date`)
-                  VALUES ('1', '" . $userId . "', '" . $formdata['to_name'] . "', '" . $formdata['to_type'] . "',  '" . $to . "', '" . addslashes($formdata['subject']) . "' ,  '" . $messageBody . "' ,  '0','" . $attachments . "', '" . date('Y-m-d H:i:s') . "')";
+        $query = "INSERT INTO `#__messages` (
+        `from` , `to_id` , `to_name` , `to_type` , `to_addr` , `subject` , `mesage_body` , `status`,`attaches`,`mesage_date` )
+                      VALUES ( '1', '" . $userId . "', '" . $formdata['to_name'] . "', '" . $formdata['to_type'] . "',  '" . $to . "', '" . addslashes($formdata['subject']) . "' ,  '" . $messageBody . "' ,  '0','" . $attlinks . "', '" . date('Y-m-d H:i:s') . "')";
 
+//2014-01-20      VALUES ( '1', '".$userId."', '".$formdata['to_name']."', '".$formdata['to_type']."',  '".$to."', '".addslashes($formdata['subject'])."' ,  '".$messageBody."' ,  '0','".$attlinks."', FROM_UNIXTIME(".  strtotime(date("y-m-d H:i:s"))."))";
         $database->setQuery($query);
         $database->query();
         $id = $database->insertid();
-        
+        $msg->From = $_EMAIL;
+        $msg->FromName = $_COMPANY_NAME;
+        $msg->Sender = $_EMAIL;
         $html = str_get_html($message);
 
-        $attachments = explode("|", $formdata['filenames']);
+        $attnames = explode("|", $formdata['filenames']);
 
         foreach ($html->find('img') as $element) {
 
@@ -7644,42 +7637,51 @@ function send_message($formdata) {
             $n = explode('/', $url);
             $filename = $n[sizeof($n) - 1];
 
+//      str_replace ($url,$filename,$message  );
             if ($n[0] == 'http:')
-                file_put_contents(dirname(__FILE__) . "/upload/image/" . $filename, file_get_contents($url));
-            if (file_exists(dirname(__FILE__) . "/upload/image/" . $filename)) {
+                file_put_contents(dirname(__FILE__) . "/cache/image/" . $filename, file_get_contents($url));
+            if (file_exists(dirname(__FILE__) . "/cache/image/" . $filename)) {
                 $name = explode(".", $filename);
                 $element->src = 'cid:' . md5($name[0]);
                 $typ = get_mime_type_from_ext(strtolower($name[sizeof($name) - 1]));
-                $msg->AddEmbeddedImage(dirname(__FILE__) . "/upload/image/" . $filename, md5($name[0]), $filename, "base64", $typ);
+                $msg->AddEmbeddedImage(dirname(__FILE__) . "/cache/image/" . $filename, md5($name[0]), $filename, "base64", $typ);
             }
+//
         }
 
-        foreach ($attachments as $attachment) {
-            if (file_exists($attachment)) {
-                $n = explode('/', $attachment);
+        foreach ($attnames as $attname) {
+            if (file_exists($attname)) {
+                $n = explode('/', $attname);
                 $filename = $n[sizeof($n) - 1];
                 $e = explode('.', $filename);
-                $msg->AddAttachment($attachment, $filename, "base64", get_mime_type_from_ext($e[sizeof($e) - 1]));
+                $msg->AddAttachment($attname, $filename, "base64", get_mime_type_from_ext($e[sizeof($e) - 1]));
+//$msg->AddAttachment($attname,$filename);
             }
         }
-        
         $msg->Body = $html;
+//$msg->Body = str_replace('\\"', '', $html);
+//$msg->Body = str_replace('\"', '"', $html); 
+//$msg->AltBody = strip_tags(htmlspecialchars_decode($message));
+        $msg->Subject = '=?UTF-8?B?' . base64_encode($formdata['subject']) . '?=';
         $msg->AddAddress($to);
-        $msg->Send();
+//$msg->Mailer='mail';
+        $msg->Helo = 'www.stenolav-management.no';
 
+//echo '<a href="'.$site.'" target="_blank">'.$val.'</a><br />';
+
+        $msg->isHTML(true);
+        $msg = configurePHPMailer($msg);
+        $msg->Send();
+        $err.=$msg->ErrorInfo;
         $msg->ClearAddresses();
         $msg->ClearAttachments();
-        // $msg->IsHTML(false);
-        
-        $error.=$msg->ErrorInfo;
+        $msg->IsHTML(false);
     }
-    
     $objResponse = new xajaxResponse('UTF-8');
     $objResponse->addScript('ckeditor.destroy();ckeditor=null;');
     $objResponse->addAssign('report_div', 'innerHTML', message_list(0));
-    // $result.'<br/>errors:'.$error.
+    // $result.'<br/>errors:'.$err.
     return $objResponse->getXML();
-
 }
 
 function do_post_request($url, $data, $optional_headers = null) {
@@ -7815,8 +7817,8 @@ function removeOldMessages($expirationDays) {
 
 //========================================================================
 function message_list($id = 0, $search = "", $page = 0) {
- 
     RemoveOldMessages(540);
+
     setcookie('prev', stripslashes($_COOKIE['now']));
     if ($id == 'undefined')
         $id = 0;
@@ -11241,7 +11243,7 @@ $objAjax->printJavascript($mosConfig_live_site . "/includes/xajax/");
          return false
          }
          if (!(/^\D{2,10}\b\D{2,10}$/.test(f.fio.value))) {
-         alert('�?мя и Фамилия - 2 слова без цифр \от 2 до 10 символов\nисправляем');f.fio.select();
+         alert('Имя и Фамилия - 2 слова без цифр \от 2 до 10 символов\nисправляем');f.fio.select();
          return false;
          }
          if (f.email.value=='') {alert("не... мыло надо написать");f.email.focus();return false}

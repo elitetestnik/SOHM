@@ -3575,8 +3575,8 @@ function save_message_template($formdata) {
         $n = explode('/', $url2);
         if ($n[0] == 'http:') {
             $filename = $n[sizeof($n) - 1];
-            file_put_contents(dirname(__FILE__) . "/../upload/image/" . $filename, file_get_contents($url));
-            $element->src = "/../upload/image/" . $filename;
+            file_put_contents(dirname(__FILE__) . "/modules/upload/image/" . $filename, file_get_contents($url));
+            $element->src = "/modules/upload/image/" . $filename;
         }
     }
     if ($formdata['id'] > 0) {
@@ -7645,12 +7645,12 @@ function send_message($formdata) {
             $filename = $n[sizeof($n) - 1];
 
             if ($n[0] == 'http:')
-                file_put_contents(dirname(__FILE__) . "/upload/image/" . $filename, file_get_contents($url));
-            if (file_exists(dirname(__FILE__) . "/upload/image/" . $filename)) {
+                file_put_contents(dirname(__FILE__) . "/cache/image/" . $filename, file_get_contents($url));
+            if (file_exists(dirname(__FILE__) . "/cache/image/" . $filename)) {
                 $name = explode(".", $filename);
                 $element->src = 'cid:' . md5($name[0]);
                 $typ = get_mime_type_from_ext(strtolower($name[sizeof($name) - 1]));
-                $msg->AddEmbeddedImage(dirname(__FILE__) . "/upload/image/" . $filename, md5($name[0]), $filename, "base64", $typ);
+                $msg->AddEmbeddedImage(dirname(__FILE__) . "/cache/image/" . $filename, md5($name[0]), $filename, "base64", $typ);
             }
         }
 
