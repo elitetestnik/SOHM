@@ -43,7 +43,7 @@
 <TR><TD>Concert start</TD><TD><INPUT TYPE='text'     id="form_onstage" NAME='onstage' value='{ONSTAGE}'>&nbsp;<font color='#777'>hh:mm (24hour)</font></TD></TR>
 <!--<TR><TD>Concert start</TD><TD><INPUT TYPE='text' id="form_concert_start" NAME='concert_start' value='{CS}'>&nbsp;<font color='#777'>hh:mm (24hour)</font></TD></TR>-->
 <TR><TD>Perfomace duration</TD><TD><INPUT TYPE='text' id="form_performance_duration" NAME='perf_duration' value='{PERF_DURATION}' />&nbsp;<font color='#777'>minutes</font></TD></TR>
-<TR><TD>P.S.</TD><TD><textarea name='ps' rows='5' cols='30'>{PS}</textarea></TD></TR>
+<TR><TD>Comments</TD><TD><textarea name='ps' rows='5' cols='30'>{PS}</textarea></TD></TR>
 <tr><td align='center' colspan=2>
 <button value='Save' class='button'>Save</button>
 <!--  -->
