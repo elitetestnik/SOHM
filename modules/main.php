@@ -2003,7 +2003,7 @@ order by a.priority desc, a.name asc" . $limits;
         'ACT_SMS_ALL' => "<a href='#' class='topm smsa' onclick='javascript:sms_reader(\"all_promoters\");' >Send SMS to ALL</a>",
         'ACT_CHK_ALL' => "<a href='#'  class='topm check' onclick='javascript:checkbox_checker();'>Check all</a>",
         'ACT_UNCHK_ALL' => "<a href='#'  class='topm uncheck' onclick='javascript:checkbox_unchecker();'>Uncheck all</a>",
-        'ACT_EXPORT' => "<a href='#'  class='topm export'onclick='javascript:export_list(\"promoter\"," . $id . ",\"" . $search . "\",\"" . $weeknum . "\",\"" . $country . "\");' >Export all</a>",
+        //'ACT_EXPORT' => "<a href='#'  class='topm export'onclick='javascript:export_list(\"promoter\"," . $id . ",\"" . $search . "\",\"" . $weeknum . "\",\"" . $country . "\");' >Export all</a>",
         'PRI1' => "<a href='#' onclick=\"javascript:promoter_list('" . $id . "','" . $search . "'," . $page . ",'" . $weeknum . "', " . $country . ",'" . $town . "',4);\"><img src='images/square-red.png' border='0' hspace='2' >&nbsp;-&nbsp;Pri 1</a>&nbsp;&nbsp;&nbsp;",
         'PRI2' => "<a href='#' onclick=\"javascript:promoter_list('" . $id . "','" . $search . "'," . $page . ",'" . $weeknum . "', " . $country . ",'" . $town . "',3);\"><img src='images/square-yellow.png' border='0' hspace='2'>&nbsp;-&nbsp;Pri 2</a>&nbsp;&nbsp;&nbsp;",
         'PRI3' => "<a href='#' onclick=\"javascript:promoter_list('" . $id . "','" . $search . "'," . $page . ",'" . $weeknum . "', " . $country . ",'" . $town . "',2);\"><img src='images/square-green.png' border='0' hspace='2'>&nbsp;-&nbsp;Pri 3</a>&nbsp;&nbsp;&nbsp;",
@@ -4136,7 +4136,8 @@ $database->query();
 }
 $result=user_list(0);
 $objResponse = new xajaxResponse('UTF-8');
-$objResponse->addAssign( 'report_div', 'innerHTML', $insert.$result );
+//$objResponse->addAssign( 'report_div', 'innerHTML', $insert.$result );
+$objResponse->addAssign( 'report_div', 'innerHTML', $result );
 return $objResponse->getXML();
 }
 //====end=======================================================================
