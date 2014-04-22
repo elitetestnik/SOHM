@@ -8389,7 +8389,8 @@ $clist = array_merge($clist,$database->loadObjectList());
 $m=mosHTML::selectList( $clist, 'country[]', " id='country[]' multiple='multiple' size=10  style='width:300px'", 'value', 'text', 0 );
 //$m=mosHTML::selectList( $clist, 'country', " id='country'  size=10  style='width:300px'", 'value', 'text', 0 );
 $result.="Country</td><td rowspan='2' ><div id='countrybox'>".$m;
-$result.="</div><br/><input type='checkbox' name='onlyeurope' id='onlyeurope' checked='checked' onchange='goeurope(this.checked);'> only Europe</td></tr><tr valing='bottom'><td>Location&nbsp;<input type='text' name='town' id='town' size='20' maxlenght='50'></td></tr></table></div></td><td bgcolor='white' rowspan=2  nowrap>";
+//$result.="</div><br/><input type='checkbox' name='onlyeurope' id='onlyeurope' checked='checked' onchange='goeurope(this.checked);'> only Europe</td></tr>;
+$result.="<tr valing='bottom'><td>Location&nbsp;<input type='text' name='town' id='town' size='20' maxlenght='50'></td></tr></table></div></td><td bgcolor='white' rowspan=2  nowrap>";
 break;
 }
 

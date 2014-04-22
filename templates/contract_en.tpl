@@ -7,7 +7,7 @@
 <TD style='border-bottom:3px black solid;'>&nbsp;<br><br></TD>
 </TR>
 <TR>
-<TD align='center'><p style='font-size:9pt;margin:2px;line-height:120%;'>&nbsp;&nbsp;&nbsp;Gamle Vormedalsveg&nbsp;42&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>5545 Vormedal<br>Norway</p></TD>
+<TD align='center'><p style='font-size:9pt;margin:2px;line-height:120%;'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Postboks&nbsp;42&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>5545 Vormedal<br>Norway</p></TD>
 <TD align='center'><p style='font-size:9pt;margin:2px;line-height:120%;'>Phone: +-47-977 11025<br>E-mail: post@stenolav-management.no<br>Org. nr. 881 348 012</p></TD>
 </TR>
 </TABLE>
@@ -41,7 +41,7 @@
 <TR><TH width='25%'>Bank account info:</TH><TD colspan=3>{BANK_ACC_MAIN}</TD></TR>
 <TR><TD colspan='4'><b>Other&nbsp;expenses&nbsp;that&nbsp;has&nbsp;to&nbsp;be&nbsp;paid&nbsp;by&nbsp;the&nbsp;promoter:</b>&nbsp;&nbsp;{PAYED}</TD></TR>
 <TR><TH width='25%'>Sound company:</TH><TD width='25%'>{SOUND}</TD><TH width='25%'>Contact person:</TH><TD width='25%'>{SOUND_CONTACT}</TD></TR>
-<TR><TH width='25%'>E-mail address:</TH><TD>{SOUND_EMAIL}</TD><TD><b>Phone:</b>&nbsp;{SOUND_PHONE1}</TD><TD><b>Cell phone:</b>&nbsp;{SOUND_PHONE2}</TD></TR>
+<TR><TH width='25%'>E-mail address:</TH><TD>{SOUND_EMAIL}</TD><TD><b>Phone:</b>&nbsp;{SOUND_PHONE1}</TD><TD><b>Telefax:</b>&nbsp;{SOUND_PHONE2}</TD></TR>
 
 <TR><TD colspan=4>&nbsp;</TD></TR>
 <TR><TD colspan=4>&nbsp;The contract will be issued in two copies.<br />&nbsp;Other conditions enclosed to this contract. One signed copy should
@@ -50,7 +50,7 @@ be returned to Sten Olav Helgeland Management within {ISSUE_DATE} days.</TD></TR
 <br>
 <TABLE align='center' border=0>
 <TR>
-<TD width='45%' style='margin:2px;vertical-align:bottom;'>Haugesund,&nbsp;date&nbsp;___________________________&nbsp;<br />For&nbsp;artist&nbsp;according&nbsp;to&nbsp;the&nbsp;authority<BR><BR><BR><BR>___________________________________________<br/><p  style='margin:2px;'>For Sten Olav Helgeland Management</p>
+<TD width='45%' style='margin:2px;vertical-align:bottom;'>Vormedal,&nbsp;date&nbsp;___________________________&nbsp;<br />For&nbsp;artist&nbsp;according&nbsp;to&nbsp;the&nbsp;authority<BR><BR><BR><BR>___________________________________________<br/><p  style='margin:2px;'>For Sten Olav Helgeland Management</p>
 </TD><TD width='10%'>&nbsp;</TD>
 <TD width='45%' style='margin:2px;vertical-align:bottom;'>___________________________, date ____________<BR><BR><BR><BR><BR>___________________________________________<br/><p  style='margin:2px;'>For the promoter</p></TD>
 </TR>
