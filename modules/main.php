@@ -3968,7 +3968,7 @@ foreach ($users as $user)
  $result.= "<TR><TD>".$user->user_id ."</TD><TD>";
  $result.="<button onclick='javascript:getUserInfo(".$user->user_id.")' class='bt'><IMG SRC='ico/application.png' WIDTH='16' HEIGHT='16' BORDER='0' ALT=''></button>&nbsp;&nbsp;";
 // $result.="<button onclick='editUserInfo(".$user->user_id.")' class='bt'><IMG SRC='/ico/reply.png' WIDTH='16' HEIGHT='16' BORDER='0' ALT=''></button>&nbsp;&nbsp;";
- $result.="<button onclick='javascript:deleteUserInfo( ".$user->user_id." ); document.location.reload(true); user_list();' class='bt'><IMG SRC='images/del.gif' WIDTH='16' HEIGHT='16' BORDER='0' ALT=''></button>";
+ $result.="<button onclick='javascript:deleteUserInfo( ".$user->user_id." ); ' class='bt'><IMG SRC='images/del.gif' WIDTH='16' HEIGHT='16' BORDER='0' ALT=''></button>";
  $result.= "</TD><TD>".$user->login ."</TD><TD>".$user->username."&nbsp;".$user->lastname."</TD><TD>".$user->status."</TD><TD>".$user->lastlogin."</TD></TR>";
 }
 
@@ -4092,53 +4092,57 @@ $objResponse->addAssign( 'info_div', 'innerHTML', $result );
 return $objResponse->getXML();
 }
 
-
 function saveUsers($userdata){
-global $database;
-$result="";
+	global $database;
+	$result = "";
+	$database->setQuery("set names utf8");
+	$database->query();
+	foreach($userdata as $key => $value){
+		$userdata[$key] = addslashes(strip_tags($value));
+	}
 
-$database->setQuery( "set names utf8" );
-$database->query();
-foreach ($userdata as $key => $value) {
-	$userdata[$key] = addslashes(strip_tags($value));
-}
-if ($userdata['checker']!=md5($userdata['id']."LickMyDick")) {
-$objResponse = new xajaxResponse('UTF-8');
-$objResponse->addAssign( 'report_div', 'innerHTML', "Shit happens! Robots have sex." );
-return $objResponse->getXML();
-}
-$passwd=md5($userdata['pass1']);
-if ($userdata['id']>0){
-    
-   
-    
-$up1="update `#__users` set
-`login`='".$userdata['login']."',
-`username`='".$userdata['username']."',
-`lastname`='".$userdata['lastname']."',
-`email`='".trim($userdata['email'])."',
-`status`=".$userdata['status']." ";
+	if ($userdata['checker'] != md5($userdata['id'] . "LickMyDick")){
+		$objResponse = new xajaxResponse('UTF-8');
+		$objResponse->addAssign('report_div', 'innerHTML', "Shit happens! Robots have sex.");
+		return $objResponse->getXML();
+	}
 
-$up2=" where `user_id`=".$userdata['id'];
-if (($userdata['pass1']!='')&&($userdata['pass1']==$userdata['pass2']))
-$update=$up1." , `password`='".$passwd."' ".$up2; else $update=$up1.$up2;
-$database->setQuery( $update );
-$database->query();
-} else {
- if (($userdata['pass1']!='')&&($userdata['pass1']==$userdata['pass2'])) {
-$insert="INSERT INTO `#__users` (`username`,`lastname`,`login`,`password`,`status`,`email`)
-values
-('".$userdata['username']."','".$userdata['lastname']."','".$userdata['login']."','".$passwd."', ".$userdata['status'].", '".$userdata['email']."' ) ";
-$database->setQuery( $insert );
-//echo $insert;
-$database->query();
-   }
-}
-$result=user_list(0);
-$objResponse = new xajaxResponse('UTF-8');
-//$objResponse->addAssign( 'report_div', 'innerHTML', $insert.$result );
-$objResponse->addAssign( 'report_div', 'innerHTML', $result );
-return $objResponse->getXML();
+	$passwd = md5($userdata['pass1']);
+	if ($userdata['id'] > 0){
+		$up1 = "update `#__users` set
+                        `login`='" . $userdata['login'] . "',
+                        `username`='" . $userdata['username'] . "',
+                        `lastname`='" . $userdata['lastname'] . "',
+                        `email`='" . trim($userdata['email']) . "',
+                        `status`=" . $userdata['status'] . " ";
+		$up2 = " where `user_id`=" . $userdata['id'];
+		if (($userdata['pass1'] != '') && ($userdata['pass1'] == $userdata['pass2'])){ 
+                    $update = $up1 . " , `password`='" . $passwd . "' " . $up2;
+                } else {
+                    $update = $up1 . $up2;
+                }
+		$database->setQuery($update);
+		$database->query();
+	} else {
+                $database->setQuery("SELECT * FROM #__users");
+		$users = $database->loadObjectList();
+                if (sizeof($users) <= 5){
+                    if (($userdata['pass1'] != '') && ($userdata['pass1'] == $userdata['pass2'])){
+                            $insert = "INSERT INTO `#__users` (`username`,`lastname`,`login`,`password`,`status`,`email`)
+                                       VALUES ('" . $userdata['username'] . "','" . $userdata['lastname'] . "','" . $userdata['login'] . "','" . $passwd . "', " . $userdata['status'] . ", '" . $userdata['email'] . "' ) ";
+                            $database->setQuery($insert);
+                            $database->query();
+                            $insert = "<strong style='color:#3366FF'>User ".$userdata['login']." successfully created</strong>";     
+                    } 
+                } else {
+                            $insert = "<strong style='color:red'>You have reached the maximum number of users</strong>"; 
+                }
+	}
+
+	$result = user_list(0);
+	$objResponse = new xajaxResponse('UTF-8');
+	$objResponse->addAssign('report_div', 'innerHTML', $insert . $result);
+	return $objResponse->getXML();
 }
 //====end=======================================================================
 
@@ -10663,7 +10667,10 @@ $objAjax->printJavascript($mosConfig_live_site . "/includes/xajax/");
         }
     }
 function deleteUserInfo( id ) {
-			try {
+			                        main_deleteUserInfo(id);
+                        setTimeout(main_users_list(0), 1000);
+			
+			/*try {
 				var s=screen.width;
 				xajaxRequestUri= '<?php echo $mosConfig_live_site; ?>/modules/main.php';
 				xajaxDebug=false,xajaxStatusMessages=false,xajaxWaitCursor=true,xajaxDefinedGet=0,xajaxDefinedPost=1;
@@ -10673,7 +10680,7 @@ function deleteUserInfo( id ) {
 				document.getElementById('info_div').style.height=document.body.clientHeight + 'px';
  		} catch( e ) {
 				alert( e );
-			}
+			}  */
 		}        
 		
     function getDetails(artist_id, tdate, cont_id) {
