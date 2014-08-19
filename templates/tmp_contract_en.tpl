@@ -59,25 +59,24 @@ be returned to Sten Olav Helgeland Management within {ISSUE_DATE} days.</TD></TR
 <br >
 <p>&nbsp;</p>
 
- <div style='font-size:12pt; width:752px;margin:0 auto;'>
+ <div style='width:752px;margin:0 auto;'>
   <p style='font-size:22pt;font-weight:bold;line-height:48pt;'>Terms and conditions included  for contract № {CONTRACT_NO} </p>
-  
-  <p style='font-size:12pt;font-weight:bold;'> 1. Promoters representative </p>
-   The promoter will ensure that there is a representative for the promoter  present at the venue from the start of load in until the end of load out. This  representative shall be experienced in stage management and production, and  shall have the necessary authority and responsibility to make all decisions  relating to the complete fulfilment of this contract and rider.</p>
-  <p style='font-size:12pt;font-weight:bold;'> 2. Promotion, content and  production </p>
+  <p><strong>1. Promoters representative</strong><br />
+    The promoter will ensure that there is a representative for the promoter  present at the venue from the start of load in until the end of load out. This  representative shall be experienced in stage management and production, and  shall have the necessary authority and responsibility to make all decisions  relating to the complete fulfilment of this contract and rider.</p>
+  <p><strong>2. Promotion, content and  production</strong><br />
     The artist shall have sole and exclusive control over all elements of  the performance including staging, lightning, sound, creative and theatrical  material throughout the performance.&nbsp; The  artists production manager is to have full control over all house lightning,  other than that of statutory safety and exit lights.</p>
-  <p style='font-size:12pt;font-weight:bold;'> 3. Reproduction of the show</p>
+  <p><strong>3. Reproduction of the show</strong><br />
     The promoter shall be responsible for preventing the entrance of all  audio and visual recorders (except small non-professional automatic cameras)  within the venue. Failure to adhere to these warnings will result in either  confiscation of property or ejection from these premises.</p>
-  <p style='font-size:12pt;font-weight:bold;'> 4. Cancellation of contract</p>
-    The following circumstances shall be deemed reason for cancellation of  the show. In this instance the artist shall be in no way liable for any loss,  financial or otherwise suffered by the promoter due to cancellation<br>
-  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; a)&nbsp; If the promoter commits an act of bankruptcy,  has a receivership order to made against him, or passes a resolution for the  voluntary winding up of this company.<br>
+  <p><strong>4. Cancellation of contract</strong><br />
+    The following circumstances shall be deemed reason for cancellation of  the show. In this instance the artist shall be in no way liable for any loss,  financial or otherwise suffered by the promoter due to cancellation<br />
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; a)&nbsp; If the promoter commits an act of bankruptcy,  has a receivership order to made against him, or passes a resolution for the  voluntary winding up of this company.<br />
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; b)&nbsp; If illness or any of the musicians make it  impossible or inadvisable for him or her to perform, the artists must consider  themselves contractually obliged to furnish the promoter with an appropriate medical certificate.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <br />
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; c)&nbsp; Any labour or union dispute, which prevents  any of the necessary staff from performing their duties to the satisfaction of the  artists tour manager.<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; d)&nbsp; The breakdown or failure of the  transportation of the artists, their road crew or the equipment which  makes it impossible in the opinion of the Tour/Production Manager to satisfactorily and safely present the  show.<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; e)&nbsp; Any order of the police, judiciary, local or  national government, by law of venue regulations that renders it impossible in  the option of the artists Tour/Production Manager to satisfactorily  present the show.<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; f)&nbsp; Any event beyond the control of the artists  including but not limited to fire, flood, epidemic, riot, war or public disorder  which is in the opinion of the Tour/Production  Manager renders it impossible to  satisfactorily and safely present the show.<p/>
-<p style='font-size:12pt;'>If the artists show is shortened or cancelled due to any of the reasons  above, this will in no way affect the fee paid to the artist.&nbsp; Therefore the promoter should have  cancellation insurance.</p>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; c)&nbsp; Any labour or union dispute, which prevents  any of the necessary staff from performing their duties to the satisfaction of the  artists tour manager.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; d)&nbsp; The breakdown or failure of the  transportation of the artists, their road crew or the equipment which  makes it impossible in the opinion of the Tour/Production Manager to satisfactorily and safely present the  show.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; e)&nbsp; Any order of the police, judiciary, local or  national government, by law of venue regulations that renders it impossible in  the option of the artists Tour/Production Manager to satisfactorily  present the show.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; f)&nbsp; Any event beyond the control of the artists  including but not limited to fire, flood, epidemic, riot, war or public disorder  which is in the opinion of the Tour/Production  Manager renders it impossible to  satisfactorily and safely present the show.<br />
+If the artists show is shortened or cancelled due to any of the reasons  above, this will in no way affect the fee paid to the artist.&nbsp; Therefore the promoter should have  cancellation insurance.</p>
   <p>&nbsp;</p>
   <p>&nbsp;</p>
-   
+  <p style='font-size:22pt;font-weight:bold;line-height:48pt;'>&nbsp;</p>
 </div>

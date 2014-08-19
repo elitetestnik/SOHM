@@ -4337,8 +4337,8 @@ function getDetails($id_contract, $pid = 0) {
 
 function list_performs($id, $pid = 0) {
     $objResponse = new xajaxResponse('UTF-8');
-    $objResponse->addAssign('opt_info', 'innerHTML', list_perform($id, $pid));
-    $objResponse->addAssign('opt_info', 'style.display', "block");
+   $objResponse->addAssign('opt_info', 'innerHTML', list_perform($id, $pid));
+   $objResponse->addAssign('opt_info', 'style.display', "block");  
     return $objResponse->getXML();
 }
 
@@ -4385,6 +4385,7 @@ $pid=$perf->id;
 $database->setQuery( "select * from #__promoters where id=".$perf->id_promoter);
 $proms = array();
 $proms = $database->loadObjectList();
+
 if ($perf->freeday >0) $FD="<div style='float:right'><b>ONE DAY OFF</b></div>";else $FD="";
 
 if (strlen($perf->hotel_link)>20) $perf->hotel_link="<a href='".$perf->hotel_link."' target='_blank'>".substr($perf->hotel_link,0,20)."...</a>";
@@ -4495,11 +4496,15 @@ $result.="
 <img src='images/comment-add-24x24.png'   align='absmiddle' border=0></a>&nbsp;<a href='#' onclick='javascript:getDetails(".$perf->contract_id.");' class='style17'>Add Perfomance</a>
 &nbsp;&nbsp;&nbsp;<img src='images/right.gif' width='21' height='21' align='absmiddle'>Next day &nbsp;&nbsp;&nbsp;
 <a href='#' onclick='javascript:clear_date(".$perf->contract_id.");'><img src='images/trash-empty-24x24.png'  align='absmiddle' border='0'></a>&nbsp;
-<a href='#' onclick='javascript:clear_date(".$perf->contract_id.");' class='style17'>Clear all</a>
+
 
 </div>
 </td></tr></table></td></tr></table>";
-return $result;
+
+ $result.= list_deparrs($id); 
+ $result.="&nbsp;</div><div id='perf_info' name='perf_info' style='display:none;'>&nbsp;</div>";
+ 
+ return $result;
 }
 
 
@@ -4862,9 +4867,9 @@ $result.="<tr><td height='36' bgcolor='#F5F5F5' class='style17'><div align='left
 <a href='#' onclick='javascript:clear_dated(".$id.");'><img src='images/trash-empty-24x24.png' align='absmiddle' border='0'></a>&nbsp;
 <a href='#' onclick='javascript:clear_dated(".$id.");' class='style17'>Clear dep/arr</a>&nbsp;&nbsp;
 <a href='#' onclick='javascript:clear_date(".$id.");'><img src='images/trash-empty-24x24.png' align='absmiddle' border='0'></a>&nbsp;
-<a href='#' onclick='javascript:clear_date(".$id.");' class='style17'>Clear all</a></div>
+
 </td></tr></table></td></tr></table><br />";
-$result.=list_perform($id,0);
+//$result.=list_perform($id,0);
 return $result;
 }
 
@@ -5674,7 +5679,7 @@ function add_contract2($formdata, $id_inquiry = 0, $id_contract = 0) {
                       <a href='#' onclick='javascript:message_form_contract(0,2," . $c->id_promoter . ",1," . $id_contract . ");'><img src='images/forward-new-mail-24x24.png' border=0 align='absmiddle'></a>&nbsp;<a href='#' onclick='javascript:message_form_contract(0,2," . $c->id_promoter . ",1," . $id_contract . ");'  class='style17' >Send via email [NO]</a>
                           
                   
-           
+         
 <a href='#' onclick='javascript:message_form_contract(0,2,".$c->id_promoter.",1,".$id_contract.");'><img src='images/forward-new-mail-24x24.png' border=0 align='absmiddle'></a>&nbsp;<a href='#' onclick='javascript:message_form_contract(0,2,".$c->id_promoter.",1,".$id_contract.");'  class='style17' >Send via email [NO]</a>
       &nbsp;&nbsp;&nbsp;<a href='".$mosConfig_live_site."/modules/itn.php?id=".$id_contract."' title='Print itinerary' target='_blank'><img src='images/printbutton.png' border=0 align='absmiddle'  width='24' height='24'></a>
       &nbsp;<a href='".$mosConfig_live_site."/modules/itn.php?id=".$id_contract."' title='Print itinerary' target='_blank'  class='style17'>Print itinerary</a>
@@ -7006,7 +7011,7 @@ if ($page==$i)$paginator.=" selected ";
 $paginator.=">".$i."</option>";}
 $paginator.="</select>";
 
-
+//contract sort
 $query="select a.*,coalesce(( SELECT GROUP_CONCAT( z.date ORDER BY z.date DESC SEPARATOR '<br/>') from #__cont_dates z where z.cont_id = a.id),' ') as ddates FROM #__contracts a ".$add." order by concert_date asc ".$limits;
 
 $np=$page+1;$pp=$page-1;
@@ -9382,6 +9387,8 @@ function check_box_saver($what, $tid, $tvalues) {
 function get_busydays($artist_id, $year) {
     $objResponse = new xajaxResponse('UTF-8');
     $objResponse->addAssign('report_div', 'innerHTML', get_busyday($artist_id, $year));
+    
+    
     return $objResponse->getXML();
 }
 
@@ -9426,10 +9433,12 @@ function get_busyday($artist_id, $year) {
     $result.="</table></td></tr></table>
 <input type='hidden' name='id' value='" . $busyday->contract_id . "'/>    
 </form> 
+
 <div id='opt_info' name='opt_info' style='display:none;'>&nbsp;</div>
 <div id='perf_info' name='perf_info' style='display:none;'>&nbsp;</div>";
-
-    return $result;
+return $result;
+ 
+    
 }
 
 function agent_selector($id_agency, $where) {
@@ -11248,7 +11257,7 @@ $objAjax->printJavascript($mosConfig_live_site . "/includes/xajax/");
          return false
          }
          if (!(/^\D{2,10}\b\D{2,10}$/.test(f.fio.value))) {
-         alert('�?мя и Фамилия - 2 слова без цифр \от 2 до 10 символов\nисправляем');f.fio.select();
+         alert('�?мя и Фамилия - 2 слова без цифр \от 2 до 10 символов\nисправляем');f.fio.select();
          return false;
          }
          if (f.email.value=='') {alert("не... мыло надо написать");f.email.focus();return false}

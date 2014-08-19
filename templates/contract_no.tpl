@@ -58,7 +58,7 @@ og returneres til Sten Olav Helgeland Management innen {ISSUE_DATE} dager.<BR></
 <br >
 <p>&nbsp;</p>
 <div style='width:752px;margin:0 auto;'>
-	<p style='font-size:22pt;font-weight:bold;line-height:48pt;'>Øvrige vilkår i henhold til kontrakt № {CONTRACT_NO} </p>
+	<p style='font-size:22pt;font-weight:bold;line-height:48pt;'>&nbsp;&nbsp;&nbsp;&nbsp; Øvrige vilkår i henhold til kontrakt № {CONTRACT_NO} </p>
 <p>	&nbsp;</p>
 <p>	<strong>Kontraktens omfang</strong></p>
 <p>	Kontrakten regulerer rettighetene og pliktene til kontrahent og engasjert i forbindelse med arrangementet. Selv om impresario ikke er part i kontrakten, kan denne likevel direkte overfor kontrahent og den engasjerte gj&oslash;re gjeldende de rettigheter denne er gitt etter n&aelig;rv&aelig;rende kontrakt.</p>

@@ -74,3 +74,4 @@
         </tr>
       </table><br />
 </form>
+<a href='modules/promoexport.php' target='_blank'>promoter export to excel</a>

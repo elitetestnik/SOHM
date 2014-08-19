@@ -105,7 +105,7 @@ $database->setQuery( "SELECT * FROM #__perfomances d where ".$selectionFilter." 
 //print("SELECT * FROM #__perfomances  where contract_id=".$id." and date_of='".$date_d->date_of."'");
 $pf =$database->loadObjectList();
 
-$database->setQuery( "SELECT * FROM #__itinerary  WHERE id_contract=".$id." and date_of ='".$date_d->date_of."'" );
+$database->setQuery( "SELECT * FROM #__itinerary  WHERE id_contract=$date_d->contract_id and date_of ='".$date_d->date_of."'" );
 
 $if =$database->loadObjectList();
 foreach ($cs as $c){}
