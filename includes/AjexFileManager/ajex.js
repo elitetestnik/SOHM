@@ -45,7 +45,7 @@ var AjexFileManager = {
 		this.width = params.width || 1000;
 		this.height = params.height || 660;
 		this.skin = params.skin || 'dark';
-		this.lang = params.lang || 'ru';
+		this.lang = params.lang || 'en';
 
 		if ('undefined' != typeof(params.contextmenu) && false === params.contextmenu) {
 			this.contextmenu = false;

@@ -1,4 +1,3 @@
-<link href="../css.css" rel="stylesheet" type="text/css" />
 <table width="95%" border="0" align="center" cellpadding="0" cellspacing="1">
    <tr>
         <td width="53%" class="style4"><div align="left">Agency N&deg;{ID}</div></td>
@@ -12,7 +11,7 @@
 
               <tr>
                 <td width="20%" height="36" bgcolor="#FFFFFF" class="style17"><div align="left">Agency</div></td>
-                <td width="29%" bgcolor="#FFFFFF" class="style17"><div align="left" class="style34"><strong>{COMPANY}</strong></div></td>
+                <td width="29%" bgcolor="#FFFFFF" class="style17"><div align="left" class="style34">{COMPANY}</div></td>
                 <td width="18%" height="36" bgcolor="#FFFFFF" class="style17"><div align="left"><p>City code </p></div></td>
                 <td bgcolor="#FFFFFF" class="style17"><div align="left" class="style34">{CITYCODE}</div></td>
               </tr>
@@ -47,7 +46,7 @@
                 <td height="36" bgcolor="#FFFFFF" class="style17"><div align="left">
                     <p>Email </p>
                 </div></td>
-                <td bgcolor="#FFFFFF" class="style17"><div align="left" class="style34"><a href="#" onclick="javascript:message_form(0,4,{ID});" class="style11">{EMAIL}</a></div></td>
+                <td bgcolor="#FFFFFF" class="style17"><div align="left" class="style34">{EMAIL}</div></td>
                 <td height="36" bgcolor="#FFFFFF" class="style17"><div align="left">
                     <p>Cell phone </p>
                 </div></td>
@@ -57,7 +56,7 @@
                 <td height="36" bgcolor="#FFFFFF" class="style17"><div align="left">
                     <p>Website</p>
                 </div></td>
-                <td bgcolor="#FFFFFF" class="style17"><div align="left" class="style34"><a href="//{WWW}">{WWW}</a></div></td>
+                <td bgcolor="#FFFFFF" class="style17"><div align="left" class="style34">{WWW}</div></td>
                 <td height="36" bgcolor="#FFFFFF" class="style17">&nbsp;</td>
                 <td width="16%" bgcolor="#FFFFFF" class="style34">&nbsp;</td>
               </tr>

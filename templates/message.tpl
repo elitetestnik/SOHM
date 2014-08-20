@@ -25,7 +25,7 @@
               <tr>
                 <td  height="36" bgcolor="#FFFFFF" class="style17">
                 <div id='message_cont'>
-               <TEXTAREA NAME="message" id='message' ROWS="30" COLS="80" class="ckeditor" > Dear %USERNAME% {MESSAGE}</TEXTAREA>                
+               <TEXTAREA NAME="message" id='message' ROWS="30" COLS="80" class="ckeditor" > Dear %USERNAME%! {MESSAGE}</TEXTAREA>                
 				</div>
                 </td>
               </tr>

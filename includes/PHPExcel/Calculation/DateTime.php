@@ -147,7 +147,7 @@ class PHPExcel_Calculation_DateTime {
 	 */
 	public static function DATETIMENOW() {
 		$saveTimeZone = date_default_timezone_get();
-		date_default_timezone_set('UTC');
+		date_default_timezone_set('Europe/Oslo');
 		$retValue = False;
 		switch (PHPExcel_Calculation_Functions::getReturnDateType()) {
 			case PHPExcel_Calculation_Functions::RETURNDATE_EXCEL :

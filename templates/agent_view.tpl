@@ -1,9 +1,8 @@
-<link href="../css.css" rel="stylesheet" type="text/css" />
 <table width="95%" border="0" align="center" cellpadding="0" cellspacing="1">
    <tr>
         <td width="53%" class="style4"><div align="left">Agent N&deg;{ID}</div></td>
         <td width="47%" class="style4">&nbsp;</td>
-  </tr>
+    </tr>
     </table>
             <br>
       <table width="95%" border="0" align="center" cellpadding="0" cellspacing="1" bgcolor="#999999">
@@ -12,7 +11,7 @@
 
               <tr>
                 <td width="20%" height="36" bgcolor="#FFFFFF" class="style17"><div align="left">Agent</div></td>
-                <td width="29%" bgcolor="#FFFFFF" class="style17"><div align="left" class="style34"><strong>{COMPANY}</strong></div></td>
+                <td width="29%" bgcolor="#FFFFFF" class="style17"><div align="left" class="style34">{COMPANY}</div></td>
                 <td width="18%" height="36" bgcolor="#FFFFFF" class="style17"><div align="left"><p>Agency </p></div></td>
                 <td bgcolor="#FFFFFF" class="style17"><div align="left" class="style34">{AGENCY}</div></td>
               </tr>
@@ -47,7 +46,7 @@
                 <td height="36" bgcolor="#FFFFFF" class="style17"><div align="left">
                     <p>Email </p>
                 </div></td>
-                <td bgcolor="#FFFFFF" class="style17"><div align="left" class="style34"><a href="#" onclick="javascript:message_form(0,3,{ID});" class="style11">{EMAIL}</a></div></td>
+                <td bgcolor="#FFFFFF" class="style17"><div align="left" class="style34">{EMAIL}</div></td>
                 <td height="36" bgcolor="#FFFFFF" class="style17"><div align="left">
                     <p>Local phone </p>
                 </div></td>
@@ -57,7 +56,7 @@
                 <td height="36" bgcolor="#FFFFFF" class="style17"><div align="left">
                     <p>Website</p>
                 </div></td>
-                <td bgcolor="#FFFFFF" class="style17"><div align="left" class="style34"><a href="//{WWW}">{WWW}</a></div></td>
+                <td bgcolor="#FFFFFF" class="style17"><div align="left" class="style34">{WWW}</div></td>
                 <td height="36" bgcolor="#FFFFFF" class="style17"><div align="left">
                     <p>Cell phone </p>
                 </div></td>
@@ -74,7 +73,7 @@
                 <td height="36" colspan="4" bgcolor="#FFFFFF"><div align="left">&nbsp;&nbsp;&nbsp;&nbsp;
                 <a href='#' onclick="javascript:add_our_comment({ID},'agents');"><img src="images/comment-add-24x24.png"  align="absmiddle" border=0></a>
                 &nbsp;<a href='#' onclick="javascript:add_our_comment({ID},'agents');" class="style11">Add our comments</a>&nbsp;&nbsp;&nbsp;<a href='#' onclick='javascript:message_form(0,3,{ID});'><img src="images/forward-new-mail-24x24.png" border=0 align="absmiddle"></a>&nbsp;<a href='#' class="style11" onclick='javascript:message_form(0,3,{ID});'>Send message</a><span class="style17">&nbsp;&nbsp;&nbsp;&nbsp;</span><a href='#' onclick="javascript:sms_form(0,3,{ID});" class='style11'><img src="images/right.gif" width="21" height="21" align="absmiddle"></a>&nbsp;<a href='#' onclick="javascript:sms_form(0,3,{ID});" class='style11'>Send SMS</a></div></td>
-            </tr>
+              </tr>
           </table></td>
         </tr>
       </table>
