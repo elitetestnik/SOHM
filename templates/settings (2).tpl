@@ -15,7 +15,7 @@
                 <td  height="36" bgcolor="#FFFFFF" class="style17">Company Name</td>
 				<td height="36" bgcolor="#FFFFFF" class="style17">
 				<INPUT TYPE="text" NAME="company_name" id='company_name' size='80' value="{COMPANY_NAME}" required='1'></td>
-				<td height="36" bgcolor="#FFFFFF" class="style11">Used in messages (sent from)
+				<td height="36" bgcolor="#FFFFFF" class="style11">Used in messages (send from)
 				</td>
 			  </tr>
 			  <tr>
@@ -74,4 +74,4 @@
         </tr>
       </table><br />
 </form>
- 
+<a href='modules/promoexport.php' target='_blank'>promoter export to excel</a>
