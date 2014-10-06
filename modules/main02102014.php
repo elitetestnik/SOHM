@@ -6935,12 +6935,12 @@ if ($mode=='undefined')$mode=0;
 if ($page=='undefined')$page=0;
 if (isset($id)) $ss=$id; else $ss=0;
 
-//$add=" where a.status >=0 ";
-switch  ($ss)
-{
-	case 0: $add=" where a.status >=0 "; break;
-	case 1: $add=" where a.status= -1 "; break;
-}
+$add=" where a.status >=0 ";
+//switch  ($ss)
+//{
+//	case 0: $add=" where a.status >=0 "; break;
+//	case 1: $add=" where a.status= -1 "; break;
+//}
 if ($search!="")
 {
 
@@ -6964,13 +6964,13 @@ case 3:{
     if ($a[1]>0) $add.=" and a.contract_date <= '".$a[1]."' ";
     break;
 }
-//case 4:{
-  //  $add=" where 1>0 ";
-    //$a = explode("|",$search);
-    //if ($a[0]>0) $add.=" and a.concert_date >= '".$a[0]."' ";
-    //if ($a[1]>0) $add.=" and a.concert_date <= '".$a[1]."' ";
-   // break;
-//}
+case 4:{
+    $add=" where 1>0 ";
+    $a = explode("|",$search);
+    if ($a[0]>0) $add.=" and a.concert_date >= '".$a[0]."' ";
+    if ($a[1]>0) $add.=" and a.concert_date <= '".$a[1]."' ";
+    break;
+}
 
 default: $add=" where  a.id_promoter in ( select p.id from #__promoters p where upper(p.name) like '%".mb_strtoupper(mb_convert_encoding($search,'utf8','UTF-8'))."%') ";break;
 
@@ -7838,7 +7838,7 @@ function removeOldSMSMessages($expirationDays) {
 //========================================================================
 function message_list($id = 0, $search = "", $page = 0) {
  
-    RemoveOldMessages(180);
+    RemoveOldMessages(540);
     setcookie('prev', stripslashes($_COOKIE['now']));
     if ($id == 'undefined')
         $id = 0;
@@ -8682,7 +8682,7 @@ function setting($id = 0) {
         
         $continent = "";
         for ($i = 0; $i < sizeof($continentsArray); $i++) {
-            $continent .= "<option value='".$continentsArray[$i]."'/>";
+            $continent .= "<option value='".$continentsArray[i]."'/>";
         }
         
         for ($i = 0; $i < sizeof($links); $i++) {
@@ -9427,8 +9427,7 @@ function get_busyday($artist_id, $year) {
 $result.="<div align='right'> <a href='#' onclick='javascript:checkbox_checker();' class='style11'>Check All</a>"; 
 $result.="&nbsp;&nbsp; <a href='#' onclick='javascript:checkbox_unchecker();' class='style11'>Uncheck all</div></a>";
 
-//$result.="<tr><td colspan=4><div align='right'> <input type='submit' value='Print selected'> </div></td></tr>";    
-$result.="<tr><td colspan=4><div align='right'>  <input type='button' value='Remove selected' onclick='removeSelectedItineraries(".$artist_id.",".$year.");'> <input type='submit' value='Print selected'></div></td></tr>";
+$result.="<tr><td colspan=4><div align='right'> <input type='submit' value='Print selected'> </div></td></tr>";    
 $result.="</table></td></tr></table>
 <input type='hidden' name='id' value='" . $busyday->contract_id . "'/>    
 </form> 
@@ -9550,25 +9549,6 @@ function promoter_selector($id) {
 
     return $objResponse->getXML();
 }
-
-//$idString - whitespace separated identifiers
-function removeSelectedItineraries($idString, $artist_id, $year) {
-    global $database;
-    
-    $idList = split(',',$idString);
-    foreach($idList as $id){
-        $query = "DELETE FROM `#__perfomances` where `id`=" . $id;
-        $database->setQuery($query);
-        $database->query();
-    }
-    
-    $objResponse = new xajaxResponse('UTF-8');
-    $objResponse->addAssign('report_div', 'innerHTML', get_busyday($artist_id, $year));
-    return $objResponse->getXML();
-}
-
-
-
 
 //==================================================================================================================
 
@@ -9701,8 +9681,6 @@ $objAjax->registerFunction('checkbox_eraser');
 $objAjax->registerFunction('addPerfForms');
 $objAjax->registerFunction('clear_perf');
 $objAjax->registerFunction('send_sms_form');
-$objAjax->registerFunction('removeSelectedItineraries');
-
 $objAjax->processRequests();
 $objAjax->printJavascript($mosConfig_live_site . "/includes/xajax/");
 ?>
@@ -11766,31 +11744,5 @@ function  get_busydays_word(artist_id, year) {
         }
 
      }
-
-
- function removeSelectedItineraries($artist_id, $year){
-        var selection = $(":checked");
-        var array = $.makeArray( selection );
-        var idString = "";
-        for(var i=0; i<array.length; i++){
-            idString = idString + array[i].getAttribute("name").replace('day','');
-            if(i<array.length-1){
-                idString = idString+',';
-            }
-        }
-        
-        if (confirm('Are you sure you want to remove selected entries?')) {
-            try {
-                document.getElementById('report_div').style.display = 'block';
-                xajaxRequestUri = '<?php echo $mosConfig_live_site; ?>/modules/main.php';
-                xajaxDebug = false, xajaxStatusMessages = false, xajaxWaitCursor = true, xajaxDefinedGet = 0, xajaxDefinedPost = 1;
-                main_removeSelectedItineraries(idString,$artist_id, $year);
-            } catch (e) {
-                alert(e);
-            }
-        } 
-    }
-    
-    
 
 </script>
