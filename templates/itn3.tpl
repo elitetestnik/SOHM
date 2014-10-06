@@ -1,30 +1,43 @@
+<style type="text/css">
+<!--
+.style1 {
+	font-size: 20px;
+	font-weight: bold;
+}
+-->
+</style>
 {DL}
 <table style='width:1000px'>
    <tr>
       <td width='800' align='left'>
          <div id='print' style='float:right;dispay:{DISPLAY}'><a href="#" onclick="javascript:window.print(); return false;" title="Print this itinerary">
             <img src="/../images/printbutton.png"  alt="Print this itinerary" name="Print this itinerary" align="right" border="0" />
-            </a>
+          
+             
+             </a>
          </div>
          <div class='clearfix'></div>
          <table border="0" cellpadding="2" cellspacing="1">
             <tbody>
                <tr {VS}>
                   <td align="right" width='160'>
-                     <strong>CONTRACT No.:</strong>
-                  </td>
+                     <strong>CONTRACT No.:</strong>                  </td>
                   <td>
-                     <strong>{CONTRACT_NO}</strong>
-                  </td>
-               </tr>
+                     <strong>{CONTRACT_NO}</strong>                  </td>
+               
                <tr>
-                  <td align="right" width='160'><strong>DATE</strong></td>
-                  <td><strong>{THE_DATE}</strong>&nbsp;&nbsp;&nbsp;<strong><u>{FD}</u></strong></td>
-               </tr>
-               <tr {VS}>
-                  <td align="right"><strong>CONCERT DATE</strong></td>
-                  <td><strong>{CONCERT_DATE}</strong></td>
-               </tr>
+                  <td align="right" width='160'><strong>DATE </strong></td>
+                  
+                  <td><span class="style1">{THE_DATE}&nbsp;&nbsp;&nbsp;</span></td>
+                  <td><span class="style1">{FD}</span></td> 
+
+
+                                                         </tr>
+                  
+             
+               
+               
+               
             </tbody>
          </table>
          <div class='clearfix'></div>
@@ -57,21 +70,21 @@
                   <td>{PR_TOWN}</td>
                </tr>
                <tr>
-                  <td align="right">
-                     &nbsp;
-                  </td>
+                  <td align="right">&nbsp;
+                     
+                 </td>
                   <td>Local phone:&nbsp;{PHONE1}</td>
                </tr>
                <tr>
-                  <td align="right">
-                     &nbsp;
-                  </td>
+                  <td align="right">&nbsp;
+                     
+                 </td>
                   <td>Cell phone:&nbsp;{PHONE2}</td>
                </tr>
                <tr>
-                  <td align="right">
-                     &nbsp;
-                  </td>
+                  <td align="right">&nbsp;
+                     
+                 </td>
                   <td>E-mail:&nbsp;{EMAIL}</td>
                </tr>
             </tbody>
@@ -86,33 +99,32 @@
                         <tbody>
                            <tr>
                               <td align="right">
-                                 <strong>VENUE:</strong>
-                              </td>
+                                 <strong>VENUE:</strong>                              </td>
                               <td><strong>{VENUE}</strong></td>
                            </tr>
                            
+                           
                            <tr>
-                              <td align="right">
-                                 &nbsp;
-                              </td>
+                              <td align="right">&nbsp;                             </td>
                               <td>{V_CITY}</td>
                            </tr>
+                           
                            <tr>
-                              <td align="right">
-                                 &nbsp;
-                              </td>
+                              <td align="right">&nbsp;                             </td>
+                              <td>{V_ADDR}</td>
+                           </tr>
+                           
+                           
+                           <tr>
+                              <td align="right">&nbsp;                             </td>
                               <td>{V_COUNTRY}</td>
                            </tr>
                            <tr>
-                              <td align="right">
-                                 &nbsp;
-                              </td>
+                              <td align="right">&nbsp;                             </td>
                               <td>Phone:&nbsp;{V_PHONE}</td>
                            </tr>
                            <tr>
-                              <td align="right">
-                                 &nbsp;
-                              </td>
+                              <td align="right">&nbsp;                             </td>
                               <td>E-mail:&nbsp;{V_EMAIL}</td>
                            </tr>
                         </tbody>
@@ -123,36 +135,29 @@
                      <table border="0" cellpadding="2" cellspacing="1">
                         <tbody>
                            <tr>
-                              <td align="right" width='160'>
-                                 <strong>	HOTEL:</strong>
-                              </td>
-                              <td>
+                              <td align="left" >
+                                 <strong>HOTEL:</strong>&nbsp;                                         
                                  <strong>{HOTEL}</strong>
                               </td>
                            </tr>
                            <tr>
-                              <td align="right">
-                                 &nbsp;
-                              </td>
-                              <td>{HOTEL_ADDR}</td>
+                              <td align="left">&nbsp;                           
+                             {HOTEL_ADDR}</td>
                            </tr>
                            <tr>
-                              <td align="right">
-                                 &nbsp;
-                              </td>
-                              <td>{HOTEL_CITY}</td>
+                              <td align="left">&nbsp;
+                                 
+                             {HOTEL_CITY}</td>
                            </tr>
                            <tr>
                            <tr>
-                              <td align="right">
-                                 &nbsp;
-                              </td>
-                              <td>Phone:&nbsp;{HOTEL_PHONE}</td>
+                              <td align="left">&nbsp;
+                                                         
+                             Phone:&nbsp;{HOTEL_PHONE}</td>
                            </tr>
-                           <td align="right">
-                              &nbsp;
-                           </td>
-                           <td>E-mail:&nbsp;{HOTEL_EMAIL}</td>
+                       <td align="left">&nbsp;
+                              
+                         E-mail:&nbsp;{HOTEL_EMAIL}</td>
                            </tr>
                         </tbody>
                      </table>
@@ -173,9 +178,9 @@
                   <td><strong>{SOUND}</strong></td>
                </tr>
                <tr>
-                  <td>
-                     &nbsp;
-                  </td>
+                  <td>&nbsp;
+                     
+                 </td>
                   <td>{SOUND_CONTACT}</td>
                </tr>
                <!--	<tr>
@@ -184,21 +189,21 @@
                   <td>{SOUND_ADDR},&nbsp;{SOUND_CITY}</td>
                   </tr>-->
                <tr>
-                  <td align="right">
-                     &nbsp;	
-                  </td>
+                  <td align="right">&nbsp;
+                     	
+                 </td>
                   <td>Phone:&nbsp;{SOUND_PHONE1}</td>
                </tr>
                <tr>
-                  <td align="right">
-                     &nbsp;
-                  </td>
+                  <td align="right">&nbsp;
+                     
+                 </td>
                   <td>Cell phone:&nbsp;{SOUND_PHONE2}</td>
                </tr>
                <tr>
-                  <td align="right">
-                     &nbsp;	
-                  </td>
+                  <td align="right">&nbsp;
+                     	
+                 </td>
                   <td>E-mail:&nbsp;{SOUND_EMAIL}</td>
                </tr>
             </tbody>
@@ -286,10 +291,11 @@
                                  WITH
                               </th>
                               <th  style='border-bottom:1px black solid;'>
-                                 FLIGHT No
+                                 FLIGHT No 
                               </th>
                            </tr>
-                           {ITT}
+                <tr>{ITT}</td>
+	 	</tr>  
                         </tbody>
                      </table>
                   </td>

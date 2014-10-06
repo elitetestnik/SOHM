@@ -52,12 +52,12 @@ if($c->edates>" ")$c->edates=", ".$c->edates;
 if(!isset($_REQUEST['date'])){ $script=" onload='javascript:ask_date();return false;'"; 
 $script2= "<script>
 ask_date=function() {
- var date=prompt(\"Please enter terms date\",\"".date('Y-m-d')."\");
- window.location='".$_SERVER['REQUEST_URI']."&date='+date;
+ var date=prompt(\"Please enter terms date\",\"\");
+ window.location='http://www.back-track.no".$_SERVER['REQUEST_URI']."&date='+date;
 }
 </script>";
 $script3="<script>
-ask_date=function(){var date=prompt(\"Forfall dato\",\"".date('Y-m-d')."\");window.location='".$_SERVER['REQUEST_URI']."&date='+date;}
+ask_date=function(){var date=prompt(\"Forfall dato\",\"\");window.location='http://www.back-track.no".$_SERVER['REQUEST_URI']."&date='+date;}
 </script>";
 }else $script=$script2=$script3="";
 

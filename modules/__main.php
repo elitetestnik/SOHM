@@ -221,8 +221,7 @@ function editagentInfo($agent_id = 0) {
     $result.="'></TD></TR><TR><TD>Country</TD><td>";
     $clist = array();
     $clist[] = mosHTML::makeOption('0', '........', 'value', 'text');
-    global $current_continent;
-    $database->setQuery("SELECT id as value, name as text FROM #__countries WHERE world = '".$current_continent."' ORDER BY name");
+    $database->setQuery("SELECT id as value, name as text FROM #__countries  ORDER BY name");  // where  world LIKE  'europe'
     $clist = array_merge($clist, $database->loadObjectList());
     if (isset($agent->country))
         $result.=mosHTML::selectList($clist, 'country', " id='country' ", 'value', 'text', $agent->country);
@@ -476,7 +475,7 @@ order by a.id desc
             $result.= "[<B>Deleted</B>]";
     }
     $result.="</td></tr>";
-    $result.="<tr><td height='36' class='style18'>Agent</td><td height='36' class='style18'>Agency</td><!--<td class='style18'>Contact&nbsp;person</td>--></tr>";
+    $result.="<tr><td height='36' class='style18'>Agent</td><td height='36' class='style18'>Agency</td><!--<td class='style18'>Contact&nbsp;person</td>--><td class='style18'>Id</td></tr>";
     foreach ($agents as $agent) {
         $database->setQuery("SELECT name  FROM #__agency  where id=" . $agent->id_agency);
         $agency = $database->loadResult();
@@ -502,7 +501,7 @@ order by a.id desc
         $result.="&nbsp;&nbsp;&nbsp;<a class='style34' href='#' onclick='javascript:getagentInfo(" . $agent->id . ")'>" . $agent->name . "</a></td>
 <td width='40%' bgcolor='white'><div align='left'>" . $agency . "</div></td>
 <!--<td width='30%' bgcolor='white'><div align='center'>" . $agent->contact_person . "</div></td>   -->
-
+<td width='10%' bgcolor='white'><div align='center'>" . $agent->id . "</div></td>
 </tr>";
     }
     $result.="<tr><td height='35' bgcolor='#FFFFFF'>&nbsp;&nbsp;
@@ -738,7 +737,7 @@ order by a.id desc
             $result.= "[<B>Deleted</B>]";
     }
     $result.="</td></tr>";
-    $result.="<tr><td height='36' class='style18'>Artist</td><td class='style18'>Agency</td><td class='style18'>Agent</td></tr>";
+    $result.="<tr><td height='36' class='style18'>Artist</td><td class='style18'>Agency</td><td class='style18'>Agent</td><td class='style18'>Id</td></tr>";
 
     foreach ($artists as $artist) {
         $result.="<tr>
@@ -775,7 +774,7 @@ order by a.id desc
 
         $result.="<td bgcolor='white'><div align='left'>" . $agency . "</div></td>
 <td bgcolor='white'><div align='left'>" . $agent . "</div></td>
-</tr>";
+<td width='10%' bgcolor='white'><div align='center'>" . $artist->id . "</div></td></tr>";
     }
     $result.="
 
@@ -944,8 +943,7 @@ function editartistInfo($artist_id) {
     $result.="'></TD></TR><TR><TD>Country</TD><TD>";
     $clist = array();
     $clist[] = mosHTML::makeOption('0', '........', 'value', 'text');
-    global $current_continent;
-    $database->setQuery("SELECT id as value, name as text FROM #__countries WHERE world = '".$current_continent."' ORDER BY name");
+    $database->setQuery("SELECT id as value, name as text FROM #__countries  ORDER BY name");   // where  world LIKE  'europe'
     $clist = array_merge($clist, $database->loadObjectList());
     if (isset($artist->country))
         $result.=mosHTML::selectList($clist, 'country', " id='country' ", 'value', 'text', $artist->country);
@@ -2739,8 +2737,7 @@ function editpromoterInfo($promoter_id) {
     $result.="'></TD></TR><TR><TD>Country</TD><TD>";
     $clist = array();
     $clist[] = mosHTML::makeOption('0', '........', 'value', 'text');
-    global $current_continent;
-    $database->setQuery("SELECT id as value, name as text FROM #__countries WHERE world = '".$current_continent."' ORDER BY name");
+    $database->setQuery("SELECT id as value, name as text FROM #__countries  ORDER BY name"); // where  world LIKE  'europe'
     $clist = array_merge($clist, $database->loadObjectList());
     if (isset($promoter->country))
         $result.=mosHTML::selectList($clist, 'country', " id='country' ", 'value', 'text', $promoter->country);
@@ -3971,7 +3968,7 @@ foreach ($users as $user)
  $result.= "<TR><TD>".$user->user_id ."</TD><TD>";
  $result.="<button onclick='javascript:getUserInfo(".$user->user_id.")' class='bt'><IMG SRC='ico/application.png' WIDTH='16' HEIGHT='16' BORDER='0' ALT=''></button>&nbsp;&nbsp;";
 // $result.="<button onclick='editUserInfo(".$user->user_id.")' class='bt'><IMG SRC='/ico/reply.png' WIDTH='16' HEIGHT='16' BORDER='0' ALT=''></button>&nbsp;&nbsp;";
- $result.="<button onclick='javascript:deleteUserInfo( ".$user->user_id." ); ' class='bt'><IMG SRC='images/del.gif' WIDTH='16' HEIGHT='16' BORDER='0' ALT=''></button>";
+ $result.="<button onclick='javascript:deleteUserInfo( ".$user->user_id." ); document.location.reload(true); user_list();' class='bt'><IMG SRC='images/del.gif' WIDTH='16' HEIGHT='16' BORDER='0' ALT=''></button>";
  $result.= "</TD><TD>".$user->login ."</TD><TD>".$user->username."&nbsp;".$user->lastname."</TD><TD>".$user->status."</TD><TD>".$user->lastlogin."</TD></TR>";
 }
 
@@ -3980,7 +3977,6 @@ $result.= "</table></div><BR><BR>".print_legend();
 return $result;
 
 }
-
 function users_list($id)
 {
 $result= user_list($id);
@@ -3991,34 +3987,28 @@ return $objResponse->getXML();
 }
 
 function deleteUserInfo( $id ){
-
+    
     global $database;
     $deleteQuery = "DELETE FROM #__users WHERE user_id=".$id;
     $database->setQuery("set names utf8");
     $database->query();
     $database->setQuery($deleteQuery);
     $database->query();
-
+    
     $result=user_list(0);
     $objResponse = new xajaxResponse('UTF-8');
     $objResponse->addAssign( 'report_div', 'innerHTML', $result );
-
     return $objResponse->getXML();
-
 }
 
 function getUserInfo($id){
 
-    global $database;
-    $database->setQuery( "set names utf8" );
-    $database->query();
-    
-    
-    
 $md5id=md5($id."LickMyDick");
 $result="";
 if ($id>0) $header="User&nbsp;info&nbsp;№&nbsp;".$id; else $header="Add new user";
-
+global $database;
+$database->setQuery( "set names utf8" );
+$database->query();
 $users = array();
 $select="SELECT * FROM `#__users` where `user_id`=".$id;
 $database->setQuery( $select );
@@ -4099,62 +4089,55 @@ $result.="<TR><TD colspan=2 align='center'><INPUT TYPE='submit' value='Save' typ
 </TD></TR></TABLE></TD></TR></TABLE></TD></TR></TABLE>";
 $objResponse = new xajaxResponse('UTF-8');
 $objResponse->addAssign( 'info_div', 'innerHTML', $result );
-
 return $objResponse->getXML();
 }
 
 
 function saveUsers($userdata){
-	global $database;
-	$result = "";
-	$database->setQuery("set names utf8");
-	$database->query();
-	foreach($userdata as $key => $value){
-		$userdata[$key] = addslashes(strip_tags($value));
-	}
+global $database;
+$result="";
 
-	if ($userdata['checker'] != md5($userdata['id'] . "LickMyDick")){
-		$objResponse = new xajaxResponse('UTF-8');
-		$objResponse->addAssign('report_div', 'innerHTML', "Shit happens! Robots have sex.");
-		return $objResponse->getXML();
-	}
+$database->setQuery( "set names utf8" );
+$database->query();
+foreach ($userdata as $key => $value) {
+	$userdata[$key] = addslashes(strip_tags($value));
+}
+if ($userdata['checker']!=md5($userdata['id']."LickMyDick")) {
+$objResponse = new xajaxResponse('UTF-8');
+$objResponse->addAssign( 'report_div', 'innerHTML', "Shit happens! Robots have sex." );
+return $objResponse->getXML();
+}
+$passwd=md5($userdata['pass1']);
+if ($userdata['id']>0){
+    
+   
+    
+$up1="update `#__users` set
+`login`='".$userdata['login']."',
+`username`='".$userdata['username']."',
+`lastname`='".$userdata['lastname']."',
+`email`='".trim($userdata['email'])."',
+`status`=".$userdata['status']." ";
 
-	$passwd = md5($userdata['pass1']);
-	if ($userdata['id'] > 0){
-		$up1 = "update `#__users` set
-                        `login`='" . $userdata['login'] . "',
-                        `username`='" . $userdata['username'] . "',
-                        `lastname`='" . $userdata['lastname'] . "',
-                        `email`='" . trim($userdata['email']) . "',
-                        `status`=" . $userdata['status'] . " ";
-		$up2 = " where `user_id`=" . $userdata['id'];
-		if (($userdata['pass1'] != '') && ($userdata['pass1'] == $userdata['pass2'])){ 
-                    $update = $up1 . " , `password`='" . $passwd . "' " . $up2;
-                } else {
-                    $update = $up1 . $up2;
-                }
-		$database->setQuery($update);
-		$database->query();
-	} else {
-                $database->setQuery("SELECT * FROM #__users");
-		$users = $database->loadObjectList();
-                if (sizeof($users) <= 5){
-                    if (($userdata['pass1'] != '') && ($userdata['pass1'] == $userdata['pass2'])){
-                                                        $insert = "INSERT INTO `#__users` (`username`,`lastname`,`login`,`password`,`status`,`email`,`created`)
-                                       VALUES ('" . $userdata['username'] . "','" . $userdata['lastname'] . "','" . $userdata['login'] . "','" . $passwd . "', " . $userdata['status'] . ", '" . $userdata['email'] . "', '" . date("Y-m-d H:i:s") . "' ) ";
-                            $database->setQuery($insert);
-                            $database->query();
-                            $insert = "<strong style='color:#3366FF'>User ".$userdata['login']." successfully created</strong>";     
-                    } 
-                } else {
-                            $insert = "<strong style='color:red'>You have reached the maximum number of users</strong>"; 
-                }
-	}
-
-	$result = user_list(0);
-	$objResponse = new xajaxResponse('UTF-8');
-	$objResponse->addAssign('report_div', 'innerHTML', $insert . $result);
-	return $objResponse->getXML();
+$up2=" where `user_id`=".$userdata['id'];
+if (($userdata['pass1']!='')&&($userdata['pass1']==$userdata['pass2']))
+$update=$up1." , `password`='".$passwd."' ".$up2; else $update=$up1.$up2;
+$database->setQuery( $update );
+$database->query();
+} else {
+ if (($userdata['pass1']!='')&&($userdata['pass1']==$userdata['pass2'])) {
+$insert="INSERT INTO `#__users` (`username`,`lastname`,`login`,`password`,`status`,`email`)
+values
+('".$userdata['username']."','".$userdata['lastname']."','".$userdata['login']."','".$passwd."', ".$userdata['status'].", '".$userdata['email']."' ) ";
+$database->setQuery( $insert );
+//echo $insert;
+$database->query();
+   }
+}
+$result=user_list(0);
+$objResponse = new xajaxResponse('UTF-8');
+$objResponse->addAssign( 'report_div', 'innerHTML', $insert.$result );
+return $objResponse->getXML();
 }
 //====end=======================================================================
 
@@ -4311,8 +4294,6 @@ function sch_list($id) {
     $result.="&nbsp;<a href='#' onclick='javascript:cal1xx.select(document.getElementById(\"date_to\"),\"date_toxx\",\"yyyy-MM-dd\");return false;'  NAME='date_toxx' ID='date_toxx'><img src='" . $mosConfig_live_site . "/images/itinerary-24x24.png'  align='absmiddle' border=0></a>";
     $result.="&nbsp;&nbsp;<input type='submit' value='View Itinerary'><input type='hidden' name='yr' id='yr' value='" . $thisyear . "'>";
     $result.="&nbsp;&nbsp;--><button  onclick=\"javascript:get_busydays(document.getElementById('id_artist').value," . $thisyear . ");return false;\">View Itinerary</button>";
-    $result.="&nbsp;&nbsp;<button  onclick=\"javascript:get_busydays_word(document.getElementById('id_artist').value," . $thisyear . ");return false;\"> Save Itinerary</button>";
-
     $result.="</p></td></td></tr></table></td></tr></table></form>
 <div id='sch_info' name='sch_info' style='border:1px #DDD solid;display:none;'></div>
 ";
@@ -4497,12 +4478,10 @@ $result.="
 <img src='images/comment-add-24x24.png'   align='absmiddle' border=0></a>&nbsp;<a href='#' onclick='javascript:getDetails(".$perf->contract_id.");' class='style17'>Add Perfomance</a>
 &nbsp;&nbsp;&nbsp;<img src='images/right.gif' width='21' height='21' align='absmiddle'>Next day &nbsp;&nbsp;&nbsp;
 <a href='#' onclick='javascript:clear_date(".$perf->contract_id.");'><img src='images/trash-empty-24x24.png'  align='absmiddle' border='0'></a>&nbsp;
-
+<a href='#' onclick='javascript:clear_date(".$perf->contract_id.");' class='style17'>Clear all</a>
 
 </div>
 </td></tr></table></td></tr></table>";
-$result.= list_deparrs($id); 
- $result.="&nbsp;</div><div id='perf_info' name='perf_info' style='display:none;'>&nbsp;</div>";
 return $result;
 }
 
@@ -4865,8 +4844,10 @@ $result.="<tr><td height='36' bgcolor='#F5F5F5' class='style17'><div align='left
 <img src='images/comment-add-24x24.png' align='absmiddle' border=0></a>&nbsp;<a href='#' onclick='javascript:add_deparr(".$id.");' class='style17'>Add dep/arr</a>&nbsp;&nbsp;&nbsp;
 <a href='#' onclick='javascript:clear_dated(".$id.");'><img src='images/trash-empty-24x24.png' align='absmiddle' border='0'></a>&nbsp;
 <a href='#' onclick='javascript:clear_dated(".$id.");' class='style17'>Clear dep/arr</a>&nbsp;&nbsp;
+<a href='#' onclick='javascript:clear_date(".$id.");'><img src='images/trash-empty-24x24.png' align='absmiddle' border='0'></a>&nbsp;
+<a href='#' onclick='javascript:clear_date(".$id.");' class='style17'>Clear all</a></div>
 </td></tr></table></td></tr></table><br />";
-//$result.=list_perform($id,0);
+$result.=list_perform($id,0);
 return $result;
 }
 
@@ -5676,9 +5657,11 @@ function add_contract2($formdata, $id_inquiry = 0, $id_contract = 0) {
                       <a href='#' onclick='javascript:message_form_contract(0,2," . $c->id_promoter . ",1," . $id_contract . ");'><img src='images/forward-new-mail-24x24.png' border=0 align='absmiddle'></a>&nbsp;<a href='#' onclick='javascript:message_form_contract(0,2," . $c->id_promoter . ",1," . $id_contract . ");'  class='style17' >Send via email [NO]</a>
                           
                   
-           
-<a href='#' onclick='javascript:message_form_contract(0,2,".$c->id_promoter.",1,".$id_contract.");'><img src='images/forward-new-mail-24x24.png' border=0 align='absmiddle'></a>&nbsp;<a href='#' onclick='javascript:message_form_contract(0,2,".$c->id_promoter.",1,".$id_contract.");'  class='style17' >Send via email [NO]</a>
-<a href='#' onclick=\"javascript:addPerfForms(" . $c->id . ");\">                                  <img src='images/note-edit-24x24.png' border='0'></a>&nbsp;&nbsp;                  <a href='#' onclick=\"javascript:addPerfForms(" . $c->id . ");\" class='style17'>  Make itinerary </a>                      
+
+                      
+                    
+
+
 </div></td>
                     </tr>
                 </table></td>
@@ -5693,7 +5676,7 @@ function add_contract2($formdata, $id_inquiry = 0, $id_contract = 0) {
 
     if ($id_contract > 0) {
         if (!$has_perf)
-            $result.="<div style='margin-left:45px;'><a href='#' onclick=\"javascript:addPerfForms(" . $c->id . ");\"><img src='images/note-edit-24x24.png' border='0'></a>&nbsp;&nbsp;<a href='#' onclick=\"javascript:addPerfForms(" . $c->id . ");\"><span class='style17'>THIS CONTRACT HASN'T ITINERARY</span></a></div>";
+            $result.="<div style='margin-left:45px;'><a href='#' onclick=\"javascript:addPerfForms(" . $c->id . ");\"><img src='images/note-edit-24x24.png' border='0'></a>&nbsp;&nbsp;<a href='#' onclick=\"javascript:addPerfForms(" . $c->id . ");\"><span class='style17'>THIS CONTRACT HASN'T ITINERARY. CLICK HERE TO&nbsp;FILL IT</span></a></div>";
         else
             $result.=list_deparrs($id_contract);
     }
@@ -7001,8 +6984,8 @@ if ($page==$i)$paginator.=" selected ";
 $paginator.=">".$i."</option>";}
 $paginator.="</select>";
 
-//contract sort
-$query="select a.*,coalesce(( SELECT GROUP_CONCAT( z.date ORDER BY z.date DESC SEPARATOR '<br/>') from #__cont_dates z where z.cont_id = a.id),' ') as ddates FROM #__contracts a ".$add." order by concert_date asc ".$limits;
+
+$query="select a.*,coalesce(( SELECT GROUP_CONCAT( z.date ORDER BY z.date DESC SEPARATOR '<br/>') from #__cont_dates z where z.cont_id = a.id),' ') as ddates FROM #__contracts a ".$add." order by id desc ".$limits;
 
 $np=$page+1;$pp=$page-1;
 if (1==$page)$links="<div align='center'><span class='style11'><img border=0 src='images/back-24x24.png' align='absmiddle'>&nbsp;prev&nbsp;page&nbsp;";
@@ -8299,7 +8282,7 @@ setcookie('now',"href='#' onclick='javascript:new_search(".$mode.");' ");
 		$database->setQuery( "set names utf8" );
 		$database->query();
 
-$nam= array ("Everywhere","Agent","Artist","Promoter","Itinerary", "Inquiry","Messages","Contract by promoter","Contract by artist", "Contract by artist & promoter","Contract by date","Agencies","Promoter by week number, country &amp; location" );
+$nam= array ("Everywhere","Agent","Artist","Promoter","Itinerary", "Inquiry","Messages","Contract by promoter","Contract by artist", "Contract by artist & promoter","Contract by date","Agencies","Promoter by week number &amp; country" );
 $result="
 <form method=post name='search_form' id='search_form'  onsubmit='return check_this_form(this);' action=\"javascript:startsearch(xajax.getFormValues('search_form'));\">
 
@@ -8401,15 +8384,12 @@ case 12:{
 $result.="Week N&deg;&nbsp;<input type='text' name='weeknum' id='weeknum' size='10' maxlenght='20'>&nbsp;&nbsp;&nbsp;";
 $clist = array();
 $clist[] = mosHTML::makeOption( '0', '.......', 'value', 'text'  );
-global $current_continent;
-$database->setQuery("SELECT id as value, name as text FROM #__countries WHERE world = '".$current_continent."' ORDER BY name");
+$database->setQuery( "SELECT id as value, name as text FROM #__countries  where  world LIKE  'europe'  ORDER BY name" );//where  world LIKE  'europe'
 $clist = array_merge($clist,$database->loadObjectList());
 $m=mosHTML::selectList( $clist, 'country[]', " id='country[]' multiple='multiple' size=10  style='width:300px'", 'value', 'text', 0 );
 //$m=mosHTML::selectList( $clist, 'country', " id='country'  size=10  style='width:300px'", 'value', 'text', 0 );
 $result.="Country</td><td rowspan='2' ><div id='countrybox'>".$m;
-//$result.="</div><br/><input type='checkbox' name='onlyeurope' id='onlyeurope' checked='checked' onchange='goeurope(this.checked);'> only Europe</td></tr><tr valing='bottom'><td>Location&nbsp;<input type='text' name='town' id='town' size='20' maxlenght='50'></td></tr></table></div></td><td bgcolor='white' rowspan=2  nowrap>";
-$result.="<tr valing='bottom'><td>Location&nbsp;<input type='text' name='town' id='town' size='20' maxlenght='50'></td></tr></table></div></td><td bgcolor='white' rowspan=2  nowrap>";
-
+$result.="</div><br/><input type='checkbox' name='onlyeurope' id='onlyeurope' checked='checked' onchange='goeurope(this.checked);'> only Europe</td></tr><tr valing='bottom'><td>Location&nbsp;<input type='text' name='town' id='town' size='20' maxlenght='50'></td></tr></table></div></td><td bgcolor='white' rowspan=2  nowrap>";
 break;
 }
 
@@ -8454,10 +8434,8 @@ function country_box($p = 0) {
     $clist[] = mosHTML::makeOption('0', '.......', 'value', 'text');
     if ($p == 'false')
         $database->setQuery("SELECT id as value, name as text FROM #__countries   ORDER BY name"); //where  world LIKE  'europe'
-    else {
-        global $current_continent;
-        $database->setQuery("SELECT id as value, name as text FROM #__countries WHERE world = '".$current_continent."' ORDER BY name");
-    }
+    else
+        $database->setQuery("SELECT id as value, name as text FROM #__countries  where  world LIKE  'europe' ORDER BY name");
     $clist = array_merge($clist, $database->loadObjectList());
     $m = mosHTML::selectList($clist, 'country[]', " id='country[]' multiple='multiple' size=10 style='width:300px'", 'value', 'text', 0);
     $objResponse = new xajaxResponse('UTF-8');
@@ -8643,8 +8621,6 @@ function setting($id = 0) {
     $subm = "<INPUT TYPE='submit' value='Save settings'>";
     $sel = "";
 
-    $continentsArray = array('Africa', 'Asia', 'Europe', 'North America', 'South America', 'Oceania');
-    
     if (sizeof($settings) > 0) {
         foreach ($settings as $setting) {
             $ft->define(array('body' => "settings.tpl"));
@@ -8654,18 +8630,7 @@ function setting($id = 0) {
                 else
                     $sel.="<option value='" . $i . "'>" . $links[$i] . "</option>";
             }
-            
-            $continent = "";
-            for ($i = 0; $i < sizeof($continentsArray); $i++) {
-                if($continentsArray[$i] == $setting->continent){
-                    $continent .= "<option selected value='".$continentsArray[$i]."'>".$continentsArray[$i]."</option>";
-                } else {
-                    $continent .= "<option value='".$continentsArray[$i]."'>".$continentsArray[$i]."</option>";
-                }
-            }
-            
             $ft->assign(array(
-                'CONTINENT' => $continent,
                 'COMPANY_NAME' => $setting->company_name,
                 'UNDERWRITER' => $setting->underwriter,
                 'BANKACCOUNT' => $setting->bankaccount,
@@ -8679,12 +8644,6 @@ function setting($id = 0) {
             ));
         }
     }else {
-        
-        $continent = "";
-        for ($i = 0; $i < sizeof($continentsArray); $i++) {
-            $continent .= "<option value='".$continentsArray[i]."'/>";
-        }
-        
         for ($i = 0; $i < sizeof($links); $i++) {
             if ((isset($setting->start_id) ) && ($setting->start_id == $i))
                 $sel.="<option value='" . $i . "' selected>" . $links[$i] . "</option>";
@@ -8693,7 +8652,6 @@ function setting($id = 0) {
         }
         $ft->define(array('body' => "settings.tpl"));
         $ft->assign(array(
-            'CONTINENT' => $continent, 
             'COMPANY_NAME' => "",
             'UNDERWRITER' => "",
             'BANKACCOUNT' => "",
@@ -8738,7 +8696,6 @@ function save_settings($fdatas) {
     if ($exist) {
         $query = "
 update #__settings set
-                    `continent`='" . $fdatas['continent'] . "',
                     `company_name`='" . $fdatas['company_name'] . "',
                     `underwriter`='" . $fdatas['underwriter'] . "',
                     `bankaccount`='" . $fdatas['bankaccount'] . "',
@@ -8750,8 +8707,7 @@ update #__settings set
                      where id=" . $_COOKIE['operator_id'];
     } else {
         $query = "
-insert into #__settings ( `continent`,
-                    `company_name`,
+insert into #__settings ( `company_name`,
                     `underwriter`,
                     `bankaccount`,
                     `email`,
@@ -8759,7 +8715,6 @@ insert into #__settings ( `continent`,
                     `perpage`,
                     `start_id`,
                     `id` ) values (
-                    '" . $fdatas['continent'] . "',
                     '" . $fdatas['company_name'] . "',
                     '" . $fdatas['underwriter'] . "',
                     '" . $fdatas['bankaccount'] . "',
@@ -9027,7 +8982,7 @@ order by a.id desc
             $result.= "[<B>Deleted</B>]";
     }
     $result.="</td></tr>";
-    $result.="<tr><td height='36' class='style18'>Agency</td><td class='style18'>Agents</td><td class='style18'>Contact&nbsp;person</td></tr>";
+    $result.="<tr><td height='36' class='style18'>Agency</td><td class='style18'>Agents</td><td class='style18'>Contact&nbsp;person</td><td class='style18'>Id</td></tr>";
     foreach ($agents as $agent) {
 
         $database->setQuery("select count(*) from #__agents where id_agency=" . $agent->id);
@@ -9050,7 +9005,7 @@ order by a.id desc
 
 <td width='8%' bgcolor='white'><div align='center'><a class='style34' href='#' onclick='javascript:agent_list(0,\"\",0," . $agent->id . ")'>" . $agent_count . "</a></div></td>
 <td width='40%' bgcolor='white'><div align='center'>" . $agent->contact_person . "</div></td>
-
+<td width='15%' bgcolor='white'><div align='center'>" . $agent->id . "</div></td>
 </tr>";
     }
     $result.="<tr><td height='35' bgcolor='#FFFFFF'>&nbsp;&nbsp;
@@ -9199,8 +9154,7 @@ function editagencyInfo($agent_id = 0) {
     $result.="'></TD></TR><TR><TD>Country</TD><TD>";
     $clist = array();
     $clist[] = mosHTML::makeOption('0', '........', 'value', 'text');
-    global $current_continent;
-    $database->setQuery("SELECT id as value, name as text FROM #__countries WHERE world = '".$current_continent."' ORDER BY name");
+    $database->setQuery("SELECT id as value, name as text FROM #__countries  ORDER BY name"); // where  world LIKE  'europe'
     $clist = array_merge($clist, $database->loadObjectList());
     if (isset($agent->country))
         $result.=mosHTML::selectList($clist, 'country', " id='country' ", 'value', 'text', $agent->country);
@@ -9379,13 +9333,6 @@ function get_busydays($artist_id, $year) {
     $objResponse->addAssign('report_div', 'innerHTML', get_busyday($artist_id, $year));
     return $objResponse->getXML();
 }
-function get_busydays_word($artist_id, $year) {
-    $objResponse = new xajaxResponse('UTF-8');
-    $objResponse->addAssign('report_div', 'innerHTML', get_busyday_word($artist_id, $year));
-    
-    
-    return $objResponse->getXML();
-}
 
 function get_busyday($artist_id, $year) {
     global $database;
@@ -9415,62 +9362,7 @@ function get_busyday($artist_id, $year) {
             $busyday->promoter_name = "<B>ONE DAY OFF</B>";
         }
         $result.="<tr>
-                <td bgcolor='#FFFFFF' width='200' ><div style='float:left;'><a class='style17' href='#' onclick='javascript:list_performs(" . $busyday->contract_id . "," . $busyday->id . ");return false;'>" . $vdate[0] . "</a></div>";
-        if ($busyday->status < 0)
-            $result.= "<div style='float:right;'><sup><font color='red'>[deleted inquiry]</font></sup></div>";
-        $result.= "</div></td><td bgcolor='#FFFFFF' class='style34'><div align='left'>" . $busyday->city . "</div></td>
-                <td bgcolor='#FFFFFF' class='style34'><div align='left'>" . $busyday->promoter_name . "</div></td>
-                <td bgcolor='#FFFFFF' style='width:40px' class='style34'><div align='center'><input type='checkbox' name='day" . $busyday->id . "'/></div></td>
-           </tr>";
- }
-        
-$result.="<div align='right'> <a href='#' onclick='javascript:checkbox_checker();' class='style11'>Check All</a>"; 
-$result.="&nbsp;&nbsp; <a href='#' onclick='javascript:checkbox_unchecker();' class='style11'>Uncheck all</div></a>";
-
-$result.="<tr><td colspan=4><div align='right'> <input type='submit' value='Print selected'> </div></td></tr>";    
-$result.="</table></td></tr></table>
-<input type='hidden' name='id' value='" . $busyday->contract_id . "'/>    
-</form> 
-<div id='opt_info' name='opt_info' style='display:none;'>&nbsp;</div>
-<div id='perf_info' name='perf_info' style='display:none;'>&nbsp;</div>";
-
-        
-    
-    return $result;
-}
-//-----------------------------------------------------
-
-function get_busyday_word($artist_id, $year) {
-    global $database;
-    $database->setQuery("set names utf8");
-    if ($year == '')
-        $year = date("Y");
-    $database->query();
-    $nyear = $year + 1;
-    $query = "SELECT p.*, r.name as promoter_name  FROM #__perfomances p, #__promoters r  WHERE p.id_promoter=r.id and p.id_artist=" . $artist_id . " and p.date_of > '" . $year . "' and p.date_of < '" . $nyear . "' order by date_of asc";
-    $database->setQuery($query);
-    $database->query();
-    $busydays = $database->loadObjectList();
-//$result= $query;
-
-  
-   $result.="<form target='_blank' method='POST' action='modules/word.php'>";
-    
-    $result.="<table width='95%' border='0' align='center' cellpadding='0' cellspacing='1' bgcolor='#999999'>
-        <tr>
-          <td bgcolor='#999999' class='style4'>
-          <table width='100%' border='0' align='center' cellpadding='3' cellspacing='1'>
-          <tr><th  bgcolor='#FFFFFF' class='style17'>DATE</th><th  bgcolor='#FFFFFF' class='style17'>TOWN</th><th bgcolor='#FFFFFF' class='style17'>PROMOTER</th><th bgcolor='#FFFFFF' class='style17'>SELECTION</th></tr>
-";
-
-    $result.="";
-    foreach ($busydays as $busyday) {
-        $vdate = explode(" ", $busyday->date_of);
-        if ($busyday->freeday > 0) {
-            $busyday->promoter_name = "<B>ONE DAY OFF</B>";
-        }
-        $result.="<tr>
-                <td bgcolor='#FFFFFF' width='200' ><div style='float:left;'><a class='style17' href='#' onclick='javascript:list_performs(" . $busyday->contract_id . "," . $busyday->id . ");return false;'>" . $vdate[0] . "</a></div>";
+                <td bgcolor='#FFFFFF' width='200' ><div style='float:left;'><a class='style17' href='#' onclick='javascript:list_performs(" . $busyday->contract_id . ",0);return false;'>" . $vdate[0] . "</a></div>";
         if ($busyday->status < 0)
             $result.= "<div style='float:right;'><sup><font color='red'>[deleted inquiry]</font></sup></div>";
         $result.= "</div></td><td bgcolor='#FFFFFF' class='style34'><div align='left'>" . $busyday->city . "</div></td>
@@ -9478,20 +9370,16 @@ function get_busyday_word($artist_id, $year) {
                 <td bgcolor='#FFFFFF' style='width:40px' class='style34'><div align='center'><input type='checkbox' name='day" . $busyday->id . "'/></div></td>
               </tr>";
     }
-       
-$result.="<div align='right'> <a href='#' onclick='javascript:checkbox_checker();' class='style11'>Check All</a>"; 
-$result.="&nbsp;&nbsp; <a href='#' onclick='javascript:checkbox_unchecker();' class='style11'>Uncheck all</div></a>";    
-//$result.="<tr><td colspan=3> <div align='right'>  <button value='Export2Word' onclick='get_busyday(contract_id)'>  Word  </button></div></td></tr> " ;
-    $result.="<td colspan=4><div align='right'> <input type='submit' value='Save to Word selected'> </div></td></tr>";
-      $result.="</table></td></tr></table>
+
+    $result.="<tr><td colspan=4><div align='right'> <input type='submit' value='Print selected'> </div></td></tr>";
+    $result.="</table></td></tr></table>
 <input type='hidden' name='id' value='" . $busyday->contract_id . "'/>    
 </form> 
 <div id='opt_info' name='opt_info' style='display:none;'>&nbsp;</div>
 <div id='perf_info' name='perf_info' style='display:none;'>&nbsp;</div>";
-return $result;
-}
-//------------------------------------------------------
 
+    return $result;
+}
 
 function agent_selector($id_agency, $where) {
     global $database;
@@ -9674,7 +9562,6 @@ $objAjax->registerFunction('get_inq_coords2');
 $objAjax->registerFunction('links_list');
 $objAjax->registerFunction('promoter_selector');
 $objAjax->registerFunction('get_busydays');
-$objAjax->registerFunction('get_busydays_word');
 $objAjax->registerFunction('check_box_saver');
 $objAjax->registerFunction('check_box_emails');
 $objAjax->registerFunction('checkbox_eraser');
@@ -10773,10 +10660,18 @@ $objAjax->printJavascript($mosConfig_live_site . "/includes/xajax/");
             alert(e);
         }
     }
-    
-    function deleteUserInfo( id ) {
-                        main_deleteUserInfo(id);
-                        setTimeout(main_users_list(0), 1000);
+function deleteUserInfo( id ) {
+			try {
+				var s=screen.width;
+				xajaxRequestUri= '<?php echo $mosConfig_live_site; ?>/modules/main.php';
+				xajaxDebug=false,xajaxStatusMessages=false,xajaxWaitCursor=true,xajaxDefinedGet=0,xajaxDefinedPost=1;
+				main_deleteUserInfo(id);
+				document.getElementById('info_div').style.display='block';
+				document.getElementById('info_div').style.width=document.body.clientWidth + 'px';
+				document.getElementById('info_div').style.height=document.body.clientHeight + 'px';
+ 		} catch( e ) {
+				alert( e );
+			}
 		}        
 		
     function getDetails(artist_id, tdate, cont_id) {
@@ -10917,17 +10812,6 @@ $objAjax->printJavascript($mosConfig_live_site . "/includes/xajax/");
         }
     }
 
-function  get_busydays_word(artist_id, year) {
-        try {
-            // draw_menu(5);
-            xajaxRequestUri = '<?php echo $mosConfig_live_site; ?>/modules/main.php';
-            xajaxDebug = false, xajaxStatusMessages = false, xajaxWaitCursor = true, xajaxDefinedGet = 0, xajaxDefinedPost = 1;
-            main_get_busydays_word(artist_id, year);
-            document.getElementById('sch_info').style.display = 'block';
-        } catch (e) {
-            alert(e);
-        }
-    }
 
     function  messages_list(id, search, page) {
         try {
@@ -11719,7 +11603,8 @@ function  get_busydays_word(artist_id, year) {
             'form_doorsopen',
             'form_onstage',
             'form_performance_duration',
-            'form_capacity'];
+            'form_capacity',
+            'form_venue'];
 
         if (document.getElementById('freeday').checked) {
             scheduleFields.forEach(function(entry) {
@@ -11743,6 +11628,6 @@ function  get_busydays_word(artist_id, year) {
 
         }
 
-     }
+    }
 
 </script>

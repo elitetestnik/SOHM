@@ -1,7 +1,9 @@
 <?php
-
-
-header("Content-Type: text/html;charset=utf-8");
+	header("Content-type: application/vnd.ms-word");
+	header("Content-Disposition: attachment; Filename=Itinerary.doc");
+?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<?php
 session_start();
 if (!isset($_SESSION['operator_id']))
 {
@@ -88,7 +90,7 @@ $dates = $database->loadObjectList();
 $ft->parse('HEAD', "header"); $display="";
 $fdd=0;
 foreach ($dates as $date_d) {
-if ($fdd!=0)$DL="<div style='page-break-after:always;'>&nbsp;</div>";else $DL="";
+if ($fdd!=0)$DL="<div style='page-break-before:always;'>&nbsp;</div>";else $DL="";
 $fdd++;
 $query="select * from #__settings where id=".$_COOKIE['operator_id'];
 $database->setQuery($query);
@@ -228,3 +230,6 @@ $ft->FastPrint("BODY");
 $ft->FastPrint("FOOT");
 
 die(); ?>
+
+</body>
+</html>

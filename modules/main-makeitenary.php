@@ -4311,8 +4311,6 @@ function sch_list($id) {
     $result.="&nbsp;<a href='#' onclick='javascript:cal1xx.select(document.getElementById(\"date_to\"),\"date_toxx\",\"yyyy-MM-dd\");return false;'  NAME='date_toxx' ID='date_toxx'><img src='" . $mosConfig_live_site . "/images/itinerary-24x24.png'  align='absmiddle' border=0></a>";
     $result.="&nbsp;&nbsp;<input type='submit' value='View Itinerary'><input type='hidden' name='yr' id='yr' value='" . $thisyear . "'>";
     $result.="&nbsp;&nbsp;--><button  onclick=\"javascript:get_busydays(document.getElementById('id_artist').value," . $thisyear . ");return false;\">View Itinerary</button>";
-    $result.="&nbsp;&nbsp;<button  onclick=\"javascript:get_busydays_word(document.getElementById('id_artist').value," . $thisyear . ");return false;\"> Save Itinerary</button>";
-
     $result.="</p></td></td></tr></table></td></tr></table></form>
 <div id='sch_info' name='sch_info' style='border:1px #DDD solid;display:none;'></div>
 ";
@@ -4339,8 +4337,8 @@ function getDetails($id_contract, $pid = 0) {
 
 function list_performs($id, $pid = 0) {
     $objResponse = new xajaxResponse('UTF-8');
-    $objResponse->addAssign('opt_info', 'innerHTML', list_perform($id, $pid));
-    $objResponse->addAssign('opt_info', 'style.display', "block");
+   $objResponse->addAssign('opt_info', 'innerHTML', list_perform($id, $pid));
+   $objResponse->addAssign('opt_info', 'style.display', "block");  
     return $objResponse->getXML();
 }
 
@@ -4387,6 +4385,7 @@ $pid=$perf->id;
 $database->setQuery( "select * from #__promoters where id=".$perf->id_promoter);
 $proms = array();
 $proms = $database->loadObjectList();
+
 if ($perf->freeday >0) $FD="<div style='float:right'><b>ONE DAY OFF</b></div>";else $FD="";
 
 if (strlen($perf->hotel_link)>20) $perf->hotel_link="<a href='".$perf->hotel_link."' target='_blank'>".substr($perf->hotel_link,0,20)."...</a>";
@@ -4501,9 +4500,11 @@ $result.="
 
 </div>
 </td></tr></table></td></tr></table>";
-$result.= list_deparrs($id); 
+
+ $result.= list_deparrs($id); 
  $result.="&nbsp;</div><div id='perf_info' name='perf_info' style='display:none;'>&nbsp;</div>";
-return $result;
+ 
+ return $result;
 }
 
 
@@ -4865,6 +4866,8 @@ $result.="<tr><td height='36' bgcolor='#F5F5F5' class='style17'><div align='left
 <img src='images/comment-add-24x24.png' align='absmiddle' border=0></a>&nbsp;<a href='#' onclick='javascript:add_deparr(".$id.");' class='style17'>Add dep/arr</a>&nbsp;&nbsp;&nbsp;
 <a href='#' onclick='javascript:clear_dated(".$id.");'><img src='images/trash-empty-24x24.png' align='absmiddle' border='0'></a>&nbsp;
 <a href='#' onclick='javascript:clear_dated(".$id.");' class='style17'>Clear dep/arr</a>&nbsp;&nbsp;
+<a href='#' onclick='javascript:clear_date(".$id.");'><img src='images/trash-empty-24x24.png' align='absmiddle' border='0'></a>&nbsp;
+
 </td></tr></table></td></tr></table><br />";
 //$result.=list_perform($id,0);
 return $result;
@@ -5674,35 +5677,35 @@ function add_contract2($formdata, $id_inquiry = 0, $id_contract = 0) {
                       Send via email [EN]</a>&nbsp;&nbsp;
 
                       <a href='#' onclick='javascript:message_form_contract(0,2," . $c->id_promoter . ",1," . $id_contract . ");'><img src='images/forward-new-mail-24x24.png' border=0 align='absmiddle'></a>&nbsp;<a href='#' onclick='javascript:message_form_contract(0,2," . $c->id_promoter . ",1," . $id_contract . ");'  class='style17' >Send via email [NO]</a>
-                          
-                  
-           
+                                            
+         
 <a href='#' onclick='javascript:message_form_contract(0,2,".$c->id_promoter.",1,".$id_contract.");'><img src='images/forward-new-mail-24x24.png' border=0 align='absmiddle'></a>&nbsp;<a href='#' onclick='javascript:message_form_contract(0,2,".$c->id_promoter.",1,".$id_contract.");'  class='style17' >Send via email [NO]</a>
-<a href='#' onclick=\"javascript:addPerfForms(" . $c->id . ");\">                                  <img src='images/note-edit-24x24.png' border='0'></a>&nbsp;&nbsp;                  <a href='#' onclick=\"javascript:addPerfForms(" . $c->id . ");\" class='style17'>  Make itinerary </a>                      
-</div></td>
+                  
+                               
+    </div></td>
                     </tr>
                 </table></td>
               </tr>
             </table>
 </form>
+
 <div id='itn' name='itn'>&nbsp;&nbsp;&nbsp;&nbsp;<a " . stripslashes($_COOKIE['now']) . ">
-<img src='images/back-24x24.png' align='absmiddle' border=0></a>&nbsp;<a " . stripslashes($_COOKIE['now']) . " class='style17'>Back</a>
-</div><br>
-<div id='opt_info' name='opt_info'>";
+<img src='images/back-24x24.png' align='absmiddle' border=0></a>&nbsp; <a " . stripslashes($_COOKIE['now']) . " class='style17'>Back</a>
+</div><br>";
 
-
+/*<div id='opt_info' name='opt_info'>";
     if ($id_contract > 0) {
         if (!$has_perf)
-            $result.="<div style='margin-left:45px;'><a href='#' onclick=\"javascript:addPerfForms(" . $c->id . ");\"><img src='images/note-edit-24x24.png' border='0'></a>&nbsp;&nbsp;<a href='#' onclick=\"javascript:addPerfForms(" . $c->id . ");\"><span class='style17'>THIS CONTRACT HASN'T ITINERARY</span></a></div>";
+            $result.="<div style='margin-left:45px;'><a href='#' onclick=\"javascript:addPerfForms(" . $c->id . ");\"><img src='images/note-edit-24x24.png' border='0'></a>&nbsp;&nbsp;<a href='#' onclick=\"javascript:addPerfForms(" . $c->id . ");\"><span class='style17'>THIS CONTRACT HASN'T ITINERARY. CLICK HERE TO&nbsp;FILL IT</span></a></div>";
         else
             $result.=list_deparrs($id_contract);
     }
     $result.="&nbsp;</div><div id='perf_info' name='perf_info' style='display:none;'>&nbsp;</div>";
-
+ */
     $objResponse = new xajaxResponse('UTF-8');
-//$objResponse->addAssign( 'report_div', 'innerHTML',"");
+    $objResponse->addAssign( 'report_div', 'innerHTML',"");
     $objResponse->addAssign('report_div', 'innerHTML', $result);
-    return $objResponse->getXML();
+    return $objResponse->getXML(); 
 }
 
 function _add_contract2($formdata, $id_inquiry = 0, $id_contract = 0) {
@@ -9377,11 +9380,6 @@ function check_box_saver($what, $tid, $tvalues) {
 function get_busydays($artist_id, $year) {
     $objResponse = new xajaxResponse('UTF-8');
     $objResponse->addAssign('report_div', 'innerHTML', get_busyday($artist_id, $year));
-    return $objResponse->getXML();
-}
-function get_busydays_word($artist_id, $year) {
-    $objResponse = new xajaxResponse('UTF-8');
-    $objResponse->addAssign('report_div', 'innerHTML', get_busyday_word($artist_id, $year));
     
     
     return $objResponse->getXML();
@@ -9421,77 +9419,20 @@ function get_busyday($artist_id, $year) {
         $result.= "</div></td><td bgcolor='#FFFFFF' class='style34'><div align='left'>" . $busyday->city . "</div></td>
                 <td bgcolor='#FFFFFF' class='style34'><div align='left'>" . $busyday->promoter_name . "</div></td>
                 <td bgcolor='#FFFFFF' style='width:40px' class='style34'><div align='center'><input type='checkbox' name='day" . $busyday->id . "'/></div></td>
-           </tr>";
- }
-        
-$result.="<div align='right'> <a href='#' onclick='javascript:checkbox_checker();' class='style11'>Check All</a>"; 
-$result.="&nbsp;&nbsp; <a href='#' onclick='javascript:checkbox_unchecker();' class='style11'>Uncheck all</div></a>";
-
-$result.="<tr><td colspan=4><div align='right'> <input type='submit' value='Print selected'> </div></td></tr>";    
-$result.="</table></td></tr></table>
-<input type='hidden' name='id' value='" . $busyday->contract_id . "'/>    
-</form> 
-<div id='opt_info' name='opt_info' style='display:none;'>&nbsp;</div>
-<div id='perf_info' name='perf_info' style='display:none;'>&nbsp;</div>";
-
-        
-    
-    return $result;
-}
-//-----------------------------------------------------
-
-function get_busyday_word($artist_id, $year) {
-    global $database;
-    $database->setQuery("set names utf8");
-    if ($year == '')
-        $year = date("Y");
-    $database->query();
-    $nyear = $year + 1;
-    $query = "SELECT p.*, r.name as promoter_name  FROM #__perfomances p, #__promoters r  WHERE p.id_promoter=r.id and p.id_artist=" . $artist_id . " and p.date_of > '" . $year . "' and p.date_of < '" . $nyear . "' order by date_of asc";
-    $database->setQuery($query);
-    $database->query();
-    $busydays = $database->loadObjectList();
-//$result= $query;
-
-  
-   $result.="<form target='_blank' method='POST' action='modules/word.php'>";
-    
-    $result.="<table width='95%' border='0' align='center' cellpadding='0' cellspacing='1' bgcolor='#999999'>
-        <tr>
-          <td bgcolor='#999999' class='style4'>
-          <table width='100%' border='0' align='center' cellpadding='3' cellspacing='1'>
-          <tr><th  bgcolor='#FFFFFF' class='style17'>DATE</th><th  bgcolor='#FFFFFF' class='style17'>TOWN</th><th bgcolor='#FFFFFF' class='style17'>PROMOTER</th><th bgcolor='#FFFFFF' class='style17'>SELECTION</th></tr>
-";
-
-    $result.="";
-    foreach ($busydays as $busyday) {
-        $vdate = explode(" ", $busyday->date_of);
-        if ($busyday->freeday > 0) {
-            $busyday->promoter_name = "<B>ONE DAY OFF</B>";
-        }
-        $result.="<tr>
-                <td bgcolor='#FFFFFF' width='200' ><div style='float:left;'><a class='style17' href='#' onclick='javascript:list_performs(" . $busyday->contract_id . "," . $busyday->id . ");return false;'>" . $vdate[0] . "</a></div>";
-        if ($busyday->status < 0)
-            $result.= "<div style='float:right;'><sup><font color='red'>[deleted inquiry]</font></sup></div>";
-        $result.= "</div></td><td bgcolor='#FFFFFF' class='style34'><div align='left'>" . $busyday->city . "</div></td>
-                <td bgcolor='#FFFFFF' class='style34'><div align='left'>" . $busyday->promoter_name . "</div></td>
-                <td bgcolor='#FFFFFF' style='width:40px' class='style34'><div align='center'><input type='checkbox' name='day" . $busyday->id . "'/></div></td>
               </tr>";
     }
-       
-$result.="<div align='right'> <a href='#' onclick='javascript:checkbox_checker();' class='style11'>Check All</a>"; 
-$result.="&nbsp;&nbsp; <a href='#' onclick='javascript:checkbox_unchecker();' class='style11'>Uncheck all</div></a>";    
-//$result.="<tr><td colspan=3> <div align='right'>  <button value='Export2Word' onclick='get_busyday(contract_id)'>  Word  </button></div></td></tr> " ;
-    $result.="<td colspan=4><div align='right'> <input type='submit' value='Save to Word selected'> </div></td></tr>";
-      $result.="</table></td></tr></table>
+
+    $result.="<tr><td colspan=4><div align='right'> <input type='submit' value='Print selected'> </div></td></tr>";
+    $result.="</table></td></tr></table>
 <input type='hidden' name='id' value='" . $busyday->contract_id . "'/>    
 </form> 
+
 <div id='opt_info' name='opt_info' style='display:none;'>&nbsp;</div>
 <div id='perf_info' name='perf_info' style='display:none;'>&nbsp;</div>";
 return $result;
+ 
+    
 }
-//------------------------------------------------------
-
 
 function agent_selector($id_agency, $where) {
     global $database;
@@ -9674,7 +9615,6 @@ $objAjax->registerFunction('get_inq_coords2');
 $objAjax->registerFunction('links_list');
 $objAjax->registerFunction('promoter_selector');
 $objAjax->registerFunction('get_busydays');
-$objAjax->registerFunction('get_busydays_word');
 $objAjax->registerFunction('check_box_saver');
 $objAjax->registerFunction('check_box_emails');
 $objAjax->registerFunction('checkbox_eraser');
@@ -10917,17 +10857,6 @@ $objAjax->printJavascript($mosConfig_live_site . "/includes/xajax/");
         }
     }
 
-function  get_busydays_word(artist_id, year) {
-        try {
-            // draw_menu(5);
-            xajaxRequestUri = '<?php echo $mosConfig_live_site; ?>/modules/main.php';
-            xajaxDebug = false, xajaxStatusMessages = false, xajaxWaitCursor = true, xajaxDefinedGet = 0, xajaxDefinedPost = 1;
-            main_get_busydays_word(artist_id, year);
-            document.getElementById('sch_info').style.display = 'block';
-        } catch (e) {
-            alert(e);
-        }
-    }
 
     function  messages_list(id, search, page) {
         try {
@@ -11321,7 +11250,7 @@ function  get_busydays_word(artist_id, year) {
          return false
          }
          if (!(/^\D{2,10}\b\D{2,10}$/.test(f.fio.value))) {
-         alert('Имя и Фамилия - 2 слова без цифр \от 2 до 10 символов\nисправляем');f.fio.select();
+         alert('�?мя и Фамилия - 2 слова без цифр \от 2 до 10 символов\nисправляем');f.fio.select();
          return false;
          }
          if (f.email.value=='') {alert("не... мыло надо написать");f.email.focus();return false}
@@ -11719,7 +11648,8 @@ function  get_busydays_word(artist_id, year) {
             'form_doorsopen',
             'form_onstage',
             'form_performance_duration',
-            'form_capacity'];
+            'form_capacity',
+            'form_venue'];
 
         if (document.getElementById('freeday').checked) {
             scheduleFields.forEach(function(entry) {
@@ -11743,6 +11673,6 @@ function  get_busydays_word(artist_id, year) {
 
         }
 
-     }
+    }
 
 </script>
