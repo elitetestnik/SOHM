@@ -1,3 +1,11 @@
+<!--change contact ptrson-agent 05.08.2015
+-->
+<link href="../css.css" rel="stylesheet" type="text/css" />
+   <style type="text/css">
+<!--
+.style35 {color: #000000}
+-->
+   </style>
    <table width="95%" border="0" align="center" cellpadding="0" cellspacing="1">
    <tr>
         <td width="53%" class="style4"><div align="left">Artist N&deg;{ID}</div></td>
@@ -10,15 +18,18 @@
           <td bgcolor="#999999" class="style4"><table width="100%" border="0" align="center" cellpadding="3" cellspacing="1">
 
               <tr>
-                <td width="20%" height="36" bgcolor="#FFFFFF" class="style17"><div align="left">Company</div></td>
-                <td width="29%" bgcolor="#FFFFFF" class="style17"><div align="left" class="style34">{COMPANY}</div></td>
+                <td width="20%" height="36" bgcolor="#FFFFFF" class="style17"><div align="left">Artist</div></td>
+                <td width="29%" bgcolor="#FFFFFF" class="style17"><div align="left" class="style35">{COMPANY}</div></td>
                 <td width="18%" height="36" bgcolor="#FFFFFF" class="style17"><div align="left"><p>City code </p></div></td>
                 <td bgcolor="#FFFFFF" class="style17"><div align="left" class="style34">{CITYCODE}</div></td>
               </tr>
 
               <tr>
-                <td bgcolor="#FFFFFF" class="style17"><div align="left"><p>Contact person </p></div></td>
+                <td height="36" bgcolor="#FFFFFF" class="style17"><div align="left"><p>Agent</p></div></td>
+                <td width="16%" bgcolor="#FFFFFF" class="style34">{AGENT}</td>
+     <!--       <td bgcolor="#FFFFFF" class="style17"><div align="left"><p>Contact person </p></div></td>
                 <td bgcolor="#FFFFFF" class="style17"><div align="left" class="style34">{CONTACTPERSON}</div></td>
+         -->       
                 <td width="18%" height="36" bgcolor="#FFFFFF" class="style17"><div align="left">
                 <p>Town </p></div></td>
                 <td bgcolor="#FFFFFF" class="style17"><div align="left" class="style34">{TOWN}</div></td>
@@ -46,7 +57,7 @@
                 <td height="36" bgcolor="#FFFFFF" class="style17"><div align="left">
                     <p>Email </p>
                 </div></td>
-                <td bgcolor="#FFFFFF" class="style17"><div align="left" class="style34">{EMAIL}</div></td>
+                <td bgcolor="#FFFFFF" class="style17"><div align="left" class="style34"><a href="#" onclick="javascript:message_form(0,1,{ID});" class="style11">{EMAIL}</a></div></td>
                 <td height="36" bgcolor="#FFFFFF" class="style17"><div align="left">
                     <p>Cell phone </p>
                 </div></td>
@@ -56,18 +67,11 @@
                 <td height="36" bgcolor="#FFFFFF" class="style17"><div align="left">
                     <p>Website</p>
                 </div></td>
-                <td bgcolor="#FFFFFF" class="style17"><div align="left" class="style34">{WWW}</div></td>
-                <td height="36" bgcolor="#FFFFFF" class="style17">&nbsp;</td>
-                <td width="16%" bgcolor="#FFFFFF" class="style34">&nbsp;</td>
+                <td bgcolor="#FFFFFF" class="style17"><div align="left" class="style34"><a href="//{WWW}">{WWW}</a></div></td>
+                <td height="36" bgcolor="#FFFFFF" class="style17">Agency</td>
+                <td width="16%" bgcolor="#FFFFFF" class="style34">{AGENCY}</td>
               </tr>
-              <tr>
-                <td height="36" bgcolor="#FFFFFF" class="style17"><div align="left">
-                    <p>Agency</p>
-                </div></td>
-                <td bgcolor="#FFFFFF" class="style17"><div align="left" class="style34">{AGENCY}</div></td>
-                <td height="36" bgcolor="#FFFFFF" class="style17">Agent</td>
-                <td width="16%" bgcolor="#FFFFFF" class="style34">{AGENT}</td>
-              </tr>
+              
 
               <tr>
                 <td height="36" bgcolor="#FFFFFF" class="style17"><p align="left">Our comments</p></td>

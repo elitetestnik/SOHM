@@ -61,10 +61,7 @@
               <td style='border-bottom:3px black solid;width:200px'>&nbsp;
               <br /></td>
               <td rowspan="2" valign='middle' align='center'>
-                <h3 align='center' style=
-                "font-size:12pt;margin:2px;line-height:100%;font-family:'Lucida Console';">sten
-                olav helgeland<br />
-                management</h3><br />
+                <img src='../upload/image/logo2.jpg' width='200' height='60' align='absmiddle' border='0'><br />
                 <span class='s8'>www.stenolav-management.no</span>
               </td>
 

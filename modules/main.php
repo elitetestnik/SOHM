@@ -1,4 +1,5 @@
 <?PHP
+//print_r($_POST)
 if (isset($_REQUEST['xajax']) || isset($_POST['xajax']) || isset($_GET['xajax'])) {
     if (!defined('_VALID_MOS'))
         define('_VALID_MOS', 1);
@@ -22,18 +23,26 @@ if (isset($_REQUEST['xajax']) || isset($_POST['xajax']) || isset($_GET['xajax'])
             foreach ($settings as $setting) {
                 $_COMPANY_NAME = $setting->company_name;
                 $_BANKACCOUNT = $setting->bankaccount;
+               $_BANKINFO = $setting->bankinfo;
                 $_UNDERWRITER = $setting->underwriter;
                 $_EMAIL = $setting->email;
                 $_PERPAGE = $setting->perpage;
                 $_FOOTER1 = $setting->footer1;
                 $_START_ID = $setting->start_id;
+$_CONTINENT = $setting->continent;
+                $_COUNTRY = $setting->country;
+                $_CITY = $setting->city;
+                $_ADDRESS = $setting->address1;
+                $_ZIPCODE = $setting->zipcode;
+                $_PHONE = $setting->phone1;
+                $_ORG_NUMBER = $setting->org_number;
             }
         }
     } else {
-        $_COMPANY_NAME = "Webserver";
+        $_COMPANY_NAME = "Applauce.no";
         $_BANKACCOUNT = "please, update settings";
         $_UNDERWRITER = "Please, Update Settings";
-        $_EMAIL = "webserver@back-track.no";
+        $_EMAIL = "post@applauce.no";
         $_PERPAGE = 10;
         $_FOOTER1 = "<p><i>With regars, Your <b>WebServer.</b></i></p>";
         $_START_ID = 2;
@@ -110,6 +119,7 @@ function getagentInfo($agent_id) {
 }
 
 function draw_menu($id) {
+/*left menu*/
 
     $result = "  <table width='183' border='0' align='center' cellpadding='0' cellspacing='0'>
         <tr><td style='font-size:1px;'><img src='images/m_top.gif' width='183' height='10' border=0 alt=''></td></tr>";
@@ -169,8 +179,8 @@ function editagentInfo($agent_id = 0) {
         $agnts = $agent->id_agency;
     else
         $agnts = 0;
-    $m = mosHTML::selectList($alist, 'id_agency', " id='id_agency' ", 'value', 'text', $agnts);
-
+   //$m = mosHTML::selectList($alist, 'id_agency', " id='id_agency' ", 'value', 'text', $agnts);
+    $m = mosHTML::selectList($alist, 'id_agency', " id='id_agency' onchange='javascript:agency_selector(this.value); ' ", 'value', 'text', $agnts);
     $today = date("d/m/Y", mktime(0, 0, 0, date("m"), date("d"), date("Y")));
     $result = "
 <TABLE align='center' valign='middle' width='100%' height='100%' cellpadding=0 cellspacing=0 border=0>
@@ -190,39 +200,45 @@ function editagentInfo($agent_id = 0) {
 </TR><TR><TD>Agency</TD><TD>" . $m . "</TD></TR><TR><TD>Agent</TD><TD nowrap><INPUT TYPE='text' NAME='name' id='name' required='1'  value='";
     if (isset($agent->name))
         $result.=$agent->name;
-    else
-        $result.="";
+   
+
+    else        $result.="";
     $result.="'\">&nbsp;<a href='#' onclick=\"javascript:check_name(document.getElementById('name').value,'agents'," . $agent_id . ",'editagentInfo',1);\">check&nbsp;name</a><br><div id='check_results' name='check_results'></div></TD></TR>";
     $result.="<!-- <TR><TD>Contact person</TD><TD>--><INPUT TYPE='hidden' NAME='contact_person' value='";
     if (isset($agent->contact_person))
         $result.=$agent->contact_person;
-    else
-        $result.="";
-    $result.="'><!-- </TD></TR>--><TR><TD>Street address 1</TD><TD><INPUT TYPE='text' NAME='street_addr1' value='";
+
+
+    else        $result.="";
+    $result.="'><!-- </TD></TR>--><TR><TD>Street address 1</TD><TD><INPUT TYPE='text' id='street_addr1' NAME='street_addr1' value='";
     if (isset($agent->street_addr1))
         $result.=$agent->street_addr1;
-    else
-        $result.="";
-    $result.="'></TD></TR><TR><TD>Street address 2</TD><TD><INPUT TYPE='text' NAME='street_addr2' value='";
+    else     
+   $result.="";
+    $result.="'></TD></TR><TR><TD>Street address 2</TD><TD><INPUT TYPE='text' id='street_addr2' NAME='street_addr2' value='";
     if (isset($agent->street_addr2))
         $result.=$agent->street_addr2;
-    else
-        $result.="";
-    $result.="'></TD></TR><TR><TD>City code (ZIP)</TD><TD><INPUT TYPE='text' NAME='city_code' value='";
-    if (isset($agent->city_code))
-        $result.=$agent->city_code;
-    else
-        $result.="";
-    $result.="'></TD></TR><TR><TD>Town</TD><TD><INPUT TYPE='text' NAME='town' value='";
+    else   
+     $result.="";
+    $result.="'></TD></TR><TR><TD>City code (ZIP)</TD><TD><INPUT TYPE='text' id='city_code' NAME='city_code' value='";
+
+
+    if (isset($agent->city_code))         $result.=$agent->city_code;
+    else       
+ $result.="";
+    $result.="'></TD></TR><TR><TD>Town</TD><TD><INPUT TYPE='text' id='town' NAME='town' value='";
     if (isset($agent->town))
         $result.=$agent->town;
-    else
-        $result.="";
+    else      
+   $result.="";
     $result.="'></TD></TR><TR><TD>Country</TD><td>";
     $clist = array();
     $clist[] = mosHTML::makeOption('0', '........', 'value', 'text');
-    global $current_continent;
-    $database->setQuery("SELECT id as value, name as text FROM #__countries WHERE world = '".$current_continent."' ORDER BY name");
+
+    global $_CONTINENT;
+    $database->setQuery("SELECT id as value, name as text FROM #__countries WHERE world = '".$_CONTINENT."' ORDER BY name");
+    
+    $database->setQuery("SELECT id as value, name as text FROM #__countries WHERE world = '".$_CONTINENT."' ORDER BY name");
     $clist = array_merge($clist, $database->loadObjectList());
     if (isset($agent->country))
         $result.=mosHTML::selectList($clist, 'country', " id='country' ", 'value', 'text', $agent->country);
@@ -231,23 +247,35 @@ function editagentInfo($agent_id = 0) {
     $result.="</TD></TR><TR><TD>Local phone</TD><TD><INPUT TYPE='text' NAME='phone1' id='phone1' value='";
     if (isset($agent->phone1))
         $result.=$agent->phone1;
-    else
-        $result.="";
+   
+
+   else        $result.="";
     $result.="'></TD></TR><TR><TD>Cell phone</TD><TD><INPUT TYPE='text' NAME='phone2' id='phone2' value='";
     if (isset($agent->phone2))
         $result.=$agent->phone2;
     else
         $result.="";
-    $result.="'></TD></TR><TR><TD>e-mail</TD><TD><INPUT TYPE='text' NAME='email' required='1'  email value='";
-    if (isset($agent->email))
-        $result.=$agent->email;
-    else
-        $result.="";
-    $result.="'></TD></TR><TR><TD>Website</TD><TD><INPUT TYPE='text' NAME='website' value='";
-    if (isset($agent->website))
-        $result.=$agent->website;
-    else
-        $result.="";
+  
+    
+    /*$result.="'></TD></TR><TR><TD>e-mail</TD><TD><INPUT TYPE='text' NAME='email' required='1'  email value='";
+    if (isset($agent->email))         $result.=$agent->email;    else        $result.="";
+    */
+     $result.="'></TD></TR><TR><TD>e-mail</TD><TD><INPUT TYPE='text' id='email' NAME='email' value='";
+    if (isset($agent->email))     
+   $result.=$agent->email;
+
+
+    
+    
+    
+    
+    $result.="'></TD></TR><TR><TD>Website</TD><TD><INPUT TYPE='text' id='website' NAME='website' value='";
+
+
+
+
+    if (isset($agent->website))        $result.=$agent->website;
+    else        $result.="";
     $result.="'></TD></TR>";
     $result.="</TD></TR></TABLE></TD></TR><tr><td align='center' colspan=2>";
     $result.="<input type='submit' value='Save' class='button'></td></tr></TABLE></FORM>";
@@ -943,9 +971,10 @@ function editartistInfo($artist_id) {
         $result.=$artist->town;
     $result.="'></TD></TR><TR><TD>Country</TD><TD>";
     $clist = array();
-    $clist[] = mosHTML::makeOption('0', '........', 'value', 'text');
-    global $current_continent;
-    $database->setQuery("SELECT id as value, name as text FROM #__countries WHERE world = '".$current_continent."' ORDER BY name");
+ 
+ $clist[] = mosHTML::makeOption('0', '........', 'value', 'text');
+    global $_CONTINENT;
+    $database->setQuery("SELECT id as value, name as text FROM #__countries WHERE world = '".$_CONTINENT."' ORDER BY name");
     $clist = array_merge($clist, $database->loadObjectList());
     if (isset($artist->country))
         $result.=mosHTML::selectList($clist, 'country', " id='country' ", 'value', 'text', $artist->country);
@@ -1018,7 +1047,6 @@ function inquiry_restore($itemId) {
     $objResponse->addAssign('report_div', 'innerHTML', inquirys_list(0));
     return $objResponse->getXML();
 }
-
 //==================================================================================================================
 
 
@@ -1101,20 +1129,25 @@ function editinquiryInfo($inq_id, $promoter = 0) {
 	<TD valign='top' style='padding-top:6px;'>Country</TD><TD valign='top'>";
     $clist = array();
     $clist[] = mosHTML::makeOption('0', '......', 'value', 'text');
-    $database->setQuery("SELECT id as value, name as text FROM #__countries   ORDER BY name");  //where  world LIKE  'europe'
+   
+   
+
+   $database->setQuery("SELECT id as value, name as text FROM #__countries   ORDER BY name");  //where  world LIKE  'europe'
     $clist = array_merge($clist, $database->loadObjectList());
+    
     if (isset($inq_id) && $inq_id > 0) {
-        if (isset($inq->country))
-            $result.=mosHTML::selectList($clist, 'country', " id='country' ", 'value', 'text', $inq->country);
-        else
-            $result.=mosHTML::selectList($clist, 'country', " id='country' ", 'value', 'text', 0);
+        $country_value=isset($inq->country)?$inq->country:0;
     }else {
-        if (isset($promoter->country))
-            $result.=mosHTML::selectList($clist, 'country', " id='country' ", 'value', 'text', $promoter->country);
-        else
-            $result.=mosHTML::selectList($clist, 'country', " id='country' ", 'value', 'text', 0);
+        $country_value=isset($promoter->country)?$promoter->country:0;
     }
+    
+    $result.=mosHTML::selectList($clist, 'country_select', " id='country' disabled='disabled' ", 'value', 'text', $country_value);
+    
+    $result.="<input type='hidden' name='country' id='country_input_value' value='".$country_value."'>";
+    
     $result.="</TD></TR>";
+
+
     $alist = array();
     $alist[] = mosHTML::makeOption('0', 'select promoter ...', 'value', 'text');
     $database->setQuery("SELECT id as value, name as text from #__promoters  where status >=0 ORDER BY name");
@@ -1681,13 +1714,13 @@ ORDER BY i.status asc, i.id desc" . $limits;
         if ($inquiry->status == 1) {
             if (!$head2)
                 $result.="<tr><td height='36' colspan='4' bgcolor='#FFFFFF'>&nbsp;&nbsp;<span class='style5'>Inquires ()</span>&nbsp;&nbsp;&nbsp;" . $act_del . "</td></tr>
-    <tr><td height='36' class='style18'>Promoter</td><td class='style18'>Artist</td><td class='style18'>Concert date</td><td class='style18'>Id</td></tr>";
+    <tr><td height='36' class='style18'>Promoter</td><td class='style18'>Artist</td><td class='style18'>Concert date2</td><td class='style18'>Id</td></tr>";
             $head2++;
         }
         if ($inquiry->status < 0) {
             if (!$head2)
                 $result.="<tr><td height='36' colspan='4' bgcolor='#FFFFFF'>&nbsp;&nbsp;<span class='style5'>Deleted Inquires</span>&nbsp;&nbsp;&nbsp;" . $act_del . "</td></tr>
-    <tr><td height='36' class='style18'>Promoter</td><td class='style18'>Artist</td><td class='style18'>Concert date</td><td class='style18'>Id</td></tr>";
+    <tr><td height='36' class='style18'>Promoter</td><td class='style18'>Artist</td><td class='style18'>Concert date3</td><td class='style18'>Id</td></tr>";
             $head2++;
         }
 
@@ -1812,14 +1845,15 @@ update #__promoters set
  `comments` = '" . $promoter_data['comments'] . "',
  `capacity` = '" . $promoter_data['capacity'] . "',
  `priority` = '" . $promoter_data['priority'] . "',
+`typemusic` = '" . $promoter_data['typemusic'] . "',
  `whosupdate` = " . $_COOKIE['operator_id'] . ",
  `lastupdate` = CURRENT_TIMESTAMP
 where id=" . $promoter_data['promoter_id'];
     } else {
         $update = "
 insert into #__promoters (
-`name`, `contact_person`, `street_addr1`, `street_addr2`, `city_code`, `town`, `location`,`country`, `phone1`, `phone2`, `email`, `weeknum`, `website`, `status`, `lastupdate`, `whosupdate`, `comments`, `capacity`, `priority`) values
-('" . $promoter_data['name'] . "', '" . $promoter_data['contact_person'] . "', '" . $promoter_data['street_addr1'] . "', '" . $promoter_data['street_addr2'] . "', '" . $promoter_data['city_code'] . "', '" . $promoter_data['town'] . "','" . $promoter_data['location'] . "', '" . $promoter_data['country'] . "', '" . $promoter_data['phone1'] . "', '" . $promoter_data['phone2'] . "', '" . $promoter_data['email'] . "', '" . $promoter_data['weeknum'] . "', '" . $promoter_data['website'] . "', 0, CURRENT_TIMESTAMP," . $_COOKIE['operator_id'] . ", '" . $promoter_data['comments'] . "', '" . $promoter_data['capacity'] . "','" . $promoter_data['priority'] . "')";
+`name`, `contact_person`, `street_addr1`, `street_addr2`, `city_code`, `town`, `location`,`country`, `phone1`, `phone2`, `email`, `weeknum`, `website`, `status`, `lastupdate`, `whosupdate`, `comments`, `capacity`, `priority`,`typemusic`) values
+('" . $promoter_data['name'] . "', '" . $promoter_data['contact_person'] . "', '" . $promoter_data['street_addr1'] . "', '" . $promoter_data['street_addr2'] . "', '" . $promoter_data['city_code'] . "', '" . $promoter_data['town'] . "','" . $promoter_data['location'] . "', '" . $promoter_data['country'] . "', '" . $promoter_data['phone1'] . "', '" . $promoter_data['phone2'] . "', '" . $promoter_data['email'] . "', '" . $promoter_data['weeknum'] . "', '" . $promoter_data['website'] . "', 0, CURRENT_TIMESTAMP," . $_COOKIE['operator_id'] . ", '" . $promoter_data['comments'] . "', '" . $promoter_data['capacity'] . "','" . $promoter_data['priority'] ."','" . $promoter_data['typemusic'] . "')";
     }
     $database->setQuery($update);
     $database->query();
@@ -1843,23 +1877,25 @@ function update_priority_promoter($id, $to_priority) {
 }
 
 //==============================================================================================
-function promoter_list($id, $search = "", $page = 0, $weeknum = "", $country = 0, $town = "", $priority = 0) {
+function promoter_list($id, $search = "", $page = 0, $weeknum = "", $country = 0, $town = "", $typemusic="", $priority = 0) {
     if ($search == 'undefined')
         $search = "";
     if ($weeknum == 'undefined')
         $weeknum = "";
     if ($town == 'undefined')
         $town = "";
+if ($typemusic == 'undefined')
+        $typemusic = "";
     setcookie('prev', stripslashes($_COOKIE['now']));
-    setcookie('now', "href='#' onclick='javascript:promoter_list(" . $id . ",\"" . $search . "\"," . $page . ",\"" . $weeknum . "\",\"" . $country . "\",\"" . $town . "\",\"" . $priority . "\");' ");
+    setcookie('now', "href='#' onclick='javascript:promoter_list(" . $id . ",\"" . $search . "\"," . $page . ",\"" . $weeknum . "\",\"" . $country . "\",\"" . $town . "\",\"" . $typemusic . "\",\"" . $priority . "\");' ");
     $objResponse = new xajaxResponse('UTF-8');
-    $objResponse->addAssign('report_div', 'innerHTML', promoters_list($id, $search, $page, $weeknum, $country, $town, $priority));
+    $objResponse->addAssign('report_div', 'innerHTML', promoters_list($id, $search, $page, $weeknum, $country, $town, $typemusic, $priority));
     return $objResponse->getXML();
 }
 
 //case 12: {$result.=promoters_list(0,"",0,$what,$country,$town);break;}
 //------------------------------------------------------------------------------
-function promoters_list($id, $search = "", $page = 0, $weeknum = "", $country = 0, $town = "", $priority = 0) {
+function promoters_list($id, $search = "", $page = 0, $weeknum = "", $country = 0, $town = "", $typemusic = "", $priority = 0) {
     global $database, $mosConfig_absolute_path, $_PERPAGE;
     $wnn = $wne = $weeknum;
     $id = intval($id);
@@ -1905,7 +1941,13 @@ function promoters_list($id, $search = "", $page = 0, $weeknum = "", $country = 
     if ($weeknum != "")
         $add .=" and a.weeknum in (" . $weeknum . ") ";
     if ($town != "")
-        $add .=" and upper(a.location) like '%" . mb_strtoupper(mb_convert_encoding($town, 'utf8', 'UTF-8')) . "%' ";
+		
+	
+ $add .=" and upper(a.location) like '" . mb_strtoupper(mb_convert_encoding($town, 'utf8', 'UTF-8')) . "' ";    
+  //07.08.2015  $add .=" and upper(a.location) like '%" . mb_strtoupper(mb_convert_encoding($town, 'utf8', 'UTF-8')) . "%' ";
+     if ($typemusic != "") 
+        $add .=" and upper(a.typemusic) like '%" . mb_strtoupper(mb_convert_encoding($typemusic, 'utf8', 'UTF-8')) . "%' ";
+    
     if ((sizeof($country) > 0) && ($country != 0)) {
         $add .=" and a.country in (" . $country . ") ";
         $database->setQuery("select name from #__countries where id in (" . $country . ")");
@@ -2624,6 +2666,7 @@ function getpromoterInfo($promoter_id) {
             'WEEKNUM' => $promoter->weeknum,
             'COORDS' => $promoter->coords,
             'COORDS_CRC' => $promoter->coords_crc,
+'TYPEMUSIC' => $promoter->typemusic,
             'PRIORITY' => "<div id='stat_" . $promoter->id . "' style='float:right;margin:2px 6px;cursor:pointer'><a name='#' onclick='javascript:update_priority_promoter(" . $promoter->id . "," . $to_priority . ");' title='Click to change priority to " . $to_priority . "'><img src='images/" . $img . "' ></a></div>",
             'COMMENTS' => stripslashes($promoter->comments),
             'EMAILS' => getPromoterMessages($promoter->id),
@@ -2739,8 +2782,8 @@ function editpromoterInfo($promoter_id) {
     $result.="'></TD></TR><TR><TD>Country</TD><TD>";
     $clist = array();
     $clist[] = mosHTML::makeOption('0', '........', 'value', 'text');
-    global $current_continent;
-    $database->setQuery("SELECT id as value, name as text FROM #__countries WHERE world = '".$current_continent."' ORDER BY name");
+    global $_CONTINENT;
+    $database->setQuery("SELECT id as value, name as text FROM #__countries WHERE world = '".$_CONTINENT."' ORDER BY name");
     $clist = array_merge($clist, $database->loadObjectList());
     if (isset($promoter->country))
         $result.=mosHTML::selectList($clist, 'country', " id='country' ", 'value', 'text', $promoter->country);
@@ -2773,6 +2816,13 @@ function editpromoterInfo($promoter_id) {
         $result.=$promoter->capacity;
     else
         $result.="";
+//----
+    $result.="'></TD></TR><TR><TD>Genre of music</TD><TD><INPUT TYPE='text' NAME='typemusic' value='";
+    if (isset($promoter->typemusic))
+        $result.=$promoter->typemusic;
+    else
+        $result.="";
+    //-----------
     $result.="'></TD></TR><TR><TD>Priority</TD><TD>";
     $zlist = array();
     $zlist[] = mosHTML::makeOption('0', 'no priority', 'value', 'text');
@@ -4309,11 +4359,15 @@ function sch_list($id) {
     $result.="&nbsp;<a href='#' onclick='javascript:cal1xx.select(document.getElementById(\"date_from\"),\"date_fromxx\",\"yyyy-MM-dd\");return false;'  NAME='date_fromxx' ID='date_fromxx'><img src='" . $mosConfig_live_site . "/images/itinerary-24x24.png'  align='absmiddle' border=0></a>";
     $result.="&nbsp;&nbsp;TO&nbsp;<INPUT name='date_to' id='date_to' type=text style='WIDTH: 80px' value='' maxLength=10>";
     $result.="&nbsp;<a href='#' onclick='javascript:cal1xx.select(document.getElementById(\"date_to\"),\"date_toxx\",\"yyyy-MM-dd\");return false;'  NAME='date_toxx' ID='date_toxx'><img src='" . $mosConfig_live_site . "/images/itinerary-24x24.png'  align='absmiddle' border=0></a>";
+    
     $result.="&nbsp;&nbsp;<input type='submit' value='View Itinerary'><input type='hidden' name='yr' id='yr' value='" . $thisyear . "'>";
-    $result.="&nbsp;&nbsp;--><button  onclick=\"javascript:get_busydays(document.getElementById('id_artist').value," . $thisyear . ");return false;\">View Itinerary</button>";
-    $result.="&nbsp;&nbsp;<button  onclick=\"javascript:get_busydays_word(document.getElementById('id_artist').value," . $thisyear . ");return false;\"> Save Itinerary</button>";
-
-    $result.="</p></td></td></tr></table></td></tr></table></form>
+    $result.="&nbsp;&nbsp;--><button  onclick=\"javascript:get_busydays(document.getElementById('id_artist').value," . $thisyear . ",-1);return false;\">View Itinerary</button>";
+    
+       $result.="&nbsp;&nbsp;<button  onclick=\"javascript:get_busydays_word(document.getElementById('id_artist').value," . $thisyear . ");return false;\"> Save Itinerary</button>";
+            
+    
+	
+	$result.="</p></td></td></tr></table></td></tr></table></form>
 <div id='sch_info' name='sch_info' style='border:1px #DDD solid;display:none;'></div>
 ";
 
@@ -4339,8 +4393,8 @@ function getDetails($id_contract, $pid = 0) {
 
 function list_performs($id, $pid = 0) {
     $objResponse = new xajaxResponse('UTF-8');
-    $objResponse->addAssign('opt_info', 'innerHTML', list_perform($id, $pid));
-    $objResponse->addAssign('opt_info', 'style.display', "block");
+   $objResponse->addAssign('opt_info', 'innerHTML', list_perform($id, $pid));
+   $objResponse->addAssign('opt_info', 'style.display', "block");  
     return $objResponse->getXML();
 }
 
@@ -4387,6 +4441,7 @@ $pid=$perf->id;
 $database->setQuery( "select * from #__promoters where id=".$perf->id_promoter);
 $proms = array();
 $proms = $database->loadObjectList();
+
 if ($perf->freeday >0) $FD="<div style='float:right'><b>ONE DAY OFF</b></div>";else $FD="";
 
 if (strlen($perf->hotel_link)>20) $perf->hotel_link="<a href='".$perf->hotel_link."' target='_blank'>".substr($perf->hotel_link,0,20)."...</a>";
@@ -4501,9 +4556,11 @@ $result.="
 
 </div>
 </td></tr></table></td></tr></table>";
-$result.= list_deparrs($id); 
+
+ $result.= list_deparrs($id); 
  $result.="&nbsp;</div><div id='perf_info' name='perf_info' style='display:none;'>&nbsp;</div>";
-return $result;
+ 
+ return $result;
 }
 
 
@@ -4697,6 +4754,8 @@ function savePerform($fdatas) {
             $query.=" getintime=NULL, ";
         else
             $query.="`getintime`=\"" . $fdatas['getintime'] . "\",";
+ // if (trim($fdatas['soundcheck']) == '')       $query.="NULL,";
+        // else $query.="`soundcheck`=\"" . $fdatas['soundcheck'] . "\",";
         if (trim($fdatas['dinner']) == '')
             $query.="dinner=NULL,";
         else
@@ -4865,6 +4924,8 @@ $result.="<tr><td height='36' bgcolor='#F5F5F5' class='style17'><div align='left
 <img src='images/comment-add-24x24.png' align='absmiddle' border=0></a>&nbsp;<a href='#' onclick='javascript:add_deparr(".$id.");' class='style17'>Add dep/arr</a>&nbsp;&nbsp;&nbsp;
 <a href='#' onclick='javascript:clear_dated(".$id.");'><img src='images/trash-empty-24x24.png' align='absmiddle' border='0'></a>&nbsp;
 <a href='#' onclick='javascript:clear_dated(".$id.");' class='style17'>Clear dep/arr</a>&nbsp;&nbsp;
+
+
 </td></tr></table></td></tr></table><br />";
 //$result.=list_perform($id,0);
 return $result;
@@ -5027,8 +5088,8 @@ values
     return $objResponse->getXML();
 }
 
-function add_contract($id_promoter = 0, $id_artist = 0) {
 
+function add_contract($id_promoter = 0, $id_artist = 0) {
     $result = "
 <FORM METHOD=POST name='add_contract' id='add_contract' ACTION=\"javascript:add_contract2(xajax.getFormValues('add_contract'));\">
 <table width='95%' border='0' align='center' cellpadding='0' cellspacing='0'>
@@ -5234,7 +5295,8 @@ function add_contract2($formdata, $id_inquiry = 0, $id_contract = 0) {
                     </tr>
                     <tr>
                       <td bgcolor='#FFFFFF' class='style17'><div align='left'>
-                          Concert date
+                         
+						 Concert date
                       </div></td>
                       <td bgcolor='#FFFFFF' class='style17'><div align='left' class='style34'>
                       <input name='concert_date' id='concert_date' type='text' size='20' maxlength='20'  required='1'  value='";
@@ -5305,8 +5367,7 @@ function add_contract2($formdata, $id_inquiry = 0, $id_contract = 0) {
     $result.="' size=30 /></div></td>
                     </tr>
                     <tr>
-                      <td height='36' bgcolor='#FFFFFF' class='style17'><div align='left'>
-                          Art of performance
+                                            <td height='36' bgcolor='#FFFFFF' class='style17'><div align='left'>Type of performance
                       </div></td>
                       <td bgcolor='#FFFFFF' class='style17'><div align='left' class='style34'>
                       <input name='art_of_perf' id='art_of_perf' value='";
@@ -5422,7 +5483,7 @@ function add_contract2($formdata, $id_inquiry = 0, $id_contract = 0) {
             </table>
             <table width='95%' border='0' align='center' cellpadding='0' cellspacing='0'>
               <tr>
-                <td width='53%' class='style4'><div align='left' class='style5'>The promoter have to pay for  the following:</div></td>
+                <td width='53%' class='style4'><div align='left' class='style5'>The promoter has to pay for  the following:</div></td>
                 <td width='47%' class='style4'>&nbsp;</td>
               </tr>
 
@@ -5523,7 +5584,7 @@ function add_contract2($formdata, $id_inquiry = 0, $id_contract = 0) {
                     </tr>
                     <tr>
 
-                      <td  height='36' bgcolor='#FFFFFF' class='style17'  colspan='2'><div align='left'>The  artist fee have to pay as follows</div></td>
+                      <td  height='36' bgcolor='#FFFFFF' class='style17'  colspan='2'><div align='left'>The  artist fee to be payed  as follows</div></td>
                       <td  bgcolor='#FFFFFF' class='style17'  colspan='2'><div align='left' class='style34'>
                       <input name='pay_follows' id='pay_follows' value='";
     if (isset($c->pay_follows))
@@ -5655,8 +5716,10 @@ function add_contract2($formdata, $id_inquiry = 0, $id_contract = 0) {
                     <tr>
                       <td height='36' bgcolor='#FFFFFF'>
                        <div align='left' id='savebt'>  &nbsp;&nbsp;&nbsp;
+
                       <input type='submit' value='Save'  class='style17' align='absmiddle' style='padding:0 0 0 30px; border:0; background-image:url(images/save-accept-24x24.png);background-repeat:no-repeat;background-color:white;text-decoration:underline;cursor:hand;'>
                       &nbsp;&nbsp;&nbsp;&nbsp;
+<!--
                       &nbsp;<a href='" . $mosConfig_live_site . "/modules/contract.php?lang=no&id=" . $id_contract . "' title='Print contract' target='_blank'><img src='images/printbutton.png' border=0 align='absmiddle'  width='24' height='24'></a>
                       &nbsp;<a href='" . $mosConfig_live_site . "/modules/contract.php?lang=no&id=" . $id_contract . "' title='Print contract' target='_blank'  class='style17'>Print</a>&nbsp;&nbsp;&nbsp;&nbsp;
                       <a href='" . $mosConfig_live_site . "/modules/contract.php?lang=en&id=" . $id_contract . "' title='Print english version' target='_blank'><img src='images/printbutton.png' width='24' height='24' border=0 align='absmiddle'></a>&nbsp;<a href='" . $mosConfig_live_site . "/modules/contract.php?lang=en&id=" . $id_contract . "' title='Print english version' target='_blank'  class='style17'>Print EN</a>
@@ -5674,35 +5737,40 @@ function add_contract2($formdata, $id_inquiry = 0, $id_contract = 0) {
                       Send via email [EN]</a>&nbsp;&nbsp;
 
                       <a href='#' onclick='javascript:message_form_contract(0,2," . $c->id_promoter . ",1," . $id_contract . ");'><img src='images/forward-new-mail-24x24.png' border=0 align='absmiddle'></a>&nbsp;<a href='#' onclick='javascript:message_form_contract(0,2," . $c->id_promoter . ",1," . $id_contract . ");'  class='style17' >Send via email [NO]</a>
-                          
-                  
-           
+
+         
 <a href='#' onclick='javascript:message_form_contract(0,2,".$c->id_promoter.",1,".$id_contract.");'><img src='images/forward-new-mail-24x24.png' border=0 align='absmiddle'></a>&nbsp;<a href='#' onclick='javascript:message_form_contract(0,2,".$c->id_promoter.",1,".$id_contract.");'  class='style17' >Send via email [NO]</a>
-<a href='#' onclick=\"javascript:addPerfForms(" . $c->id . ");\">                                  <img src='images/note-edit-24x24.png' border='0'></a>&nbsp;&nbsp;                  <a href='#' onclick=\"javascript:addPerfForms(" . $c->id . ");\" class='style17'>  Make itinerary </a>                      
-</div></td>
+-->
+<a href='#' onclick=\"javascript:addPerfForms(" . $c->id . ");\">                                  <img src='images/note-edit-24x24.png' border='0'></a>&nbsp;&nbsp;                  <a href='#' onclick=\"javascript:addPerfForms(" . $c->id . ");\"                                     class='style17'>  Make itinerary </a>
+       
+    </div></td>
                     </tr>
+                    
                 </table></td>
               </tr>
             </table>
 </form>
+
 <div id='itn' name='itn'>&nbsp;&nbsp;&nbsp;&nbsp;<a " . stripslashes($_COOKIE['now']) . ">
-<img src='images/back-24x24.png' align='absmiddle' border=0></a>&nbsp;<a " . stripslashes($_COOKIE['now']) . " class='style17'>Back</a>
+<img src='images/back-24x24.png' align='absmiddle' border=0></a>&nbsp; <a " . stripslashes($_COOKIE['now']) . " class='style17'>Back</a>
 </div><br>
+
 <div id='opt_info' name='opt_info'>";
-
-
     if ($id_contract > 0) {
         if (!$has_perf)
-            $result.="<div style='margin-left:45px;'><a href='#' onclick=\"javascript:addPerfForms(" . $c->id . ");\"><img src='images/note-edit-24x24.png' border='0'></a>&nbsp;&nbsp;<a href='#' onclick=\"javascript:addPerfForms(" . $c->id . ");\"><span class='style17'>THIS CONTRACT HASN'T ITINERARY</span></a></div>";
+                     $result.="<div style='margin-left:45px;'><a href='#' onclick=\"javascript:addPerfForms(" . $c->id . ");\"><img src='images/note-edit-24x24.png' border='0'></a>&nbsp;&nbsp;<a href='#' onclick=\"javascript:addPerfForms(" . $c->id . ");\"><span class='style17'>THIS CONTRACT HASN'T ITINERARY</span></a></div>";
         else
             $result.=list_deparrs($id_contract);
     }
     $result.="&nbsp;</div><div id='perf_info' name='perf_info' style='display:none;'>&nbsp;</div>";
 
+/* </div> */
+    /* "; */
+ 
     $objResponse = new xajaxResponse('UTF-8');
-//$objResponse->addAssign( 'report_div', 'innerHTML',"");
+   // $objResponse->addAssign( 'report_div', 'innerHTML',"");
     $objResponse->addAssign('report_div', 'innerHTML', $result);
-    return $objResponse->getXML();
+    return $objResponse->getXML(); 
 }
 
 function _add_contract2($formdata, $id_inquiry = 0, $id_contract = 0) {
@@ -6935,12 +7003,12 @@ if ($mode=='undefined')$mode=0;
 if ($page=='undefined')$page=0;
 if (isset($id)) $ss=$id; else $ss=0;
 
-//$add=" where a.status >=0 ";
-switch  ($ss)
-{
-	case 0: $add=" where a.status >=0 "; break;
-	case 1: $add=" where a.status= -1 "; break;
-}
+$add=" where a.status >=0 ";
+//switch  ($ss)
+//{
+//	case 0: $add=" where a.status >=0 "; break;
+//	case 1: $add=" where a.status= -1 "; break;
+//}
 if ($search!="")
 {
 
@@ -6964,13 +7032,13 @@ case 3:{
     if ($a[1]>0) $add.=" and a.contract_date <= '".$a[1]."' ";
     break;
 }
-//case 4:{
-  //  $add=" where 1>0 ";
-    //$a = explode("|",$search);
-    //if ($a[0]>0) $add.=" and a.concert_date >= '".$a[0]."' ";
-    //if ($a[1]>0) $add.=" and a.concert_date <= '".$a[1]."' ";
-   // break;
-//}
+case 4:{
+    $add=" where 1>0 ";
+    $a = explode("|",$search);
+    if ($a[0]>0) $add.=" and a.concert_date >= '".$a[0]."' ";
+    if ($a[1]>0) $add.=" and a.concert_date <= '".$a[1]."' ";
+    break;
+}
 
 default: $add=" where  a.id_promoter in ( select p.id from #__promoters p where upper(p.name) like '%".mb_strtoupper(mb_convert_encoding($search,'utf8','UTF-8'))."%') ";break;
 
@@ -6979,6 +7047,7 @@ default: $add=" where  a.id_promoter in ( select p.id from #__promoters p where 
 
 //==============================================================
 global $_PERPAGE;
+global $mosConfig_live_site;
 $per_page=$_PERPAGE;
 
 
@@ -7032,7 +7101,7 @@ $result.=  "<table width='95%' border='0' align='center' cellpadding='0' cellspa
               <tr>
                 <td bgcolor='#999999' class='style4'><table width='100%' border='0' align='center' cellpadding='0' cellspacing='1'>
                   <tr>
-                    <td height='36' colspan='5' bgcolor='#FFFFFF'>&nbsp;&nbsp;<span class='style5'>Contracts</span>&nbsp;&nbsp;&nbsp;";
+                    <td height='36' colspan='7' bgcolor='#FFFFFF'>&nbsp;&nbsp;<span class='style5'>Contracts</span>&nbsp;&nbsp;&nbsp;";
 
                     if ($ss!=0) $result.= "<A HREF='#' onclick='javascript:contract_list(0);' class='style11'>Active</A>";else  $result.= "[<B>Active</B>]";
  $result.= "&nbsp;|&nbsp;";
@@ -7048,6 +7117,8 @@ $result.="
                     <td width='15%' height='35' align='center' class='style18'>Town</td>
                     <td width='15%' height='35' align='center' class='style18'>Concert date</td>
                     <td width='10%' height='35' align='center' class='style18'>Contract №</td>
+                     <td width='10%' height='35' align='center' class='style18'>Show Contracts</td>
+                      <td width='10%' height='35' align='center' class='style18'>Show Invoce</td>
                   </tr>
 ";
 
@@ -7072,14 +7143,18 @@ $result.="&nbsp;&nbsp;&nbsp;<a class='style34' href='#' onclick='javascript:add_
                     <td bgcolor='white'><div align='center'>".$contract->town."</div></td>
                     <td bgcolor='white'><div align='center'>".$contract->concert_date.$contract->ddates."</div></td>
                     <td bgcolor='white'><div align='center'>".$contract->id ."</div></td>
+                     <td bgcolor='white'><div align='center'><img src='images/document.png' class = 'swmod' width='24' height='24' border=0 align='absmiddle' onclick='currentIdForModalWindow=".$contract->id.";showPrintModal(".$contract->id.");'/></div></td>
+                     <td bgcolor='white'><div align='center'><img src='images/document.png' class = 'swmod' width='24' height='24' border=0 align='absmiddle' onclick='currentIdForModalWindow=".$contract->id.";showInvoiceModal(".$contract->id.");'/></div></td>
+                     
                   </tr>
+
 ";
 }}
 else {
  $result.="
 
      <tr>
-                    <td height='35' bgcolor='#FFFFFF' colspan=5><span class='style11'>&nbsp;&nbsp;&nbsp;Nobody found</span></td>
+                    <td height='35' bgcolor='#FFFFFF' colspan=7><span class='style11'>&nbsp;&nbsp;&nbsp;Nobody found</span></td>
                   </tr>
  ";
 
@@ -7090,11 +7165,82 @@ $result.="
                   <tr>
                     <td height='35' bgcolor='#FFFFFF'>&nbsp;&nbsp;
                     <!--<a href='#' onclick='javascript:add_contract(0);'><img src='images/comment-add-24x24.png'   align='absmiddle' border=0></a>&nbsp;&nbsp;<a href='#' onclick='javascript:add_contract(0);'  class='style11'>Add Contract</a>--></td>
-                    <td height='35' colspan='4' bgcolor='#FFFFFF'><div align='center'>".$links."</div></td>
+                    <td height='35' colspan='7' bgcolor='#FFFFFF'><div align='center'>".$links."</div></td>
                   </tr>
                 </table></td>
               </tr>
-            </table>";
+            </table>
+<!-- modal window print st--> 
+    <div id='contract_print_modal' class = 'modal_w'>
+        <form 
+            onsubmit=\"
+                var contract_url='". $mosConfig_live_site ."/modules/contract.php?lang=' + document.getElementById('select_print_country').value.toLowerCase() + '&id='+currentIdForModalWindow;
+                hideAll();  
+                window.open(contract_url,'_blank');
+                return false;
+            \"
+            onreset=\"hideAll();\"
+        >
+        <div id='windows'>
+                <table width='95%' border='0' align='center' cellpadding='0' cellspacing='1' bgcolor='#999999' >
+                    <tbody><tr>
+                    <td bgcolor='#999999' class='style4'><table border='0' style = 'text-align: center;' width='100%' border='0' align='center' cellpadding='0' cellspacing='1'>
+                    <tbody><tr>
+                    <td height='36' class = 'style18' colspan='1'>Print contract</td></tr>
+                <tr>
+                    <td width='100%' height='35' bgcolor='white'>&nbsp;
+                            " . country_selector('select_print_country') . "
+                    </td>
+                </tr>
+                <tr>
+                    <td width='100%' height='35' bgcolor='white'>&nbsp
+                        <input class='pages' style='float: center;' type='reset' value='Back' >
+                        <input class='pages' style='float: center;' type='submit' value='Next'>
+                    </td>
+                </tr>
+                </tr></tbody></table></td></tr></tbody>
+                </table>
+
+              
+             
+            </div>
+        </form>
+    </div>
+
+<div id='contract_invoice_modal' class = 'modal_w'>
+    <form 
+            onsubmit=\"
+                var contract_url='". $mosConfig_live_site ."/modules/invoice.php?lang=' + document.getElementById('select_invoice_country').value.toLowerCase() + '&id='+currentIdForModalWindow;
+                hideAll();  
+                window.open(contract_url,'_blank');
+                return false;
+            \"
+            onreset=\"hideAll();\"
+        >
+    <div id='windows'>
+        <table width='95%' border='0' align='center' cellpadding='0' cellspacing='1' bgcolor='#999999' >
+            <tbody><tr>
+            <td bgcolor='#999999' class='style4'><table border='0' style = 'text-align: center;' width='100%' border='0' align='center' cellpadding='0' cellspacing='1'>
+            <tbody><tr>
+            <td height='36' class = 'style18' colspan='1'>Print invoice</td></tr>
+        <tr>
+            <td width='100%' height='35' bgcolor='white'>&nbsp;
+                    " . country_selector('select_invoice_country') . "
+            </td>
+        </tr>
+        <tr>
+            <td width='100%' height='35' bgcolor='white'>&nbsp;
+                <input class='pages' style='float: center;' type='reset' value='Back' >
+                        <input class='pages' style='float: center;' type='submit' value='Next'>
+            </td>
+        </tr>
+        </tr></tbody></table></td></tr></tbody>
+        </table>
+    </div>
+  </div>
+<!-- modal window print end-->
+<div id='b' class = 'modal_back' onclick='hideAll();'></div>
+";
 
 return  $result;
 
@@ -7320,7 +7466,7 @@ function change_template($id) {
     return $objResponse->getXML();
 }
 
-function message_form_contract($message_id = 0, $to_type = 0, $to_id = 0, $data = 0, $id) {
+function message_form_contract($message_id = 0, $to_type = 0, $to_id = 0, $data = 0, $id, $pdf_file_patch) {
 
     setcookie('prev', stripslashes($_COOKIE['now']));
     setcookie('now', "href='#' onclick=\"javascript:message_form('" . $message_id . "','" . $to_type . "','" . $to_id . "');\" ");
@@ -7399,8 +7545,16 @@ p {font-size: 10pt; line-height: 140%; background: #FFFFFF; color:black;}
     else
         $c->p60sten = "<img src='" . $mosConfig_live_site . "/images/n.gif' />";
 
+   // newmaildocid='. $id . '&newmailpromouter='.$c->id_promoter.'&lang='.$lang_to_url.'doctype=invoice
+    $pdf_file_name ='';
+    if (file_exists($pdf_file_patch)){
+        $path_parts = pathinfo($pdf_file_patch);
+        $pdf_file_name = $path_parts['basename'];
+        $attach_pdf = '<b>'.$pdf_file_name.'</b>';
+    }
+
     $ft->assign(array(
-//$c->id      $c->contract_date   $c->id_artist   $c->id_promoter      $c->id_perfomance
+        //$c->id      $c->contract_date   $c->id_artist   $c->id_promoter      $c->id_perfomance
         //    $c->acc_info   $c->id_sound          $c->sound_phone2                               $c->status        $c->p60artist   $c->p60csten   $c->p60sten
         'TITLE' => " Contract N&deg;" . $c->contract_no,
         'CONTRACT_NO' => $c->contract_no,
@@ -7445,20 +7599,32 @@ p {font-size: 10pt; line-height: 140%; background: #FFFFFF; color:black;}
         'CURRENCY' => $c->currency,
         'BANK_ACC_MAIN' => $settings->bankaccount,
         'FOOTER2' => $settings->footer2,
-        'PRINTBUTTON' => "&nbsp;"
+        'COMPANY_NAME' =>$settings->company_name, // edit plus
+    'S_EMAIL' =>$settings->email, // edit plus                   
+    'S_COUNTRY' =>$settings->country, // edit plus                   
+    'S_CITY' =>$settings->city, // edit plus                   
+    'S_ZIP_CODE' =>$settings->zipcode, // edit plus             
+    'S_ADDRESS' =>$settings->address1, // edit plus                   
+    'S_PHONE' =>$settings->phone1, // edit plus                   
+    'S_ORG_NUMBER' =>$settings->org_number,
+
+	'PRINTBUTTON' => "&nbsp;",
+        'ATTACH_PDF_TITLE' => $attach_pdf,
+        'ATTACH_PDF_PATCH' => $pdf_file_patch
     ));
 
 
     $ft->parse('CONTENT', "contract");
     $content = $ft->fetch('CONTENT');
 
-
-
+    if (!$pdf_file_patch)
+        $message = $css_add . stripslashes($content);
+    else $message = '<br>  <br> See attached files.';
     $ft->assign(array(
         'ID' => 0,
         'TO' => "",
         'SUBJECT' => "Contract " . $id,
-        'MESSAGE' => $css_add . stripslashes($content),
+        'MESSAGE' => $message,
         'TO_OPTS' => "",
         'SUBMIT' => $subm,
         'SELECTOR' => $es
@@ -7604,8 +7770,10 @@ function send_message($formdata) {
     $messagesAtTime = 250;
     $secondsToWait = 5;
 
-    foreach ($respondents as $to) {
+    foreach ($respondents as $to) 
+    {
 
+      
         $to = trim($to);
         
         $messageCounter++;
@@ -7629,7 +7797,7 @@ function send_message($formdata) {
 
         $message = '<html>'
                  . '<head><title>'.$formdata['subject'].'</title><meta http-equiv="Content-Type" content="text/html; charset=utf8" /></head>'
-                 . '<body>'.$messageBody.'<br/>'.$_FOOTER1.'</body>'
+                    . '<body>'.$messageBody.'<br/>'.$_FOOTER1.'</body>'
                  . '</html>';
 
         $query = "INSERT INTO `#__messages` 
@@ -7659,7 +7827,17 @@ function send_message($formdata) {
                 $msg->AddEmbeddedImage(dirname(__FILE__) . "/upload/image/" . $filename, md5($name[0]), $filename, "base64", $typ);
             }
         }
-
+   /*    
+    $html2 = preg_replace("~<div id=\"print\">.*?</div>~SDs", '', $html);
+    $html2 = preg_replace("~<head>.*?</head>~SDs", '', $html2);
+    $html2 = preg_replace("~<style .*?</style>~SDs", '', $html2);
+    $html2 = str_replace('<body>', '', $html2);
+    $html2 = str_replace('</body>', '', $html2);
+*/
+ /*echo $html2;
+        exit;*/
+       // $pdf_to_mail = make_pdf($html2);
+        $attachments[] = $pdf_to_mail;
         foreach ($attachments as $attachment) {
             if (file_exists($attachment)) {
                 $n = explode('/', $attachment);
@@ -8299,7 +8477,7 @@ setcookie('now',"href='#' onclick='javascript:new_search(".$mode.");' ");
 		$database->setQuery( "set names utf8" );
 		$database->query();
 
-$nam= array ("Everywhere","Agent","Artist","Promoter","Itinerary", "Inquiry","Messages","Contract by promoter","Contract by artist", "Contract by artist & promoter","Contract by date","Agencies","Promoter by week number, country &amp; location" );
+$nam= array ("Everywhere","Agent","Artist","Promoter","Itinerary", "Inquiry","Messages","Contract by promoter","Contract by artist", "Contract by artist & promoter","Contract by date","Agencies","Promoter by week number, country ,location and genre of music" );
 $result="
 <form method=post name='search_form' id='search_form'  onsubmit='return check_this_form(this);' action=\"javascript:startsearch(xajax.getFormValues('search_form'));\">
 
@@ -8393,23 +8571,21 @@ $result.="&nbsp;<a href='#' onclick='javascript:cal1xx.select(document.getElemen
 $result.="</td><td bgcolor='white' rowspan=2  nowrap>";
 break;
 }
-
-
-
 case 12:{
   $result.="<table><td><input type='hidden' name='search_term' id='search_term' size='40' maxlenght='40' value=''>";
 $result.="Week N&deg;&nbsp;<input type='text' name='weeknum' id='weeknum' size='10' maxlenght='20'>&nbsp;&nbsp;&nbsp;";
 $clist = array();
 $clist[] = mosHTML::makeOption( '0', '.......', 'value', 'text'  );
-global $current_continent;
-$database->setQuery("SELECT id as value, name as text FROM #__countries WHERE world = '".$current_continent."' ORDER BY name");
+global $_CONTINENT;
+$database->setQuery("SELECT id as value, name as text FROM #__countries WHERE world = '".$_CONTINENT."' ORDER BY name");
 $clist = array_merge($clist,$database->loadObjectList());
 $m=mosHTML::selectList( $clist, 'country[]', " id='country[]' multiple='multiple' size=10  style='width:300px'", 'value', 'text', 0 );
 //$m=mosHTML::selectList( $clist, 'country', " id='country'  size=10  style='width:300px'", 'value', 'text', 0 );
-$result.="Country</td><td rowspan='2' ><div id='countrybox'>".$m;
+$result.="Country</td><td rowspan='3' ><div id='countrybox'>".$m;
 //$result.="</div><br/><input type='checkbox' name='onlyeurope' id='onlyeurope' checked='checked' onchange='goeurope(this.checked);'> only Europe</td></tr><tr valing='bottom'><td>Location&nbsp;<input type='text' name='town' id='town' size='20' maxlenght='50'></td></tr></table></div></td><td bgcolor='white' rowspan=2  nowrap>";
-$result.="<tr valing='bottom'><td>Location&nbsp;<input type='text' name='town' id='town' size='20' maxlenght='50'></td></tr></table></div></td><td bgcolor='white' rowspan=2  nowrap>";
+$result.="<tr valing='bottom'><td>Location&nbsp;<input type='text' name='town' id='town'             size='20' maxlenght='50'></td></tr> ";
 
+$result.="<tr valing='bottom'><td>Genre of music&nbsp;<input type='text' name='typemusic' id='typemusic' size='15' maxlenght='30'></td></tr></table> </div></td><td bgcolor='white' rowspan=2  nowrap>";
 break;
 }
 
@@ -8455,8 +8631,8 @@ function country_box($p = 0) {
     if ($p == 'false')
         $database->setQuery("SELECT id as value, name as text FROM #__countries   ORDER BY name"); //where  world LIKE  'europe'
     else {
-        global $current_continent;
-        $database->setQuery("SELECT id as value, name as text FROM #__countries WHERE world = '".$current_continent."' ORDER BY name");
+        global $_CONTINENT;
+        $database->setQuery("SELECT id as value, name as text FROM #__countries WHERE world = '".$_CONTINENT."' ORDER BY name");
     }
     $clist = array_merge($clist, $database->loadObjectList());
     $m = mosHTML::selectList($clist, 'country[]', " id='country[]' multiple='multiple' size=10 style='width:300px'", 'value', 'text', 0);
@@ -8548,14 +8724,14 @@ case 1: {$result.=agents_list(0,$fdatas['search_term']);break;}
 case 2: {$result.=artists_list(0,$fdatas['search_term']);break;}
 case 3: {$result.=promoters_list(0,$fdatas['search_term']);break;}
 //case 4: {$result.=viewSchedules($fdatas['id_artist'],date("Y"),"","",$fdatas['week_number']);break;}
-case 4: {$result.=get_busyday($fdatas['id_artist'],date("Y"));break;}
+case 4: {$result.=get_busyday($fdatas['id_artist'],date("Y"),-1);break;}
 case 5: {$result.=inquirys_list(0,$fdatas['search_term']);break;}
 case 6: {$result.=message_list(0,$fdatas['search_term']);break;}
 case 7: {$result.=contracts_list(0,$fdatas['promoter_name'],0);break;}
 case 8: {$result.=contracts_list(0,$fdatas['artist_name'],1);break;}
 case 9: {$result.=contracts_list(0,$fdatas['artist_name']."|".$fdatas['promoter_name'],2);break;}
 case 11: {$result.=agencys_list(0,$fdatas['search_term']);break;}
-case 12: {$result.=promoters_list(0,$fdatas['search_term'],0,$fdatas['weeknum'],$fdatas['country'],$fdatas['town']);break;}
+case 12: {$result.=promoters_list(0,$fdatas['search_term'],0,$fdatas['weeknum'],$fdatas['country'],$fdatas['town'],$fdatas['typemusic']);break;}
 case 10: {$result.=contracts_list(0,$fdatas['date_from']."|".$fdatas['date_to'],4);break;}
 case 0: {
 $result.=agencys_list(0,$fdatas['search_term']);
@@ -8583,11 +8759,11 @@ return $objResponse->getXML();
 }
 
 
-function startsearchs($what,$where,$country=0,$town="")
+function startsearchs($what,$where,$country=0,$town="",$typemusic="")
 {
 setcookie('prev',stripslashes($_COOKIE['now']) );
 if($country=="Array")$country=0;
-setcookie('now',"href='#' onclick='javascript:startsearchs(\"".$what."\",".$where.",".$country.",\"".$town."\");' ");
+setcookie('now',"href='#' onclick='javascript:startsearchs(\"".$what."\",".$where.",".$country.",\"".$town."\",\"".$typemusic."\");' ");
 $result="";
 switch ($where){
 case 1: {$result.=agents_list(0,$what);break;}
@@ -8596,7 +8772,7 @@ case 3: {$result.=promoters_list(0,$what);break;}
 //case 4: {$result.=viewSchedules($fdatas['id_artist'],date("Y"),"","",$fdatas['week_number']);break;}
 case 5: {$result.=inquirys_list(0,$what);break;}
 case 6: {$result.=message_list(0,$what);break;}
-case 12: {$result.=promoters_list(0,"",0,$what,$country,$town);break;}
+case 12: {$result.=promoters_list(0,"",0,$what,$country,$town,$typemusic);break;}
 //case 13: {$result.=promoters_list(0,"",0,$what);break;}
 
 case 0: {
@@ -8666,9 +8842,27 @@ function setting($id = 0) {
             
             $ft->assign(array(
                 'CONTINENT' => $continent,
+'COUNTRY' => $setting->country,
+                'CITY' => $setting->city,
+                'ADDRESS' => $setting->address1,
+                'ZIP_CODE' => $setting->zipcode,
+                'PHONE' => $setting->phone1,
+                'ORG_NUMBER' => $setting->org_number,
+
+
+
+
+
+
+
+
+
+
+
                 'COMPANY_NAME' => $setting->company_name,
                 'UNDERWRITER' => $setting->underwriter,
                 'BANKACCOUNT' => $setting->bankaccount,
+ 'BANKINFO' => $setting->bankinfo,
                 'EMAIL' => $setting->email,
                 'PERPAGE' => $setting->perpage,
                 'FOOTER1' => $setting->footer1,
@@ -8682,7 +8876,7 @@ function setting($id = 0) {
         
         $continent = "";
         for ($i = 0; $i < sizeof($continentsArray); $i++) {
-            $continent .= "<option value='".$continentsArray[$i]."'/>";
+            $continent .= "<option value='".$continentsArray[i]."'/>";
         }
         
         for ($i = 0; $i < sizeof($links); $i++) {
@@ -8694,9 +8888,17 @@ function setting($id = 0) {
         $ft->define(array('body' => "settings.tpl"));
         $ft->assign(array(
             'CONTINENT' => $continent, 
+'COUNTRY' => "",
+            'CITY' => "",
+            'ADDRESS' => "",
+            'ZIP_CODE' => "",
+            'PHONE' => "",
+            'ORG_NUMBER' => "",
             'COMPANY_NAME' => "",
             'UNDERWRITER' => "",
             'BANKACCOUNT' => "",
+
+            'BANKINFO'=>"",
             'EMAIL' => "",
             'PERPAGE' => 10,
             'FOOTER1' => "",
@@ -8739,9 +8941,26 @@ function save_settings($fdatas) {
         $query = "
 update #__settings set
                     `continent`='" . $fdatas['continent'] . "',
+`country`='" . $fdatas['country'] . "',
+                    `city`='" . $fdatas['city'] . "',
+                    `address1`='" . $fdatas['address'] . "',
+                    `zipcode`='" . $fdatas['zipcode'] . "',
+                    `phone1`='" . $fdatas['phone'] . "',
+                    `org_number`='" . $fdatas['org_number'] . "',    
                     `company_name`='" . $fdatas['company_name'] . "',
                     `underwriter`='" . $fdatas['underwriter'] . "',
                     `bankaccount`='" . $fdatas['bankaccount'] . "',
+
+                    `bankinfo`='" . $fdatas['bankinfo'] . "', 
+
+
+
+
+
+                    `company_name`='" . $fdatas['company_name'] . "',
+                    `underwriter`='" . $fdatas['underwriter'] . "',
+                    `bankaccount`='" . $fdatas['bankaccount'] . "',
+
                     `email`='" . trim($fdatas['email']) . "',
                     `footer1`='" . $fdatas['footer1'] . "',
                     `footer2`='" . $fdatas['footer2'] . "',
@@ -8751,18 +8970,34 @@ update #__settings set
     } else {
         $query = "
 insert into #__settings ( `continent`,
+`country`,
+                    `city`,
+                    `address1`,
+                    `zipcode`,
+                    `phone1`,
+                    `org_number`,
                     `company_name`,
                     `underwriter`,
                     `bankaccount`,
+
+                    `bankinfo`,
                     `email`,
                     `footer1`, `footer2`,
                     `perpage`,
                     `start_id`,
                     `id` ) values (
                     '" . $fdatas['continent'] . "',
+'" . $fdatas['country'] . "',
+                    '" . $fdatas['city'] . "',
+                    '" . $fdatas['address'] . "',
+                    '" . $fdatas['zipcode'] . "',
+                    '" . $fdatas['phone'] . "',
+                    '" . $fdatas['org_number'] . "',    
                     '" . $fdatas['company_name'] . "',
                     '" . $fdatas['underwriter'] . "',
                     '" . $fdatas['bankaccount'] . "',
+
+                    '" . $fdatas['bankinfo'] . "',
                     '" . $fdatas['email'] . "',
                     '" . $fdatas['footer1'] . "',
                     '" . $fdatas['footer2'] . "',
@@ -8836,6 +9071,7 @@ function check_name($susp, $inn, $id = 0, $link, $silent = 0) {
 
 function start_link() {
     global $database;
+    global $mosConfig_live_site;
     $database->setQuery("select start_id from #__settings where id=" . $_COOKIE['operator_id']);
     $id = $database->loadResult();
     global $_START_ID;
@@ -8852,7 +9088,49 @@ function start_link() {
         "agency_list();"
     );
 
-    $link = "<script language='Javascript'>setTimeout('" . $links[$id] . "',700);</script>";
+    
+if(($_GET[newmaildocid]) && ($_GET[newmailpromouter]) && (isset($_GET[lang]))){
+    //<a href="'.$mosConfig_live_site.'/index2.php?newmaildocid='. $id . '&newmailpromouter='.$c->id_promoter.'&lang='.$lang_to_url.'doctype=conract" title="send by email">
+    //<a href="'.$mosConfig_live_site.'/index2.php?newmaildocid='. $id . '&newmailpromouter='.$c->id_promoter.'&lang='.$lang_to_url.'&date='.$_REQUEST['date'].'doctype=invoice" title="send by email">
+    $doc_template_url = '111';
+    $pdf_patch = '';
+    if ($_GET[doctype] == 'contract'){
+        $doc_template_url = $mosConfig_live_site.'/modules/contract.php?lang='.$_GET[lang].'&id='. $_GET[newmaildocid] .'';
+    }
+    if ($_GET[doctype] == 'invoice'){
+        $date = $_GET[date];
+         $doc_template_url = $mosConfig_live_site.'/modules/invoice.php?lang='.$_GET[lang].'&id='. $_GET[newmaildocid] .'&date='. $date .'';
+    }
+    $filename = $_GET[doctype].'-'.$_GET[lang].'_'.intval($_GET[newmaildocid]).'.pdf';
+    if ($doc_template_url){
+        $html = file_get_contents($doc_template_url);
+        $html = preg_replace("~<div id=\"print\">.*?</div>~SDs", '', $html);
+        $html = preg_replace("~<head>.*?</head>~SDs", '', $html);
+        //$html = preg_replace("~<style>.*?</style>~SDs", '', $html);
+        $html = str_replace('<body>', '', $html);
+        $html = str_replace('</body>', '', $html);
+        $pdf_patch = make_pdf($html, $filename);
+    }
+    $lang_to_url = 0;
+    switch ($_GET['lang']) {
+    case 'no':
+        $lang_to_url = 0;
+        break;
+    case 'en':
+       $lang_to_url = 1;
+        break;
+}
+    /**/
+    echo '
+    <script>
+     window.onload = function(){
+       
+        message_form_contract(0,2,'.$_GET[newmailpromouter].','.$lang_to_url.','.$_GET[newmaildocid].',  \''. $pdf_patch .'\');
+    }
+     </script>';
+}
+else 
+$link = "<script language='Javascript'>setTimeout('" . $links[$id] . "',300);</script>";
     return $link;
 }
 
@@ -9199,8 +9477,8 @@ function editagencyInfo($agent_id = 0) {
     $result.="'></TD></TR><TR><TD>Country</TD><TD>";
     $clist = array();
     $clist[] = mosHTML::makeOption('0', '........', 'value', 'text');
-    global $current_continent;
-    $database->setQuery("SELECT id as value, name as text FROM #__countries WHERE world = '".$current_continent."' ORDER BY name");
+    global $_CONTINENT;
+    $database->setQuery("SELECT id as value, name as text FROM #__countries WHERE world = '".$_CONTINENT."' ORDER BY name");
     $clist = array_merge($clist, $database->loadObjectList());
     if (isset($agent->country))
         $result.=mosHTML::selectList($clist, 'country', " id='country' ", 'value', 'text', $agent->country);
@@ -9373,10 +9651,11 @@ function check_box_saver($what, $tid, $tvalues) {
 //$objResponse->addScript("alert('".$result."');");
     return $objResponse->getXML();
 }
-
-function get_busydays($artist_id, $year) {
+function get_busydays($artist_id, $year, $page) {
     $objResponse = new xajaxResponse('UTF-8');
-    $objResponse->addAssign('report_div', 'innerHTML', get_busyday($artist_id, $year));
+    $objResponse->addAssign('report_div', 'innerHTML', get_busyday($artist_id, $year, $page));
+ 
+    
     return $objResponse->getXML();
 }
 function get_busydays_word($artist_id, $year) {
@@ -9387,20 +9666,84 @@ function get_busydays_word($artist_id, $year) {
     return $objResponse->getXML();
 }
 
-function get_busyday($artist_id, $year) {
+
+
+
+
+function get_busyday($artist_id, $year, $currentPage) {
+    
+
     global $database;
     $database->setQuery("set names utf8");
-    if ($year == '')
-        $year = date("Y");
+
+
     $database->query();
+    
+
+
+
+    if ($year == '') {
+        $year = date("Y");
+    }
     $nyear = $year + 1;
+    
+    //*
+    // PAGINATION SUPPORT 
+
+
+
+global $_PERPAGE;
+    $recordsPerPage = $_PERPAGE;
+  //$recordsPerPage = 5;
+    $query = "SELECT p.*, r.name as promoter_name  FROM #__perfomances p, #__promoters r  WHERE p.id_promoter=r.id and p.id_artist=" . $artist_id . " and p.date_of > '" . $year . "' and p.date_of < '" . $nyear . "'";
+    $database->setQuery($query);
+    $database->query();
+    $recordsNumber = $database->getNumRows();
+    
+    if(isset($currentPage)) {  
+       $page = $currentPage + 1;
+       $offset = $recordsPerPage * $page ;
+    } else {
+       $page = 0;
+       $offset = 0;
+    }
+    $recordsLeft = $recordsNumber - ($page * $recordsPerPage);
+    //ENDOF PAGINATION INITIALIZATION
+    //*
+    
     $query = "SELECT p.*, r.name as promoter_name  FROM #__perfomances p, #__promoters r  WHERE p.id_promoter=r.id and p.id_artist=" . $artist_id . " and p.date_of > '" . $year . "' and p.date_of < '" . $nyear . "' order by date_of asc";
+    $query = $query." LIMIT $offset, $recordsPerPage";
+
     $database->setQuery($query);
     $database->query();
     $busydays = $database->loadObjectList();
-//$result= $query;
 
+    
+
+//$result= $query;
+$result = "";
     $result.="<form target='_blank' method='POST' action='modules/itn2.php'>";
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     $result.="<table width='95%' border='0' align='center' cellpadding='0' cellspacing='1' bgcolor='#999999'>
         <tr>
           <td bgcolor='#999999' class='style4'>
@@ -9421,26 +9764,42 @@ function get_busyday($artist_id, $year) {
         $result.= "</div></td><td bgcolor='#FFFFFF' class='style34'><div align='left'>" . $busyday->city . "</div></td>
                 <td bgcolor='#FFFFFF' class='style34'><div align='left'>" . $busyday->promoter_name . "</div></td>
                 <td bgcolor='#FFFFFF' style='width:40px' class='style34'><div align='center'><input type='checkbox' name='day" . $busyday->id . "'/></div></td>
-           </tr>";
- }
-        
-$result.="<div align='right'> <a href='#' onclick='javascript:checkbox_checker();' class='style11'>Check All</a>"; 
-$result.="&nbsp;&nbsp; <a href='#' onclick='javascript:checkbox_unchecker();' class='style11'>Uncheck all</div></a>";
+              </tr>";
+    }
 
-//$result.="<tr><td colspan=4><div align='right'> <input type='submit' value='Print selected'> </div></td></tr>";    
-$result.="<tr><td colspan=4><div align='right'>  <input type='button' value='Remove selected' onclick='removeSelectedItineraries(".$artist_id.",".$year.");'> <input type='submit' value='Print selected'></div></td></tr>";
-$result.="</table></td></tr></table>
-<input type='hidden' name='id' value='" . $busyday->contract_id . "'/>    
+    $result.="<tr><td colspan=4><div align='right'> <input type='submit' value='Print selected'> <input type='button' value='Remove selected' onclick='removeSelectedItineraries(".$artist_id.",".$year.");'> </div></td></tr>";
+
+
+    $result.="</table></td></tr></table>
+    
 </form> 
+
 <div id='opt_info' name='opt_info' style='display:none;'>&nbsp;</div>
 <div id='perf_info' name='perf_info' style='display:none;'>&nbsp;</div>";
 
-        
     
-    return $result;
-}
-//-----------------------------------------------------
+    
+    $nextlink = "<a class='style11' href='#' onclick='get_busydays($artist_id, $year,$page)'>&nbsp;next&nbsp;page&nbsp <img border='0' src='images/next-24x24.png' align='absmiddle'></a>";
+    $prevlink = "<a class='style11' href='#' onclick='get_busydays($artist_id, $year,".($page-2).")'><img border='0' src='images/back-24x24.png' align='absmiddle'> prev page</a>";   
+    
+    $result = $result."<div align=center>";
+    
+    if( $page > 0 ) {
+       $result = $result.$prevlink;
+       if( $recordsLeft > $recordsPerPage ){
+          $result = $result." | ".$nextlink;
+       }
 
+    } else if( $page == 0 ) {
+       $result = $result.$nextlink;
+    } else if( $recordsLeft < $recordsPerPage ) {
+       $result = $result.$prevlink;
+    }
+    $result = $result."</div>";
+    
+return $result;
+ }
+//-----------------------------------------------------
 function get_busyday_word($artist_id, $year) {
     global $database;
     $database->setQuery("set names utf8");
@@ -9479,20 +9838,71 @@ function get_busyday_word($artist_id, $year) {
                 <td bgcolor='#FFFFFF' style='width:40px' class='style34'><div align='center'><input type='checkbox' name='day" . $busyday->id . "'/></div></td>
               </tr>";
     }
-       
+
 $result.="<div align='right'> <a href='#' onclick='javascript:checkbox_checker();' class='style11'>Check All</a>"; 
 $result.="&nbsp;&nbsp; <a href='#' onclick='javascript:checkbox_unchecker();' class='style11'>Uncheck all</div></a>";    
 //$result.="<tr><td colspan=3> <div align='right'>  <button value='Export2Word' onclick='get_busyday(contract_id)'>  Word  </button></div></td></tr> " ;
     $result.="<td colspan=4><div align='right'> <input type='submit' value='Save to Word selected'> </div></td></tr>";
+
+
       $result.="</table></td></tr></table>
 <input type='hidden' name='id' value='" . $busyday->contract_id . "'/>    
+
 </form> 
+
 <div id='opt_info' name='opt_info' style='display:none;'>&nbsp;</div>
 <div id='perf_info' name='perf_info' style='display:none;'>&nbsp;</div>";
 return $result;
+
+
 }
+
 //------------------------------------------------------
 
+
+
+function country_selector($id) {
+    global $database;
+    global $mosConfig_absolute_path;
+    global $mosConfig_live_site;
+    $active_contries = '';
+    $unactive_contries = '';
+
+    $query = "SELECT p.*, r.name as promoter_name  FROM #__perfomances p, #__promoters r  WHERE p.id_promoter=r.id and p.id_artist=" . $artist_id . " and p.date_of > '" . $year . "' and p.date_of < '" . $nyear . "' order by date_of asc";
+
+    global $database;
+    $database->setQuery("set names utf8");
+    $database->query();
+    $query = "SELECT DISTINCT p.country, #__countries.code, #__countries.name FROM #__promoters p 
+                JOIN #__countries  ON #__countries.id = p.country
+                ORDER BY #__countries.code
+    ";
+        $database->setQuery($query);
+        $countries = $database->loadObjectList();
+        foreach ($countries as $c) {
+            $code= ($c->code == 'GB') ? 'EN' : $c->code;
+            if (file_exists($mosConfig_absolute_path . "/templates/contract_" . strtolower($code) .".tpl")){
+                 $active_contries .= '<option value="'. $code.'">'. $c->name.'</option>';
+            }
+            else {
+                  $unactive_contries.= "<option value='". $code."' disabled>". $c->name."</option>";
+            }
+        }
+
+     $option = '   
+     <select id = "'.$id.'" >
+     <optgroup label="">
+        '. $active_contries.'
+     </optgroup> 
+     <optgroup label="--------">
+      '. $unactive_contries.'
+     </optgroup> 
+    </select> 
+     '; 
+
+    return  $option;
+}
+/**/
 
 function agent_selector($id_agency, $where) {
     global $database;
@@ -9507,12 +9917,60 @@ function agent_selector($id_agency, $where) {
     $objResponse->addAssign($where, 'innerHTML', $n);
     return $objResponse->getXML();
 }
-
+/*
+function make_pdf($html) {
+    global $mosConfig_absolute_path;
+    require_once  $mosConfig_absolute_path .'/includes/mpdf60/mpdf.php';
+    $mpdf = new mPDF('utf-8', 'A4', '10', 'Arial', 0, 0, 5, 5, 5, 5);
+    $mpdf->SetDisplayMode('fullpage');
+    $mpdf->list_indent_first_level = 0; // 1 or 0 - whether to indent the first level of a list
+    // LOAD a stylesheet
+    //$stylesheet = file_get_contents($mosConfig_absolute_path .'/includes/css/pdf/invoice.css');
+    $stylesheet = file_get_contents($mosConfig_absolute_path .'/includes/mpdf60/examples/mpdfstyletables.css');
+    $mpdf->WriteHTML($stylesheet,1);  // The parameter 1 tells that this is css/style only and no body/html/text
+    $filename = 'attachments/pdf/document.pdf';
+    $mpdf->WriteHTML($html,2);
+    $mpdf->Output($mosConfig_absolute_path.'/'.$filename,'F');
+    return $mosConfig_absolute_path.'/'.$filename;
+}
+*/
+function make_pdf($html, $docname) {
+    global $mosConfig_absolute_path;
+    require_once  $mosConfig_absolute_path .'/includes/mpdf60/mpdf.php';
+    $mpdf = new mPDF('utf-8', 'A4', '10', 'Arial', 0, 0, 5, 5, 5, 5);
+    $mpdf->SetDisplayMode('fullpage');
+    $mpdf->list_indent_first_level = 0; // 1 or 0 - whether to indent the first level of a list
+    // LOAD a stylesheet
+    $stylesheet = file_get_contents($mosConfig_absolute_path .'/includes/css/pdf/'.strstr($docname,'-',true).'.css');
+    
+    /*
+    if ($docname == 'invoice.pdf')
+        $stylesheet = file_get_contents($mosConfig_absolute_path .'/includes/css/pdf/invoice.css');
+    if ($docname == 'contract.pdf')
+        $stylesheet = file_get_contents($mosConfig_absolute_path .'/includes/css/pdf/contract.css');
+    */
+   // $stylesheet = file_get_contents($mosConfig_absolute_path .'/includes/mpdf60/examples/mpdfstyletables.css');
+    $mpdf->WriteHTML($stylesheet,1);  // The parameter 1 tells that this is css/style only and no body/html/text
+    $filepatch = 'attachments/pdf/'.$docname;
+    $mpdf->WriteHTML($html,2);
+    $mpdf->Output($mosConfig_absolute_path.'/'.$filepatch,'F');
+    return $mosConfig_absolute_path.'/'.$filepatch;
+}
 function promoter_selector($id) {
     global $database;
     $database->setQuery("set names utf8");
     $database->query();
-    $database->setQuery("SELECT * from #__promoters where id=" . $id);
+    $database->setQuery("SELECT * from #__promoters where id=" . $id." ");
+
+/*
+  $query = "SELECT DISTINCT p.country, #__countries.code, #__countries.name FROM #__promoters p 
+                JOIN #__countries  ON #__countries.id = p.country
+                ORDER BY #__countries.code
+    ";
+        $database->setQuery($query);
+        $countries = $database->loadObjectList();
+*/
+
     $objResponse = new xajaxResponse('UTF-8');
     if ($datas = $database->loadObjectList()) {
         foreach ($datas as $data) {
@@ -9528,6 +9986,7 @@ function promoter_selector($id) {
         $objResponse->addAssign('city_code', 'value', $data->city_code);
         $objResponse->addAssign('town', 'value', $data->town);
         $objResponse->addAssign('country', 'value', $data->country);
+        $objResponse->addAssign('country_input_value', 'value', $data->country);
         $objResponse->addAssign('phone1', 'value', $data->phone1);
         $objResponse->addAssign('phone2', 'value', $data->phone2);
         $objResponse->addAssign('email', 'value', $data->email);
@@ -9541,14 +10000,14 @@ function promoter_selector($id) {
         $objResponse->addAssign('city_code', 'value', '');
         $objResponse->addAssign('town', 'value', '');
         $objResponse->addAssign('country', 'value', '');
+         $objResponse->addAssign('country_input_value', 'value', '');
         $objResponse->addAssign('phone1', 'value', '');
         $objResponse->addAssign('phone2', 'value', '');
         $objResponse->addAssign('email', 'value', '');
         $objResponse->addAssign('website', 'value', '');
         $objResponse->addAssign('id_promoter', 'value', '0');
     }
-
-    return $objResponse->getXML();
+return $objResponse->getXML();
 }
 
 //$idString - whitespace separated identifiers
@@ -9563,10 +10022,9 @@ function removeSelectedItineraries($idString, $artist_id, $year) {
     }
     
     $objResponse = new xajaxResponse('UTF-8');
-    $objResponse->addAssign('report_div', 'innerHTML', get_busyday($artist_id, $year));
+    $objResponse->addAssign('report_div', 'innerHTML', get_busydays($artist_id, $year, -1));
     return $objResponse->getXML();
 }
-
 
 
 
@@ -9702,13 +10160,20 @@ $objAjax->registerFunction('addPerfForms');
 $objAjax->registerFunction('clear_perf');
 $objAjax->registerFunction('send_sms_form');
 $objAjax->registerFunction('removeSelectedItineraries');
-
 $objAjax->processRequests();
 $objAjax->printJavascript($mosConfig_live_site . "/includes/xajax/");
+
 ?>
 <script language="javascript" type="text/javascript">
     var itemids = new Array;
     var cal_dates = 0;
+    var currentIdForModalWindow = 0;
+    document.onkeyup = function(e) {
+        e = e || window.event;
+        if (e.keyCode == 27 && currentIdForModalWindow) {
+            hideAll();
+        }
+    };
     function getagentInfo(agent_id) {
         try {
             document.getElementById('report_div').style.display = 'block';
@@ -10245,7 +10710,7 @@ $objAjax->printJavascript($mosConfig_live_site . "/includes/xajax/");
 
     function add_date()
     {
-// p=Math.ceil(random()*10000);
+
         var add_date = "<div id='datecc" + cal_dates + "' style='margin:1px;clear:both;float:none;'><input type='text' size=20 name='cdateadd' id='cdate_" + cal_dates + "'>&nbsp;";
         add_date = add_date + "<a href='#' onclick='javascript:cal1xx.select(document.getElementById(\"cdate_" + cal_dates + "\"),\"anchor0" + cal_dates + "xx\",\"yyyy-MM-dd\");return false;' name='anchor0" + cal_dates + "xx' id='anchor0" + cal_dates + "xx'><img src='images/itinerary-24x24.png' border='0' align='absmiddle'></a>&nbsp;<a href='#' onclick='javascript:remove_cdate(" + cal_dates + ")' style='color:red;'><img src='images/del.gif' border='0' align='absmiddle'></a></div>";
         document.getElementById('date_container').innerHTML = document.getElementById('date_container').innerHTML + add_date;
@@ -10313,16 +10778,17 @@ $objAjax->printJavascript($mosConfig_live_site . "/includes/xajax/");
         }
     }
     function  change_template(id) {
-        try {
-            if (confirm("Are you sure to change template?? All edits will be lost!")) {
-                //	document.getElementById('message').innerHTML="&nbsp;";
-                xajaxRequestUri = '<?php echo $mosConfig_live_site; ?>/modules/main.php';
-                xajaxDebug = false, xajaxStatusMessages = false, xajaxWaitCursor = true, xajaxDefinedGet = 0, xajaxDefinedPost = 1;
+       // try {
+         //   if (confirm("Are you sure to change template?? All edits will be lost!")) {
+         //       //	document.getElementById('message').innerHTML="&nbsp;";
+         //       xajaxRequestUri = '<?php echo $mosConfig_live_site; ?>/modules/main.php';
+         //       xajaxDebug = false, xajaxStatusMessages = false, xajaxWaitCursor = true, xajaxDefinedGet = 0, xajaxDefinedPost = 1;
                 main_change_template(id);
-            }
-        } catch (e) {
-            alert(e);
-        }
+        //    }
+        //} 
+		//catch (e) {
+        //    alert(e);
+       // }
     }
     function delete_Inquiry(id) {
         try {
@@ -10797,8 +11263,18 @@ $objAjax->printJavascript($mosConfig_live_site . "/includes/xajax/");
     }
     
     function deleteUserInfo( id ) {
-                        main_deleteUserInfo(id);
-                        setTimeout(main_users_list(0), 1000);
+                        
+         try {
+            if (confirm("Are you sure to delete this user??")) {
+                document.getElementById('report_div').style.display = 'block';
+                xajaxRequestUri = '<?php echo $mosConfig_live_site; ?>/modules/main.php';
+                xajaxDebug = false, xajaxStatusMessages = false, xajaxWaitCursor = true, xajaxDefinedGet = 0, xajaxDefinedPost = 1;
+                main_deleteUserInfo(id);
+                setTimeout(main_users_list(0), 1000);
+            }
+        } catch (e) {
+            alert(e);
+        }
 		}        
 		
     function getDetails(artist_id, tdate, cont_id) {
@@ -10927,19 +11403,19 @@ $objAjax->printJavascript($mosConfig_live_site . "/includes/xajax/");
             alert(e);
         }
     }
-    function  get_busydays(artist_id, year) {
+    function  get_busydays(artist_id, year, page) {
         try {
             // draw_menu(5);
             xajaxRequestUri = '<?php echo $mosConfig_live_site; ?>/modules/main.php';
             xajaxDebug = false, xajaxStatusMessages = false, xajaxWaitCursor = true, xajaxDefinedGet = 0, xajaxDefinedPost = 1;
-            main_get_busydays(artist_id, year);
-            document.getElementById('sch_info').style.display = 'block';
+            main_get_busydays(artist_id, year, page);
+            //document.getElementById('sch_info').style.display = 'block';
         } catch (e) {
             alert(e);
         }
     }
 
-function  get_busydays_word(artist_id, year) {
+   function  get_busydays_word(artist_id, year) {
         try {
             // draw_menu(5);
             xajaxRequestUri = '<?php echo $mosConfig_live_site; ?>/modules/main.php';
@@ -11021,12 +11497,12 @@ function  get_busydays_word(artist_id, year) {
         }
     }
 
-    function  message_form_contract(message_id, to_type, to_id, data, id) {
+    function  message_form_contract(message_id, to_type, to_id, data, id, pdf_file) {
         try {
             draw_menu(7);
             xajaxRequestUri = '<?php echo $mosConfig_live_site; ?>/modules/main.php';
             xajaxDebug = false, xajaxStatusMessages = false, xajaxWaitCursor = true, xajaxDefinedGet = 0, xajaxDefinedPost = 1;
-            main_message_form_contract(message_id, to_type, to_id, data, id);
+            main_message_form_contract(message_id, to_type, to_id, data, id, pdf_file);
             document.getElementById('report_div').style.display = 'block';
         } catch (e) {
             alert(e);
@@ -11741,7 +12217,8 @@ function  get_busydays_word(artist_id, year) {
             'form_doorsopen',
             'form_onstage',
             'form_performance_duration',
-            'form_capacity'];
+            'form_capacity'
+            ];
 
         if (document.getElementById('freeday').checked) {
             scheduleFields.forEach(function(entry) {
@@ -11765,10 +12242,112 @@ function  get_busydays_word(artist_id, year) {
 
         }
 
-     }
+    }
 
+//modal window
+ function showPrintModal(contract_id)
+  {
+     if (!contract_id)  exit;
+      //print_button = document.getElementById('print_button');
+      //print_button.dataset.docid = contract_id;
+      a = document.getElementById('contract_print_modal');
+      b = document.getElementById('b');
 
- function removeSelectedItineraries($artist_id, $year){
+      b.style.filter = "alpha(opacity=80)";
+      b.style.opacity = 0.8;
+      b.style.display = "block";
+      // Задаем блокироваку и отступ сверху в 200px
+      //элемента "a"
+      a.style.display = "block";
+      a.style.top = "200px";
+      document.getElementById('select_print_country').focus();
+  }
+
+ function showInvoiceModal(contract_id)
+  {
+     if (!contract_id)  exit;
+      //print_button = document.getElementById('invoice_button');
+      //if (!print_button.dataset.docid) alert('Атрибут data-z отсутствует');
+      //print_button.dataset.docid = contract_id;
+      a = document.getElementById('contract_invoice_modal');
+      b = document.getElementById('b');
+
+      b.style.filter = "alpha(opacity=80)";
+      b.style.opacity = 0.8;
+      b.style.display = "block";
+      // Задаем блокироваку и отступ сверху в 200px
+      //элемента "a"
+      a.style.display = "block";
+      a.style.top = "200px";
+      document.getElementById('select_invoice_country').focus();
+  }
+  //Вызываем функцию "hideA", которая будет скрывать окно
+  //для элементов "a" и "b"
+  function hideA()
+  {
+      a = document.getElementById('contract_print_modal');
+      b = document.getElementById('b');
+      b.style.display = "none";
+      a.style.display = "none";
+  }  
+  function showEmailModal()
+  {
+      a = document.getElementById('contract_email_modal');
+      b = document.getElementById('b');
+
+      b.style.filter = "alpha(opacity=80)";
+      b.style.opacity = 0.8;
+      b.style.display = "block";
+      // Задаем блокироваку и отступ сверху в 200px
+      //элемента "a"
+      a.style.display = "block";
+      a.style.top = "200px";
+  }
+  //Вызываем функцию "hideA", которая будет скрывать окно
+  //для элементов "a" и "b"
+  function hideAll()
+  {
+     currentIdForModalWindow=0;
+     var w = document.getElementsByClassName('modal_w')
+     for (var i=0; i<w.length; i++)
+         w[i].style.display = "none";
+      b = document.getElementById('b');
+      b.style.display = "none";
+  }      
+
+function generateUrlForPrintButton(){
+    print_button = document.getElementById('print_button');
+    contract_id =  print_button.dataset.docid;
+    uri= print_button.dataset.href;
+    langSelect = document.getElementById('select_print_country');
+    n = langSelect.options.selectedIndex;
+    lang = langSelect.options[n].value.toLowerCase();
+    //lang.toLowerCase;
+    window.open(uri+'?lang='+lang+'&id='+contract_id,'_blank');
+    
+    /*if (n){
+        if ((contract_id) && (uri) && (lang))
+           window.open(uri+'?lang='+lang+'&id='+contract_id,'_blank');
+    }else alert('select language')    
+    */
+  }
+function generateUrlForInvoiceButton(){
+    print_button = document.getElementById('invoice_button');
+    contract_id =  print_button.dataset.docid;
+    uri= print_button.dataset.href;
+    langSelect = document.getElementById('select_invoice_country');
+    n = langSelect.options.selectedIndex;
+    lang = langSelect.options[n].value.toLowerCase();
+    window.open(uri+'?lang='+lang+'&id='+contract_id,'_blank');
+/*
+    if (lang!= 'Select language'){
+        if ((contract_id) && (uri) && (lang))
+            window.open(uri+'?lang='+lang+'&id='+contract_id,'_blank');
+        else alert('ERROR  '+uri+'?lang='+lang+'&id='+contract_id)
+    }else alert('Select language')    
+*/
+  }  
+  function removeSelectedItineraries($artist_id, $year){
         var selection = $(":checked");
         var array = $.makeArray( selection );
         var idString = "";
@@ -11778,8 +12357,7 @@ function  get_busydays_word(artist_id, year) {
                 idString = idString+',';
             }
         }
-        
-        if (confirm('Are you sure you want to remove selected entries?')) {
+         if (confirm('Are you sure you want to remove selected entries?')) {
             try {
                 document.getElementById('report_div').style.display = 'block';
                 xajaxRequestUri = '<?php echo $mosConfig_live_site; ?>/modules/main.php';
@@ -11790,7 +12368,6 @@ function  get_busydays_word(artist_id, year) {
             }
         } 
     }
-    
-    
-
+  
+  
 </script>
