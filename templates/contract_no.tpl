@@ -1,4 +1,4 @@
-<div id="print"><TABLE width=752 border=0 cellpadding=0 cellspacing=0 align="center" ><tr><td align=right>{PRINTBUTTON}</td></tr></table></div>
+﻿<div id="print"><TABLE width=752 border=0 cellpadding=0 cellspacing=0 align="center" ><tr><td align=right>{PRINTBUTTON}{SENDBUTTON}{LINKBUTTON}</td></tr></table></div>
 <TABLE  border=0 cellpadding=0 cellspacing=0 align='center'>
 <TR>
 <TD style='border-bottom:3px black solid;'>&nbsp;<br><br></TD>

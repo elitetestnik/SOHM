@@ -43,7 +43,7 @@ body  {
 <div align="center">
 <p>Сайт временно закрыт.</p>
 <table ><tr><td class='ramka'><span class='r'><img src='/offline/<?php echo rand(0,7).".jpg"; ?>'></span></td></tr></table>
-<p>Работают <a href="http://vitos.od.ua" title="Дизайн-студия ViTOS">люди</a>.</p></div>
+<p>Работают  люди .</p></div>
 </td></tr></table>
 </body>
 </html>

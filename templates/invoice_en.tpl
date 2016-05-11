@@ -46,7 +46,7 @@
   <div id="print">
     <table width="752" border="0" cellpadding="0" cellspacing="0" align="center">
       <tr>
-        <td align="right">{PRINTBUTTON}</td>
+        <td align="right">{PRINTBUTTON}{SENDBUTTON}{LINKBUTTON}</td>
       </tr>
     </table>
   </div>

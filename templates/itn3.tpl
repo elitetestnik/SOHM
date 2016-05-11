@@ -1,132 +1,112 @@
-<style type="text/css">
-<!--
-.style1 {
-	font-size: 20px;
-	font-weight: bold;
-}
--->
-</style>
 {DL}
-<table style='width:1000px'>
-   <tr>
-      <td width='800' align='left'>
-         <div id='print' style='float:right;dispay:{DISPLAY}'><a href="#" onclick="javascript:window.print(); return false;" title="Print this itinerary">
-            <img src="/../images/printbutton.png"  alt="Print this itinerary" name="Print this itinerary" align="right" border="0" />
-          
-             
-             </a>
-         </div>
-         <div class='clearfix'></div>
-         <table border="0" cellpadding="2" cellspacing="1">
-            <tbody>
-               <tr {VS}>
-                  <td align="right" width='160'>
-                     <strong>CONTRACT No.:</strong>                  </td>
-                  <td>
-                     <strong>{CONTRACT_NO}</strong>                  </td>
-               
-               <tr>
-                  <td align="right" width='160'><strong>DATE </strong></td>
-                  
-                  <td><span class="style1">{THE_DATE}&nbsp;&nbsp;&nbsp;</span></td>
-                  <td><span class="style1">{FD}</span></td> 
+<table class="main_itinerary_table">
+	<tr>
+		<td width='1500' align='left'>
+			<!-- ICONS_START -->
+			<div id='print' style='float:right;dispay:{DISPLAY}'>
+				<a href="#" onclick="javascript:window.print(); return false;" title="Print this itinerary"><img src="/../images/printbutton.png"  alt="Print this itinerary" name="Print this itinerary" align="right" border="0" /></a>
+				<a href="{CURRENT_LINK_TO_PDF}" target="_blank" title="Itinerary in PDF"><img src="http://applauce.no/testagency/images/pdf-24x24.png" alt="Contract in PDF" name="Contract in PDF" align="right" border="0"></a>
+			</div>
+			<!-- ICONS_END -->
+			<div class='clearfix'></div>
+				<table border="0" cellpadding="2" cellspacing="1">
+					<tbody>
+						<tr {VS}>
+							<td align="right" width='160'>
+								<strong>CONTRACT&nbsp;No.:</strong></td>
+							<td>
+								<strong>{CONTRACT_NO}</strong></td>
+						</tr>
+                        <tr>
+						<td align="right" width='160'><strong>DATE</strong></td>
+							<td><strong>{THE_DATE}</strong>&nbsp;&nbsp;&nbsp;<strong><u>{FD}</u></strong></td>
+						</tr>
+					</tbody>
+				</table>
+			<div class='clearfix'></div>
+				<table border="0" cellpadding="2" cellspacing="1" {VS}>
+					<tbody>
+                       	<tr>
+							<td align="right" width='160'>
+								<strong>CAPACITY:</strong></td>
+							<td>{CAPACITY}</td>
+						</tr>
+                        <tr><td  align="right"><strong>PROMOTER:</strong></td><td><strong>{PROMOTER}</strong></td></tr>
+                    	<tr>
+							<td>&nbsp;</td>
+							<td>{CONTACT_PERSON}</td>
+						</tr>
+                 		<tr>
+							<td>&nbsp;</td>
+							<td>{PR_ADD1},{PR_ADD2}</td>
+						</tr>
+	                   <tr>
+							<td>&nbsp;</td>
+							<td>{PR_CCODE}</td>
+		  				</tr>
+   						<tr>
+							<td>&nbsp;</td>
+							<td>{PR_TOWN}</td>
+		  				</tr>
 
+                        <tr>
+							<td align="right">&nbsp;
+								</td>
+							<td>Local phone:&nbsp;{PHONE1}</td>
+						</tr>
+						<tr>
+							<td align="right">&nbsp;
+						  </td>
+							<td>Cell phone:&nbsp;{PHONE2}</td>
+						</tr>
+						<tr>
+							<td align="right">&nbsp;
+						  </td>
+							<td>E-mail:&nbsp;{EMAIL}</td>
+						</tr>
+                 </tbody>
+	  		</table>
+			<div class='clearfix'></div>
+			<table border="0" cellpadding="2" cellspacing="1" >
+				<tbody>
+                    <tr>
 
-                                                         </tr>
-                  
-             
-               
-               
-               
-            </tbody>
-         </table>
-         <div class='clearfix'></div>
-         <table border="0" cellpadding="2" cellspacing="1" {VS}>
-            <tbody>
-               <tr>
-                  <td align="right" width='160'>
-                     <strong>CAPACITY:</strong>
-                  </td>
-                  <td>{CAPACITY}</td>
-               </tr>
-               <tr>
-                  <td  align="right"><strong>PROMOTER:</strong></td>
-                  <td><strong>{PROMOTER}</strong></td>
-               </tr>
-               <tr>
-                  <td>&nbsp;</td>
-                  <td>{CONTACT_PERSON}</td>
-               </tr>
-               <tr>
-                  <td>&nbsp;</td>
-                  <td>{PR_ADD1},{PR_ADD2}</td>
-               </tr>
-               <tr>
-                  <td>&nbsp;</td>
-                  <td>{PR_CCODE}</td>
-               </tr>
-               <tr>
-                  <td>&nbsp;</td>
-                  <td>{PR_TOWN}</td>
-               </tr>
-               <tr>
-                  <td align="right">&nbsp;
-                     
-                 </td>
-                  <td>Local phone:&nbsp;{PHONE1}</td>
-               </tr>
-               <tr>
-                  <td align="right">&nbsp;
-                     
-                 </td>
-                  <td>Cell phone:&nbsp;{PHONE2}</td>
-               </tr>
-               <tr>
-                  <td align="right">&nbsp;
-                     
-                 </td>
-                  <td>E-mail:&nbsp;{EMAIL}</td>
-               </tr>
-            </tbody>
-         </table>
-         <div class='clearfix'></div>
-         <table border="0" cellpadding="2" cellspacing="1" >
-            <tbody>
-               <tr>
-                  {BC}
-                  <td align="right" style='border-right:1px gray solid;' valign="top" {VS}>
-                     <table border="0" cellpadding="2" cellspacing="1" width='230' {VS}>
-                        <tbody>
-                           <tr>
-                              <td align="right">
-                                 <strong>VENUE:</strong>                              </td>
-                              <td><strong>{VENUE}</strong></td>
-                           </tr>
-                           
-                           
-                           <tr>
-                              <td align="right">&nbsp;                             </td>
-                              <td>{V_CITY}</td>
-                           </tr>
-                           
-                           <tr>
-                              <td align="right">&nbsp;                             </td>
-                              <td>{V_ADDR}</td>
-                           </tr>
-                           
-                           
-                           <tr>
-                              <td align="right">&nbsp;                             </td>
-                              <td>{V_COUNTRY}</td>
-                           </tr>
-                           <tr>
-                              <td align="right">&nbsp;                             </td>
-                              <td>Phone:&nbsp;{V_PHONE}</td>
-                           </tr>
-                           <tr>
-                              <td align="right">&nbsp;                             </td>
-                              <td>E-mail:&nbsp;{V_EMAIL}</td>
-                           </tr>
+{BC}
+						<td align="right" style='border-right:1px gray solid;' valign="top" {VS}>
+
+                <table border="0" cellpadding="2" cellspacing="1" width='230' {VS}>
+                  	<tbody>
+
+                        <tr>
+							<td align="right">
+								<strong>VENUE:</strong></td>
+							<td><strong>{VENUE}</strong></td>
+
+						</tr>
+                        <tr>
+							<td align="right">&nbsp;
+						  </td>
+							<td>{V_ADDR}</td>
+                   	  </tr>
+                                <tr>
+							<td align="right">&nbsp;
+							   </td>
+							<td>{V_CITY}</td></tr>
+                                <tr>
+							<td align="right">&nbsp;
+							   </td>
+							<td>{V_COUNTRY}</td>	</tr>
+
+                        <tr>
+							<td align="right">&nbsp;
+					      </td>
+							<td>Phone:&nbsp;{V_PHONE}</td>
+						</tr>
+                             <tr>
+							<td align="right">&nbsp;
+							   </td>
+							<td>E-mail:&nbsp;{V_EMAIL}</td>
+						</tr>
                         </tbody>
                      </table>
                   </td>
@@ -262,46 +242,38 @@
 			<td style="visibility: visible">{COMMENTS}</td><td colspan=2>&nbsp;</td>
                         <td colspan=2>&nbsp;</td>
 		</tr>
-            </tbody>
-         </table> 
-         <div class='clearfix'></div>
-         <table border="0" cellpadding="3" cellspacing="1" >
-            <tbody>
-               <tr>
-                  <td>
-                     <h3>
-                        ITINERARY
-                     </h3>
-                     <table border="0" cellpadding="3" cellspacing="1">
-                        <tbody>
-                           <tr>
-                              <th  style='border-bottom:1px black solid;' >
-                                 DATE
-                              </th>
-                              <th  style='border-bottom:1px black solid;' >
-                                 DEP/ARR
-                              </th>
-                              <th  style='border-bottom:1px black solid;'>
-                                 PLACE
-                              </th>
-                              <th  style='border-bottom:1px black solid;'>
-                                 TIME
-                              </th>
-                              <th  style='border-bottom:1px black solid;'>
-                                 WITH
-                              </th>
-                              <th  style='border-bottom:1px black solid;'>
-                                 FLIGHT No 
-                              </th>
-                           </tr>
-                <tr>{ITT}</td>
-	 	</tr>  
-                        </tbody>
-                     </table>
-                  </td>
-               </tr>
-            </tbody>
-         </table>
-      </td>
-   </tr>
+	</tbody>
+</table>
+<div class='clearfix'></div>
+<table border="0" cellpadding="3" cellspacing="1" >
+	<tbody>
+		<tr>
+			<td>
+				<h3>
+					ITINERARY</h3>
+				<table border="0" cellpadding="3" cellspacing="1">
+					<tbody>
+						<tr>
+							<th  style='border-bottom:1px black solid;' >
+								DATE</th>
+							<th  style='border-bottom:1px black solid;' >
+								DEP/ARR</th>
+							<th  style='border-bottom:1px black solid;'>
+								PLACE</th>
+							<th  style='border-bottom:1px black solid;'>
+								TIME</th>
+							<th  style='border-bottom:1px black solid;'>
+								WITH</th>
+							<th  style='border-bottom:1px black solid;'>
+								FLIGHT No</th>
+						</tr>
+					   {ITT}
+					</tbody>
+				</table>
+			</td>
+		</tr>
+	</tbody>
+</table>
+</td>
+</tr>
 </table>

@@ -6682,7 +6682,7 @@ function viewInquiry($id) {
 
     $result = "error";
     if ($id > 0) {
-        $query = "SELECT i.*, date (i.venue_date) as v_date, p.name as promoter_name, coalesce(( SELECT GROUP_CONCAT( z.date ORDER BY z.date DESC SEPARATOR '<br/>') from #__inq_dates z where z.inq_id = i.id),' ') as ddates, coalesce((select c.name from #__countries c where c.id=i.country limit 1),'undefined')as country_name FROM #__inquiries i, #__promoters p  where p.id=i.id_promoter and i.id=" . $id;
+        $query = "SELECT i.*, date(i.venue_date) as v_date, p.name as promoter_name, coalesce(( SELECT GROUP_CONCAT( z.date ORDER BY z.date DESC SEPARATOR '<br/>') from #__inq_dates z where z.inq_id = i.id),' ') as ddates, coalesce((select c.name from #__countries c where c.id=i.country limit 1),'undefined')as country_name FROM #__inquiries i, #__promoters p  where p.id=i.id_promoter and i.id=" . $id;
         global $database;
         $database->setQuery("set names utf8");
         $database->query();
@@ -9651,7 +9651,12 @@ function check_box_saver($what, $tid, $tvalues) {
 //$objResponse->addScript("alert('".$result."');");
     return $objResponse->getXML();
 }
-function get_busydays($artist_id, $year, $page) {
+function get_busydays($artist_id, $year, $page, $without_xajax_wrapper = false) {
+
+    if($without_xajax_wrapper){
+        return get_busyday($artist_id, $year, $page);
+    }
+
     $objResponse = new xajaxResponse('UTF-8');
     $objResponse->addAssign('report_div', 'innerHTML', get_busyday($artist_id, $year, $page));
  
@@ -9934,22 +9939,32 @@ function make_pdf($html) {
     return $mosConfig_absolute_path.'/'.$filename;
 }
 */
-function make_pdf($html, $docname) {
+function make_pdf($html, $docname, $displayModeZoom = 'fullpage', $displayModeLayout = 'continuous') {
     global $mosConfig_absolute_path;
     require_once  $mosConfig_absolute_path .'/includes/mpdf60/mpdf.php';
     $mpdf = new mPDF('utf-8', 'A4', '10', 'Arial', 0, 0, 5, 5, 5, 5);
-    $mpdf->SetDisplayMode('fullpage');
+    $mpdf->SetDisplayMode($displayModeZoom, $displayModeLayout);
     $mpdf->list_indent_first_level = 0; // 1 or 0 - whether to indent the first level of a list
     // LOAD a stylesheet
-    $stylesheet = file_get_contents($mosConfig_absolute_path .'/includes/css/pdf/'.strstr($docname,'-',true).'.css');
     
-    /*
-    if ($docname == 'invoice.pdf')
-        $stylesheet = file_get_contents($mosConfig_absolute_path .'/includes/css/pdf/invoice.css');
-    if ($docname == 'contract.pdf')
-        $stylesheet = file_get_contents($mosConfig_absolute_path .'/includes/css/pdf/contract.css');
-    */
-   // $stylesheet = file_get_contents($mosConfig_absolute_path .'/includes/mpdf60/examples/mpdfstyletables.css');
+    
+    switch (strstr($docname,'-',true)) {
+        case 'contract':
+        case 'invoice':
+            $stylesheet = file_get_contents($mosConfig_absolute_path .'/includes/css/pdf/'.strstr($docname,'-',true).'.css');
+        break;
+        case 'itinerary':
+            $stylesheet = file_get_contents($mosConfig_absolute_path .'/includes/css/pdf/'.strstr($docname,'-',true).'_for_pdf.css');
+            //echo'Stylesheet = '.$stylesheet.' | Zoom = '.$displayModeZoom.' | Layout ='.$displayModeLayout;
+        break;
+        
+        default:
+            $stylesheet = file_get_contents($mosConfig_absolute_path .'/includes/css/pdf/'.strstr($docname,'-',true).'.css');
+        break;
+    }
+    
+    
+    // $stylesheet = file_get_contents($mosConfig_absolute_path .'/includes/mpdf60/examples/mpdfstyletables.css');
     $mpdf->WriteHTML($stylesheet,1);  // The parameter 1 tells that this is css/style only and no body/html/text
     $filepatch = 'attachments/pdf/'.$docname;
     $mpdf->WriteHTML($html,2);
@@ -10013,16 +10028,18 @@ return $objResponse->getXML();
 //$idString - whitespace separated identifiers
 function removeSelectedItineraries($idString, $artist_id, $year) {
     global $database;
-    
+    //echo $idString.' ||| ';
     $idList = split(',',$idString);
     foreach($idList as $id){
         $query = "DELETE FROM `#__perfomances` where `id`=" . $id;
+        //echo $query.' ||| ';
         $database->setQuery($query);
         $database->query();
     }
-    
     $objResponse = new xajaxResponse('UTF-8');
-    $objResponse->addAssign('report_div', 'innerHTML', get_busydays($artist_id, $year, -1));
+    $without_xajax_wrapper = true;
+    $objResponse->addAssign('report_div', 'innerHTML', get_busydays($artist_id, $year, -1, $without_xajax_wrapper));
+
     return $objResponse->getXML();
 }
 
@@ -10778,17 +10795,17 @@ $objAjax->printJavascript($mosConfig_live_site . "/includes/xajax/");
         }
     }
     function  change_template(id) {
-       // try {
-         //   if (confirm("Are you sure to change template?? All edits will be lost!")) {
-         //       //	document.getElementById('message').innerHTML="&nbsp;";
-         //       xajaxRequestUri = '<?php echo $mosConfig_live_site; ?>/modules/main.php';
-         //       xajaxDebug = false, xajaxStatusMessages = false, xajaxWaitCursor = true, xajaxDefinedGet = 0, xajaxDefinedPost = 1;
+     try {
+      //      if (confirm("Are you sure to change template?? All edits will be lost!")) {
+        //        //	document.getElementById('message').innerHTML="&nbsp;";
+          //      xajaxRequestUri = '<?php echo $mosConfig_live_site; ?>/modules/main.php';
+            //    xajaxDebug = false, xajaxStatusMessages = false, xajaxWaitCursor = true, xajaxDefinedGet = 0, xajaxDefinedPost = 1;
                 main_change_template(id);
-        //    }
-        //} 
-		//catch (e) {
-        //    alert(e);
-       // }
+         //   }
+      }
+        catch (e) {
+            alert(e);
+        }
     }
     function delete_Inquiry(id) {
         try {

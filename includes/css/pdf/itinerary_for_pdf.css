@@ -1,0 +1,24 @@
+small {font-size:80%;}
+
+h1 {font-size: 200%;}  
+
+h2 {font-size: 150%;}
+
+*{
+	line-height: 330%; 
+	background: #FFFFFF; 
+	color:black;   
+	font-family:Trebuchet,'Trebuchet MS',Arial;
+}
+
+.main_itinerary_table {margin:55pt;}
+
+table { width:99%; max-width:800px;}
+
+td,th { font-size:28pt; }
+
+#print { display:none; visibility:none;}
+
+p { line-height: 130%; background: #FFFFFF; color:black;}
+
+.head { text-align:center; line-height: 140%; background: #FFFFFF; color:black;}

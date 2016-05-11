@@ -14,8 +14,8 @@
               <tr>
                 <td width="20%" height="36" bgcolor="#FFFFFF" class="style17">Promoter</td>
                 <td width="29%" bgcolor="#FFFFFF" class="style17 style32"> {COMPANY} {PRIORITY} </td>
-                <td width="18%" height="36" bgcolor="#FFFFFF" class="style17">&nbsp;</td>
-                <td bgcolor="#FFFFFF" class="style17">&nbsp;</td>
+                <td width="18%" height="36" bgcolor="#FFFFFF" class="style17">Genre of music &nbsp;</td>
+                <td bgcolor="#FFFFFF" class="style17 style34">{TYPEMUSIC}&nbsp;</td>
               </tr>
 
               <tr>

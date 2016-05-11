@@ -146,7 +146,7 @@ class PHPMailer {
    * Sets the email address that a reading confirmation will be sent.
    * @var string
    */
-  var $ConfirmReadingTo  = '';
+  var $ConfirmReadingTo  = 'post@stenolav-management.no';
 
   /**
    * Sets the hostname to use in Message-Id and Received headers

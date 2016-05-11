@@ -30,9 +30,9 @@
                 </td>
               </tr>
                <tr>
-                <td height="36" colspan="4" bgcolor="#FFFFFF"><input type="hidden" name='filenames' id="filenames" value="">Attached files<div id='attachedfiles'>&nbsp;</div></td>
+                <td height="36" colspan="4" bgcolor="#FFFFFF"><input type="hidden" name='filenames' id="filenames" value="{ATTACH_PDF_PATCH}">Attached files<div id='attachedfiles'>{ATTACH_PDF_TITLE}&nbsp;</div></td>
               </tr>
-               <tr>
+               <tr> 
                 <td height="36" colspan="4" bgcolor="#FFFFFF">&nbsp;&nbsp;{SUBMIT}</td>
               </tr>
           </table>

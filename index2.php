@@ -2,7 +2,7 @@
 session_start();
 if (!isset($_SESSION['operator_id'])) {
     setcookie("operator_id","0");
-    echo"<html><head><meta http-equiv='refresh' content='1;URL=index.php'><body>&nbsp;</body></html>";die;
+ //   echo"<html><head><meta http-equiv='refresh' content='1;URL=index.php'><body>&nbsp;</body></html>";die;
 }
 
 $ip=$_SERVER ['REMOTE_ADDR'];
@@ -57,7 +57,7 @@ $_FOOTER1=$setting->footer1;
 $_COMPANY_NAME = "Webserver";
 $_BANKACCOUNT = "Please, update settings";
 $_UNDERWRITER = "Please, Update Settings";
-$_EMAIL = "webserver@c-parta.od.ua";
+$_EMAIL = "Please, Update Settings";
 $_PERPAGE = 10;
 $_FOOTER1= "<p><i>With regars, Your <b>WebServer.</b></i></p>";
 }
@@ -71,23 +71,26 @@ $_FOOTER1= "<p><i>With regars, Your <b>WebServer.</b></i></p>";
 <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
 <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
 
-  <title>:: Administration ::</title>
+<title>:: Administration ::</title>
 <link href="css.css" rel="stylesheet" type="text/css" />
 <script LANGUAGE="JavaScript" SRC="includes/calendarpopup.js"></script>
 <script LANGUAGE="JavaScript" SRC="askdate.js"></script>
 <script type="text/javascript" src="includes/ckeditor/ckeditor.js"></script>
 <script type="text/javascript" src="includes/AjexFileManager/ajex.js"></script>
 <script LANGUAGE="JavaScript" SRC="includes/date.js"></script>
+
+<link rel="stylesheet" href="includes/modal_window/style.css" type="text/css">
+
 <script LANGUAGE="JavaScript">document.write(getCalendarStyles());</script>
 <script type="text/javascript">
     
-var cal1xx = new CalendarPopup('testdiv1');
-cal1xx.setWeekStartDay(1);
-cal1xx.showNavigationDropdowns();
-var cal2xx = new CalendarPopup('testdiv2');
-cal2xx.setWeekStartDay(1);
-cal2xx.showNavigationDropdowns();
-var ckeditor;
+  var cal1xx = new CalendarPopup('testdiv1');
+  cal1xx.setWeekStartDay(1);
+  cal1xx.showNavigationDropdowns();
+  var cal2xx = new CalendarPopup('testdiv2');
+  cal2xx.setWeekStartDay(1);
+  cal2xx.showNavigationDropdowns();
+  var ckeditor;
 </SCRIPT>
 <?php
 require_once ($mosConfig_absolute_path.'/modules/main.php');
@@ -104,181 +107,172 @@ echo '<script src="http://code.jquery.com/jquery-1.6.4.min.js" type="text/javasc
 <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
 <script type="text/javascript" src="label.js"></script>
 <script type="text/javascript">
-  var geocoder;
-  var map;
-  var markersArray = [];
-  var poly =[];
 
-  function initializemap() {
+ var geocoder;
+ var map;
+ var markersArray = [];
+ var poly = [];
 
-
-   var polyOptions = {
-    strokeColor: '#FF3333',
-    strokeOpacity: 1.0,
-    strokeWeight: 2
-  }
-
-    markersArray = [];
-    geocoder = new google.maps.Geocoder();
-    var latlng = new google.maps.LatLng(-34.397, 150.644);
-    var myOptions = {
-      zoom: 11,
-      center: latlng,
-      mapTypeId: google.maps.MapTypeId.ROADMAP
-    }
-    map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
-    poly = new google.maps.Polyline(polyOptions);
-    poly.setMap(map);
-
-  }
-
-  function codeAddress() {
-    var address = document.getElementById("address").value;
-    geocoder.geocode( { 'address': address}, function(results, status) {
-      if (status == google.maps.GeocoderStatus.OK) {
-        map.setCenter(results[0].geometry.location);
-        var marker = new google.maps.Marker({
-            map: map,
-            position: results[0].geometry.location
-        });
-        document.getElementById("geocode").value=results[0].geometry.location;
-      } else {
-        alert("Geocode was not successful for the following reason: " + status);
-      }
-    });
-  }
- function viewAddress(lt,lg)
- {          //alert("22");
-
-        var ltlg = new google.maps.LatLng(lt,lg);
-      //  latlng = coords;
-        map.setCenter(ltlg);
-        var marker = new google.maps.Marker({
-             zoom: 11,
-            map: map,
-            position: ltlg
-        });
- }
-
-//      var marker2 = new ({
-
-function show_the_map(){
-
-
-  $('#inqlist22').toggle();
-  if ($('#inqlist22').is(":hidden")== false ){
-  $('#map_canvas').height('500px');
-
-  }else{
-  $('#map_canvas').height('800px');
-    }
-//document.getElementById('inqlist22').style='display:none';
-set_zoomc();
-return false;
-}
-
-function addMarker(lt,lg) {
- var location = new google.maps.LatLng(lt,lg);
-  marker = new google.maps.Marker({
-    position: location,
-    map: map
-  });
-  markersArray.push(marker);
-  set_zoomc();
-}
-
-function addTextMarker(lt,lg,text) {
-// if((text=="")||(text=="undefined")||(text=="NaN")){text="not set";}
- var n = markersArray.length;
- if ( n>15){ n=15; }
- var location = new google.maps.LatLng(lt,lg);
-  marker = new MarkerWithLabel({
-    position: location,
-    map: map,
-    labelContent: text,
-    labelAnchor: new google.maps.Point(32, 0),
-    labelClass: "labels" + " lc"+n, // the CSS class for the label
-    labelStyle: {opacity: 0.8}
-
-  });
-  markersArray.push(marker);
-  set_zoomc();
- var path = poly.getPath();
- path.push(location);
-// Draw_Line_On_Map();
-}
-
-function addMarker2(lt,lg,text) {
-  var myInfoWindowOptions;
-var infoWindow;
- var location = new google.maps.LatLng(lt,lg);
-  marker = new google.maps.Marker({
-    position: location,
-    map: map
-
-  });
-  markersArray.push(marker);
- myInfoWindowOptions = {
-		content: '15-22-33',
-		maxWidth: 200
-	};
-
-	infoWindow = new google.maps.InfoWindow(myInfoWindowOptions);
-    infoWindow.open(map,marker);
-  set_zoomc();
-}
-
-
-function removeMarker(lt,lg){
- var location = new google.maps.LatLng(lt,lg);
- var path = poly.getPath();
-  for ( var i=0; i< markersArray.length; i++ ){
-   path.pop(markersArray[i].getPosition());
-  }
-
-//  path.pop(location);
-   //       alert(location);
- for ( var i=0; i< markersArray.length; i++ ){
-   //alert(location);
-   // markersArray[i].setMap(null);
-    //alert(markersArray[i].position);
-   // alert(markersArray[i].getPosition().toString()+location.toString());
-    if(location.toString()==markersArray[i].getPosition().toString()){
-     markersArray[i].setMap(null);
-   //  map.markersArray[i].position(0,0);
-   //  alert(location);
-    markersArray.splice(i,1);
+ function initializemap() {
+     var polyOptions = {
+         strokeColor: '#FF3333',
+         strokeOpacity: 1.0,
+         strokeWeight: 2
      }
-
+     markersArray = [];
+     geocoder = new google.maps.Geocoder();
+     var latlng = new google.maps.LatLng(-34.397, 150.644);
+     var myOptions = {
+         zoom: 11,
+         center: latlng,
+         mapTypeId: google.maps.MapTypeId.ROADMAP
+     }
+     map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
+     poly = new google.maps.Polyline(polyOptions);
+     poly.setMap(map);
  }
-  var path = poly.getPath();
-  for ( var i=0; i< markersArray.length; i++ ){
-   path.push(markersArray[i].getPosition());
-  }
-  //map.refresh();
-  set_zoomc();
 
-}
+ function codeAddress() {
+     initializemap();
+     var address = document.getElementById("address").value;
+     geocoder.geocode({
+         'address': address
+     }, function(results, status) {
+         if (status == google.maps.GeocoderStatus.OK) {
+             map.setCenter(results[0].geometry.location);
+             var marker = new google.maps.Marker({
+                 map: map,
+                 position: results[0].geometry.location
+             });
+             document.getElementById("geocode").value = results[0].geometry.location;
+         } else {
+             alert("Geocode was not successful for the following reason: " + status);
+         }
+     });
+ }
 
+ function viewAddress(lt, lg) { //alert("22");
+     var ltlg = new google.maps.LatLng(lt, lg);
+     //  latlng = coords;
+     map.setCenter(ltlg);
+     var marker = new google.maps.Marker({
+         zoom: 11,
+         map: map,
+         position: ltlg
+     });
+ }
+ //      var marker2 = new ({
+ function show_the_map() {
+     $('#inqlist22').toggle();
+     if ($('#inqlist22').is(":hidden") == false) {
+         $('#map_canvas').height('500px');
+     } else {
+         $('#map_canvas').height('800px');
+     }
+     //document.getElementById('inqlist22').style='display:none';
+     set_zoomc();
+     return false;
+ }
 
-function set_zoomc(){
-var latlngbounds = new google.maps.LatLngBounds();
-for ( var i=0; i< markersArray.length; i++ ){
-    latlngbounds.extend(markersArray[i].position);
-  //  alert(markersArray[i].position);
-//  latlngbounds.extend(markersArray[i].position);
-}
+ function addMarker(lt, lg) {
+     var location = new google.maps.LatLng(lt, lg);
+     marker = new google.maps.Marker({
+         position: location,
+         map: map
+     });
+     markersArray.push(marker);
+     set_zoomc();
+ }
 
-if(markersArray.length<2){map.setCenter(markersArray[0].position)}else{
-map.setCenter( latlngbounds.getCenter(), map.fitBounds(latlngbounds));
-}
-/*
+ function addTextMarker(lt, lg, text) {
+     // if((text=="")||(text=="undefined")||(text=="NaN")){text="not set";}
+     var n = markersArray.length;
+     if (n > 15) {
+         n = 15;
+     }
+     var location = new google.maps.LatLng(lt, lg);
+     marker = new MarkerWithLabel({
+         position: location,
+         map: map,
+         labelContent: text,
+         labelAnchor: new google.maps.Point(32, 0),
+         labelClass: "labels" + " lc" + n, // the CSS class for the label
+         labelStyle: {
+             opacity: 0.8
+         }
+     });
+     markersArray.push(marker);
+     set_zoomc();
+     var path = poly.getPath();
+     path.push(location);
+     // Draw_Line_On_Map();
+ }
+
+ function addMarker2(lt, lg, text) {
+     var myInfoWindowOptions;
+     var infoWindow;
+     var location = new google.maps.LatLng(lt, lg);
+     marker = new google.maps.Marker({
+         position: location,
+         map: map
+     });
+     markersArray.push(marker);
+     myInfoWindowOptions = {
+         content: '15-22-33',
+         maxWidth: 200
+     };
+     infoWindow = new google.maps.InfoWindow(myInfoWindowOptions);
+     infoWindow.open(map, marker);
+     set_zoomc();
+ }
+
+ function removeMarker(lt, lg) {
+     var location = new google.maps.LatLng(lt, lg);
+     var path = poly.getPath();
+     for (var i = 0; i < markersArray.length; i++) {
+         path.pop(markersArray[i].getPosition());
+     }
+     //  path.pop(location);
+     //       alert(location);
+     for (var i = 0; i < markersArray.length; i++) {
+         //alert(location);
+         // markersArray[i].setMap(null);
+         //alert(markersArray[i].position);
+         // alert(markersArray[i].getPosition().toString()+location.toString());
+         if (location.toString() == markersArray[i].getPosition().toString()) {
+             markersArray[i].setMap(null);
+             //  map.markersArray[i].position(0,0);
+             //  alert(location);
+             markersArray.splice(i, 1);
+         }
+     }
+     var path = poly.getPath();
+     for (var i = 0; i < markersArray.length; i++) {
+         path.push(markersArray[i].getPosition());
+     }
+     //map.refresh();
+     set_zoomc();
+ }
+
+ function set_zoomc() {
+     var latlngbounds = new google.maps.LatLngBounds();
+     for (var i = 0; i < markersArray.length; i++) {
+         latlngbounds.extend(markersArray[i].position);
+         //  alert(markersArray[i].position);
+         //  latlngbounds.extend(markersArray[i].position);
+     }
+     if (markersArray.length < 2) {
+         map.setCenter(markersArray[0].position)
+     } else {
+         map.setCenter(latlngbounds.getCenter(), map.fitBounds(latlngbounds));
+     }
+     /*
 
 
 }
 alert(markersArray.length);    */
-//
-}
+     //
+ }
 
 </script>
 <style type="text/css">
@@ -321,14 +315,24 @@ height: auto;
 </style>
 </HEAD>
 <BODY style='z-index:1;'>
+ 
+
+
+ <script>
+      // alert('This version is for demonstration purposes only! \n All promoters, agencies, agents, artists in this demo are fictional .');
+ </script>
+
+
+
 
 <table width=100% style="height:100%" border="0" align="center" cellpadding="0" cellspacing="0">
   <tr>
     <td height="36" colspan="3" bgcolor="#000000">
     <table width="100%" border="0" align="center" cellpadding="0" cellspacing="0" class="UP">
       <tr>
-        <td width="20%"><div align="center" class="style1">Management panel</div></td>
-        <td width="50%"><div align="center"><iframe src='modules/msg.php' style='width:300px;height:30px; overflow: hidden;border:0;' scrolling="none" ></iframe></div></td>
+        <td width="1%"><div align="right" class="style1"><img width='25px' style="margin-left:40px; margin-right:10px" src="images/admin-panel.png"></div></td>
+        <td width="19%"><div align="left" class="style1" style="color:white; font-size: 11pt">Management panel</div></td>
+        <td width="50%"><div align="center"><iframe src='modules/msg.php' style='width:300px;height:30px; overflow: hidden;border:0; border-radius: 5px; margin-top:3px' scrolling="none" ></iframe></div></td>
         <td><div align="center"><span class="style1">Logged as&nbsp;<?php  echo $_SESSION['operator_name'];?></span></div></td>
         <td width="10%"><div align="center" ><A HREF="index.php?exit=1" class="style2">Log off</a></div></td>
       </tr>
@@ -367,7 +371,7 @@ height: auto;
 
     </div></td>
     <td bgcolor="#BFBFBF">&nbsp;</td>
-    <td width="80%" valign="top" bgcolor="#E5E5E5"><br>
+    <td width="80%" valign="top" bgcolor="#f1f1f1"><br>
         <br>
 <div id='report_div' name='report_div' style='overflow: hidden;'>
 <?php

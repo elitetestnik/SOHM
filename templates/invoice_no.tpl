@@ -46,7 +46,7 @@
   <div id="print">
     <table width="752" border="0" cellpadding="0" cellspacing="0" align="center">
       <tr>
-        <td align="right">{PRINTBUTTON}</td>
+        <td align="right">{PRINTBUTTON}{SENDBUTTON}{LINKBUTTON}</td>
       </tr>
     </table>
   </div>
@@ -179,9 +179,18 @@
       </tr>
     </table>
 <br />
-<p>{BANK_ACC_MAIN}</p>
+<p class='s10'>Sten Olav Helgeland Management<br />
+Bank info:<br />
+Haugesund Sparebank<br />
+Postboks 203<br />
+5501 Haugesund<br />
+Norway<br />
+Account no.: 3240.05.20886<br />
+IBAN:NO21 3240 0520 886<br />
+BIC/SWIFT address:DNBANOKK</p>
 <!--
-    <p>For and on behalf of<br />
+   
+ <p>For and on behalf of<br />
     Sten&nbsp;Olav&nbsp;Helgeland&nbsp;Management&nbsp;___________________________________<br /></p>
 -->
 <p>Ved for sen betaling, vil det bli beregnet mora rente fastsatt etter Finansdepartementet gjeldende satser.</p>

@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <META HTTP-EQUIV="Expires" CONTENT="-1">
 <TITLE>{TITLE}</TITLE>
-<STYLE type="text/css">
+<style type="text/css">
 @media print {
    *, BODY {font-size: 10pt; line-height: 140%; background: #FFFFFF; color:black;}
    #print { display:none; visibility:none;}
@@ -24,5 +24,5 @@ p {font-size: 10pt; line-height: 140%; background: #FFFFFF; color:black;}
 .head {font-size: 12pt; text-align:center; line-height: 140%; background: #FFFFFF; color:black;}
 
 }
-</STYLE>
-</HEAD><BODY>
+</style>
+</head><body>

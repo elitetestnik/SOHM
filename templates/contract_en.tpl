@@ -1,12 +1,9 @@
-  <link href="../css.css" rel="stylesheet" type="text/css" />
- 
-  
-<div id="print"><TABLE width=752 border=0 cellpadding=0 cellspacing=0 align=\"center\" ><tr><td align=right>{PRINTBUTTON}</td></tr></table></div>
-<TABLE  border=0 cellpadding=0 cellspacing=0 align='center'>
+﻿<div id="print"><TABLE width=752 border=0 cellpadding=0 cellspacing=0 align=\"center\" ><tr><td align=right>{PRINTBUTTON}{SENDBUTTON}{LINKBUTTON}</td></tr></table></div>
+<div id='wrap'><TABLE  border=0 cellpadding=0 cellspacing=0 align='center'>
 <TR>
 <TD  style='border-bottom:3px black solid;'>&nbsp;<br><br></TD>
 <TD  rowspan=2 valign='middle' align='center'>
-<img src='../upload/image/logo2.jpg' width='200' height='60' align='absmiddle' border='0'>
+<img src='{LOGO_PATCH}/upload/image/logo2.jpg' width='200' height='60' align='absmiddle' border='0'>
 <br></TD>
 <TD  style='border-bottom:3px black solid;'>&nbsp;<br><br></TD>
 </TR>
@@ -84,4 +81,5 @@ be returned to {COMPANY_NAME}  within {ISSUE_DATE} days.</TD></TR>
   <p>&nbsp;</p>
   <p>&nbsp;</p>
    
+</div>
 </div>

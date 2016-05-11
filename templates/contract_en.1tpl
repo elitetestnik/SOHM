@@ -1,0 +1,87 @@
+﻿  <link href="../css.css" rel="stylesheet" type="text/css" />
+ 
+  
+<div id="print"><TABLE width=752 border=0 cellpadding=0 cellspacing=0 align=\"center\" ><tr><td align=right>{PRINTBUTTON}{SENDBUTTON}{LINKBUTTON}</td></tr></table></div>
+<TABLE  border=0 cellpadding=0 cellspacing=0 align='center'>
+<TR>
+<TD  style='border-bottom:3px black solid;'>&nbsp;<br><br></TD>
+<TD  rowspan=2 valign='middle' align='center'>
+<img src='../upload/image/logo2.jpg' width='200' height='60' align='absmiddle' border='0'>
+<br></TD>
+<TD  style='border-bottom:3px black solid;'>&nbsp;<br><br></TD>
+</TR>
+<TR>
+<TD  align='center'><p style='font-size:9pt;margin:2px;line-height:120%;'> {S_ADDRESS} <br>{S_ZIP_CODE}&nbsp;{S_CITY}<br>{S_COUNTRY}</p></TD>
+<TD  align='center'><p style='font-size:9pt;margin:2px;line-height:120%;'> {S_PHONE}   <br> {S_EMAIL}         <br>{S_ORG_NUMBER}</p></TD>
+</TR>
+</TABLE>
+<BR><BR><BR>
+<TABLE  border=0 cellpadding=0 cellspacing=0 align='center' class='cont' >
+<TR><TH  width='25%'>Contract N&deg;:</TH><TD style="font-size:10pt;" >{CONTRACT_NO}</TD>
+<TH width='25%'>Date of Contract:</TH><TD style="font-size:10pt;">{CONTRACT_DATE}</TD></TR>
+<TR><TH width='25%'>Artist:</TH><TD style="font-size:10pt;"  colspan=3>{ARTIST}</TD></TR>
+<TR><TH width='25%'>Promoter:</TH> <TD style="font-size:10pt;" > {PROMOTER}</TD> <TH width='25%'>Town:</TH><TD style="font-size:10pt;" >{TOWN}</TD></TR>
+<TR><TH width='25%'>Venue:</TH><TD style="font-size:10pt;"   width='25%'>{VENUE}</TD><TH width='25%'>Capacity:</TH><TD style="font-size:10pt;"  width='25%'>{CAPACITY}</TD></TR>
+<TR><TH width='25%'>Contact person:</TH><TD style="font-size:10pt;" width='25%'>{CONTACT_PERSON}</TD><TH width='25%'>Address:</TH><TD style="font-size:10pt;" width='25%'>{ADDRESS}</TD></TR>
+<TR><TH width='25%'>Phone:</TH><TD style="font-size:10pt;" width='25%'>{PHONE1}</TD><TH width='25%'>Cell phone:</TH><TD style="font-size:10pt;" width='25%'>{PHONE2}</TD></TR>
+<TR><TH width='25%'>E-mail address: </TH><TD style="font-size:10pt;" colspan=3>{EMAIL}</TD></TR>
+<TR><TH width='25%'>Concert date:</TH><TD style="font-size:10pt;"  colspan=3>{CONCERT_DATE}</TD></TR>
+<TR><TH width='25%'>Type of performance:</TH><TD style="font-size:10pt;" colspan=3>{ART_OF}</TD></TR>
+<TR><TD style="font-size:10pt;" colspan='4'>&nbsp;</TD></TR> 
+<TR><TD style="font-size:10pt;" colspan='4'><p class='head'><B>Performance:</B></p></TD></TR>
+<TR><TH width='25%'>Access to stage:</TH><TD style="font-size:10pt;" width='25%'>{ACCESS_TO_STAGE}</TD><TH width='25%'>Sound check:</TH><TD style="font-size:10pt;" width='25%'>{SOUND_CHECK}</TD></TR>
+<TR><TH width='25%'>Doors open:</TH><TD style="font-size:10pt;" width='25%'>{DOORS_OPEN}</TD><TH width='25%'>Concert start:</TH><TD style="font-size:10pt;" width='25%'>{CONCERT_START}</TD></TR>
+<TR><TH width='25%'>Lenght of performance:</TH><TD style="font-size:10pt;" > {LENGTH}</TD><TH width='25%'>Publicity:</TH><TD style="font-size:10pt;">{PUBLICITY}</TD></TR>
+<TR><TH colspan='4'>&nbsp;</TH></TR>
+<TR><TD style="font-size:10pt;" colspan='4'><p class='head'><B>The promoter has to pay for the following:</B></p></TD></TR>
+<TR><TH width='25%'>Artist fee:</TH><TD style="font-size:10pt;" colspan=3>{CURRENCY}&nbsp;&nbsp;{ARTIST_FEE}</TD></TR>
+<TR><TH width='25%'>Travelling expenses:</TH><TD style="font-size:10pt;" colspan=3>{CURRENCY}&nbsp;&nbsp;{TRAVEL_EXP}</TD></TR>
+<TR><TH width='25%'>Productions expenses:</TH><TD style="font-size:10pt;" colspan=3>{CURRENCY}&nbsp;&nbsp;{PROD_EXP}</TD></TR>
+<TR><TH width='25%'>Administration expenses: </TH><TD style="font-size:10pt;" colspan=3>{CURRENCY}&nbsp;&nbsp;{ADMIN_EXP}</TD></TR>
+<TR><TH width='25%'>Other expenses:</TH><TD style="font-size:10pt;" colspan=3>{CURRENCY}&nbsp;&nbsp;{OTHER_EXP}</TD></TR>
+<TR><TH width='25%'>Total expenses:</TH><TD style="font-size:10pt;" colspan=3>{CURRENCY}&nbsp;&nbsp;{TOTAL_EXP}</TD></TR>
+<TR><TH colspan='4' align='center'>&nbsp;</TH></TR>
+<TR><TD style="font-size:10pt;" colspan='4'><b>Artist&nbsp;fee&nbsp;to&nbsp;be&nbsp;payed&nbsp;as&nbsp;follows:</b>&nbsp;&nbsp;{FOLLOWS}</TD></TR>
+<TR><TH width='25%'>Bank account info:</TH><TD style="font-size:10pt;" colspan=3>{BANK_ACC_MAIN}</TD></TR>
+<TR><TD style="font-size:10pt;" colspan='4'><b>Other&nbsp;expenses&nbsp;that&nbsp;has&nbsp;to&nbsp;be&nbsp;paid&nbsp;by&nbsp;the&nbsp;promoter:</b>&nbsp;&nbsp;{PAYED}</TD></TR>
+<TR><TH width='25%'>Sound company:</TH><TD style="font-size:10pt;" width='25%'>{SOUND}</TD><TH width='25%'>Contact person:</TH><TD style="font-size:10pt;" width='25%'>{SOUND_CONTACT}</TD></TR>
+<TR><TH width='25%'>E-mail address:</TH><TD style="font-size:10pt;">{SOUND_EMAIL}</TD><TD style="font-size:10pt;"><b>Phone:</b>&nbsp;{SOUND_PHONE1}</TD><TD style="font-size:10pt;"><b>Telefax:</b>&nbsp;{SOUND_PHONE2}</TD></TR>
+
+<TR><TD style="font-size:10pt;" colspan=4>&nbsp;</TD></TR>
+<TR><TD style="font-size:10pt;" colspan=4>&nbsp;The contract will be issued in two copies.<br />&nbsp;Other conditions enclosed to this contract. One signed copy should
+be returned to {COMPANY_NAME}  within {ISSUE_DATE} days.</TD></TR>
+</TABLE><BR>
+<br>
+<TABLE align='center' border=0>
+<TR>
+<TD style="font-size:10pt;" width='45%' style='margin:2px;vertical-align:bottom;'>{FOOTER2} For&nbsp;artist&nbsp;according&nbsp;to&nbsp;the&nbsp;authority<BR><BR><BR><BR>___________________________________________<br/><p  style='margin:2px;'>For {COMPANY_NAME}</p>
+</TD><TD style="font-size:10pt;" width='10%'>&nbsp;</TD>
+<TD style="font-size:10pt;" width='45%' style='margin:2px;vertical-align:bottom;'>___________________________, date ____________<BR><BR><BR><BR><BR>___________________________________________<br/><p  style='margin:2px;'>For the promoter</p></TD>
+</TR>
+</TABLE>
+<p style="page-break-after:always;">&nbsp;</p>
+<br >
+<p>&nbsp;</p>
+
+ <div style='font-size:10pt; width:752px;margin:0 auto;'>
+  <p style='font-size:16pt;font-weight:bold;line-height:38pt;'>Terms and conditions included  for contract № {CONTRACT_NO} </p>
+  
+  <p style='font-size:10pt;font-weight:bold;'> 1. Promoters representative </p>
+   The promoter will ensure that there is a representative for the promoter  present at the venue from the start of load in until the end of load out. This  representative shall be experienced in stage management and production, and  shall have the necessary authority and responsibility to make all decisions  relating to the complete fulfilment of this contract and rider.</p>
+  <p style='font-size:10pt;font-weight:bold;'> 2. Promotion, content and  production </p>
+    The artist shall have sole and exclusive control over all elements of  the performance including staging, lightning, sound, creative and theatrical  material throughout the performance.&nbsp; The  artists production manager is to have full control over all house lightning,  other than that of statutory safety and exit lights.</p>
+  <p style='font-size:10pt;font-weight:bold;'> 3. Reproduction of the show</p>
+    The promoter shall be responsible for preventing the entrance of all  audio and visual recorders (except small non-professional automatic cameras)  within the venue. Failure to adhere to these warnings will result in either  confiscation of property or ejection from these premises.</p>
+  <p style='font-size:10pt;font-weight:bold;'> 4. Cancellation of contract</p>
+    The following circumstances shall be deemed reason for cancellation of  the show. In this instance the artist shall be in no way liable for any loss,  financial or otherwise suffered by the promoter due to cancellation<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; a)&nbsp; If the promoter commits an act of bankruptcy,  has a receivership order to made against him, or passes a resolution for the  voluntary winding up of this company.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; b)&nbsp; If illness or any of the musicians make it  impossible or inadvisable for him or her to perform, the artists must consider  themselves contractually obliged to furnish the promoter with an appropriate medical certificate.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; c)&nbsp; Any labour or union dispute, which prevents  any of the necessary staff from performing their duties to the satisfaction of the  artists tour manager.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; d)&nbsp; The breakdown or failure of the  transportation of the artists, their road crew or the equipment which  makes it impossible in the opinion of the Tour/Production Manager to satisfactorily and safely present the  show.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; e)&nbsp; Any order of the police, judiciary, local or  national government, by law of venue regulations that renders it impossible in  the option of the artists Tour/Production Manager to satisfactorily  present the show.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; f)&nbsp; Any event beyond the control of the artists  including but not limited to fire, flood, epidemic, riot, war or public disorder  which is in the opinion of the Tour/Production  Manager renders it impossible to  satisfactorily and safely present the show.<p/>
+<p style='font-size:10pt;'>If the artists show is shortened or cancelled due to any of the reasons  above, this will in no way affect the fee paid to the artist.&nbsp; Therefore the promoter should have  cancellation insurance.</p>
+  <p>&nbsp;</p>
+  <p>&nbsp;</p>
+   
+</div>
