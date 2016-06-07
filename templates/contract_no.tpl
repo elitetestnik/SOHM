@@ -1,11 +1,12 @@
 ﻿<div id="print"><TABLE width=752 border=0 cellpadding=0 cellspacing=0 align="center" ><tr><td align=right>{PRINTBUTTON}{SENDBUTTON}{LINKBUTTON}</td></tr></table></div>
+<div id='wrap'>
 <TABLE  border=0 cellpadding=0 cellspacing=0 align='center'>
 <TR>
-<TD style='border-bottom:3px black solid;'>&nbsp;<br><br></TD>
+<TD class='border_bottom_3px_solid_black'>&nbsp;<br><br></TD>
 <TD rowspan=2 valign='middle' align='center'>
-<img src='../upload/image/logo2.png' width='200' height='60' align='absmiddle' border='0'>
+<img src='{LOGO_PATCH}/upload/image/logo2.jpg' width='200' height='60' align='absmiddle' border='0'>
 <br></TD>
-<TD style='border-bottom:3px black solid;'>&nbsp;<br><br></TD>
+<TD class='border_bottom_3px_solid_black'>&nbsp;<br><br></TD>
 </TR>
 <TR>
 <TD align='center'><p style='font-size:9pt;margin:2px;line-height:120%;'> {S_ADDRESS} <br>{S_ZIP_CODE}&nbsp;{S_CITY}<br>{S_COUNTRY}</p></TD>
@@ -81,4 +82,5 @@ og returneres til {COMPANY_NAME} innen {ISSUE_DATE} dager.<BR></TD></TR>
 	Enhver endring i denne avtale skal skje skriftlig og er betinget aksept av impresario.</p>
 <p style='font-size:10pt;font-weight:bold;'>Tvister og verneting</p>
 	Alle tvister etter denne avtale skal s&oslash;kes l&oslash;st ved forhandlinger. Dersom tvisten ikke l&oslash;ses ved forhandlinger skal denne avgj&oslash;res ved de alminnelige domstoler.&nbsp; Partene vedtar forretningsstedet til impresario som sitt verneting.</p>
+ </div>
  </div>

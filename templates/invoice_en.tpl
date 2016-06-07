@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -37,7 +37,9 @@
   .ar { text-align: right;padding-right: 4em; }
   .al1 { text-align: left; padding-left: 1em; }
   .ar1 { text-align: right;padding-right: 1em; }
+  .border_bottom_3px_solid_black{border-bottom:3px solid black;}
   /*]]>*/
+  
   </style>
 {SCRIPT2}
 </head>
@@ -58,15 +60,14 @@
               <td align='center'>
           <table border="0" cellpadding="2" cellspacing="0">
             <tr>
-              <td style='border-bottom:3px black solid;width:200px'>&nbsp;
-              <br /></td>
+              <TD class='border_bottom_3px_solid_black'>&nbsp;<br><br></TD>
+           
               <td rowspan="2" valign='middle' align='center'>
-                <img src='../upload/image/logo2.png' width='200' height='60' align='absmiddle' border='0'><br />
-                <span class='s8'>www.stenolav-management.no</span>
+                <img src='../upload/image/logo2.png' width='200' height='60' align='absmiddle' border='0'>
+                    <br> <span class='s8'>www.stenolav-management.no</span>
               </td>
-
-              <td style='border-bottom:3px black solid;width:200px'>&nbsp;
-              <br /></td>
+              
+              <TD class='border_bottom_3px_solid_black'>&nbsp;<br><br></TD>
             </tr>
 
             <tr>

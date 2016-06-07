@@ -38,7 +38,7 @@ $database->debug( $mosConfig_debug );
 //if(isset($_GET['pdf_fetch']))exit('pdf_fetch');
 
 if(($_GET['id']) && (isset($_GET['lang'])) && (!isset($_GET['pdf_fetch']))){
-    $html = file_get_contents($mosConfig_live_site.'/modules/contract.php?lang='.$_GET['lang'].'&id='. intval($_GET['id']).'&pdf_fetch=1');
+    $html = file_get_contents($mosConfig_live_site.'/modules/contract.php?lang='.$_GET['lang'].'&id='. intval($_GET['id']).'&pdf_fetch=1&operator_id='.$_COOKIE['operator_id'].'');
     $html = preg_replace("~<div id=\"print\">.*?</div>~SDs", '', $html);
     $html = preg_replace("~<head>.*?</head>~SDs", '', $html);
     //$html = preg_replace("~<style>.*?</style>~SDs", '', $html);
@@ -69,7 +69,7 @@ global $database,$mosConfig_live_site;
 		$database->setQuery( "set names utf8" );
 		$database->query();
 
-$query="select * from #__settings where id=".$_COOKIE['operator_id'];
+$query="select * from #__settings where id=".(isset($_GET['pdf_fetch'])?$_GET['operator_id']:$_COOKIE['operator_id']);
 $database->setQuery($query);
 $setting = $database->loadObjectList(); foreach ($setting as $settings)     { }
 
@@ -133,6 +133,8 @@ $ft->assign( array(
                        'FOOTER2' => $settings->footer2,
                        'LOGO_PATCH' => $mosConfig_live_site.'/modules',
 					             'COMPANY_NAME' => $settings->company_name,
+								 
+								 
     'S_EMAIL' =>$settings->email, // edit plus                   
     'S_COUNTRY' =>$settings->country, // edit plus                   
     'S_CITY' =>$settings->city, // edit plus                   
@@ -140,8 +142,15 @@ $ft->assign( array(
     'S_ADDRESS' =>$settings->address1, // edit plus                   
     'S_PHONE' =>$settings->phone1, // edit plus                   
     'S_ORG_NUMBER' =>$settings->org_number, 
+								 
+								 
+								 
+								 
+								 
+								 
+								 
                        'PRINTBUTTON' => '<a href="#" onclick="javascript:window.print(); return false;" title="Print this contract">
-<img src="/norsk/images/printbutton.png"  alt="Print this contract" name="Print this contract" align="right" border="0" />
+<img src="'.$mosConfig_live_site.'/images/printbutton.png"  alt="Print this contract" name="Print this contract" align="right" border="0" />
 </a>',
 
                        'SENDBUTTON' => '<a href="'.$mosConfig_live_site.'/index2.php?newmaildocid='. $id . '&newmailpromouter='.$c->id_promoter.'&lang='.$_REQUEST['lang'].'&doctype=contract" title="send by email">
@@ -155,7 +164,7 @@ $ft->assign( array(
 </label>
 -->
 ',
-                      'LINKBUTTON' => '<a href="'.$mosConfig_live_site.'/attachments/pdf/contract-'.$_REQUEST['lang'].'_'.$id.'.pdf"  title="Contract in PDF">
+'LINKBUTTON' => '<a href="'.$mosConfig_live_site.'/attachments/pdf/contract-'.$_REQUEST['lang'].'_'.$id.'.pdf"  title="Contract in PDF">
 <img src="'.$mosConfig_live_site.'/images/pdf-24x24.png"  alt="Contract in PDF" name="Contract in PDF" align="right" border="0" />
 </a>' 
             ) );

@@ -13,6 +13,7 @@
    table { width:99%;font-size:10pt;}
    p {font-size: 10pt; line-height: 140%; background: #FFFFFF; color:black;}
    .head {font-size: 12pt; text-align:center; line-height: 140%; background: #FFFFFF; color:black;}
+   .border_bottom_3px_solid_black{border-bottom:3px solid black;}
 }
 @media screen {
 *, BODY {font-size: 10pt; line-height: 140%; background: #FFFFFF; color:black;}
@@ -22,7 +23,7 @@ table.cont th {color: black;border:0;padding:3px;color:black; font-size:10pt;tex
 table.cont td {color:black; font-size:10pt;}
 p {font-size: 10pt; line-height: 140%; background: #FFFFFF; color:black;}
 .head {font-size: 12pt; text-align:center; line-height: 140%; background: #FFFFFF; color:black;}
-
+.border_bottom_3px_solid_black{border-bottom:3px solid black;}
 }
 </style>
 </head><body>
